@@ -5,7 +5,7 @@ Description of Source code
 VAT SDK is the software to control the chip made by VATEK. VATEK provide the sample code of SDK to support user understand the SDK source code, SDK source code develop depend on OS, and it can develop on windows 10 and LINUX OS.
 
 # SDK BUILD
-SDK原先以CMAKE的方式進行編譯，進而取得範例執行檔，VATEK提供CMAKE編譯的使用說明，讓使用者可以快速上手，使用者也可以自行以熟悉的編譯平台進行編譯，閱讀文件以獲得更多相關操作說明。
+The SDK was originally compiled in the way of CMAKE to obtain the example execution file. Vatek provides instructions for CMAKE compilation, so that users can get started quickly. Users can also compile on their own with a familiar compilation platform and read the file to get more relevant operation.
 
 # VATEK CHIP
 VATEK provide two series chip, A3 chip of modulation is for transforming, and B chip of ENMODER (encoder & modulator) are for broadcasting, two series of chip are used to broadcast on DTV by output transport stream. All VATEK chip are controlled by writing and reading register.
