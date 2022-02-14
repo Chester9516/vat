@@ -1,0 +1,445 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="16.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <PreferredToolArchitecture>x64</PreferredToolArchitecture>
+  </PropertyGroup>
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="MinSizeRel|x64">
+      <Configuration>MinSizeRel</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="RelWithDebInfo|x64">
+      <Configuration>RelWithDebInfo</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{9D1874E0-BEF7-3DA0-A182-DFD105630652}</ProjectGuid>
+    <WindowsTargetPlatformVersion>10.0.19041.0</WindowsTargetPlatformVersion>
+    <Keyword>Win32Proj</Keyword>
+    <Platform>x64</Platform>
+    <ProjectName>libvatek_core_static</ProjectName>
+    <VCProjectUpgraderObjectName>NoUpgrade</VCProjectUpgraderObjectName>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <CharacterSet>Unicode</CharacterSet>
+    <PlatformToolset>v142</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <CharacterSet>Unicode</CharacterSet>
+    <PlatformToolset>v142</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <CharacterSet>Unicode</CharacterSet>
+    <PlatformToolset>v142</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <CharacterSet>Unicode</CharacterSet>
+    <PlatformToolset>v142</PlatformToolset>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup>
+    <_ProjectFileVersion>10.0.20506.1</_ProjectFileVersion>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">D:\desktop\SDK\master_220107\master\vatek_sdk_2\extend\tsduck-vatek\bin\lib\Debug\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">libvatek_core_static.dir\Debug\</IntDir>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">libvatek_core_static</TargetName>
+    <TargetExt Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">.lib</TargetExt>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Release|x64'">D:\desktop\SDK\master_220107\master\vatek_sdk_2\extend\tsduck-vatek\bin\lib\Release\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Release|x64'">libvatek_core_static.dir\Release\</IntDir>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">libvatek_core_static</TargetName>
+    <TargetExt Condition="'$(Configuration)|$(Platform)'=='Release|x64'">.lib</TargetExt>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">D:\desktop\SDK\master_220107\master\vatek_sdk_2\extend\tsduck-vatek\bin\lib\MinSizeRel\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">libvatek_core_static.dir\MinSizeRel\</IntDir>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">libvatek_core_static</TargetName>
+    <TargetExt Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">.lib</TargetExt>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">D:\desktop\SDK\master_220107\master\vatek_sdk_2\extend\tsduck-vatek\bin\lib\RelWithDebInfo\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">libvatek_core_static.dir\RelWithDebInfo\</IntDir>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">libvatek_core_static</TargetName>
+    <TargetExt Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">.lib</TargetExt>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <ClCompile>
+      <AdditionalIncludeDirectories>D:\desktop\SDK\master_220107\master\vatek_sdk_2\api\core\inc;D:\desktop\SDK\master_220107\master\vatek_sdk_2\api\core\..\..\build\deps\win\libusb\1.0.24\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AssemblerListingLocation>$(IntDir)</AssemblerListingLocation>
+      <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <DisableSpecificWarnings>26495;26812;26498</DisableSpecificWarnings>
+      <ExceptionHandling>
+      </ExceptionHandling>
+      <InlineFunctionExpansion>Disabled</InlineFunctionExpansion>
+      <Optimization>Disabled</Optimization>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
+      <UseFullPaths>false</UseFullPaths>
+      <PreprocessorDefinitions>WIN32;_WINDOWS;_VA2_STATIC_;UNICODE;_UNICODE;_CRT_SECURE_NO_WARNINGS;_CRT_NONSTDC_NO_WARNINGS;CMAKE_INTDIR="Debug";%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ObjectFileName>$(IntDir)</ObjectFileName>
+    </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;_VA2_STATIC_;UNICODE;_UNICODE;_CRT_SECURE_NO_WARNINGS;_CRT_NONSTDC_NO_WARNINGS;CMAKE_INTDIR=\"Debug\";%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>D:\desktop\SDK\master_220107\master\vatek_sdk_2\api\core\inc;D:\desktop\SDK\master_220107\master\vatek_sdk_2\api\core\..\..\build\deps\win\libusb\1.0.24\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ResourceCompile>
+    <Midl>
+      <AdditionalIncludeDirectories>D:\desktop\SDK\master_220107\master\vatek_sdk_2\api\core\inc;D:\desktop\SDK\master_220107\master\vatek_sdk_2\api\core\..\..\build\deps\win\libusb\1.0.24\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
+      <HeaderFileName>%(Filename).h</HeaderFileName>
+      <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
+      <InterfaceIdentifierFileName>%(Filename)_i.c</InterfaceIdentifierFileName>
+      <ProxyFileName>%(Filename)_p.c</ProxyFileName>
+    </Midl>
+    <Lib>
+      <AdditionalOptions>%(AdditionalOptions) /machine:x64</AdditionalOptions>
+    </Lib>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <ClCompile>
+      <AdditionalIncludeDirectories>D:\desktop\SDK\master_220107\master\vatek_sdk_2\api\core\inc;D:\desktop\SDK\master_220107\master\vatek_sdk_2\api\core\..\..\build\deps\win\libusb\1.0.24\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AssemblerListingLocation>$(IntDir)</AssemblerListingLocation>
+      <DisableSpecificWarnings>26495;26812;26498</DisableSpecificWarnings>
+      <ExceptionHandling>
+      </ExceptionHandling>
+      <InlineFunctionExpansion>AnySuitable</InlineFunctionExpansion>
+      <Optimization>MaxSpeed</Optimization>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+      <UseFullPaths>false</UseFullPaths>
+      <PreprocessorDefinitions>WIN32;_WINDOWS;NDEBUG;_VA2_STATIC_;UNICODE;_UNICODE;_CRT_SECURE_NO_WARNINGS;_CRT_NONSTDC_NO_WARNINGS;CMAKE_INTDIR="Release";%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ObjectFileName>$(IntDir)</ObjectFileName>
+      <DebugInformationFormat>
+      </DebugInformationFormat>
+    </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>WIN32;_WINDOWS;NDEBUG;_VA2_STATIC_;UNICODE;_UNICODE;_CRT_SECURE_NO_WARNINGS;_CRT_NONSTDC_NO_WARNINGS;CMAKE_INTDIR=\"Release\";%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>D:\desktop\SDK\master_220107\master\vatek_sdk_2\api\core\inc;D:\desktop\SDK\master_220107\master\vatek_sdk_2\api\core\..\..\build\deps\win\libusb\1.0.24\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ResourceCompile>
+    <Midl>
+      <AdditionalIncludeDirectories>D:\desktop\SDK\master_220107\master\vatek_sdk_2\api\core\inc;D:\desktop\SDK\master_220107\master\vatek_sdk_2\api\core\..\..\build\deps\win\libusb\1.0.24\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
+      <HeaderFileName>%(Filename).h</HeaderFileName>
+      <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
+      <InterfaceIdentifierFileName>%(Filename)_i.c</InterfaceIdentifierFileName>
+      <ProxyFileName>%(Filename)_p.c</ProxyFileName>
+    </Midl>
+    <Lib>
+      <AdditionalOptions>%(AdditionalOptions) /machine:x64</AdditionalOptions>
+    </Lib>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">
+    <ClCompile>
+      <AdditionalIncludeDirectories>D:\desktop\SDK\master_220107\master\vatek_sdk_2\api\core\inc;D:\desktop\SDK\master_220107\master\vatek_sdk_2\api\core\..\..\build\deps\win\libusb\1.0.24\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AssemblerListingLocation>$(IntDir)</AssemblerListingLocation>
+      <DisableSpecificWarnings>26495;26812;26498</DisableSpecificWarnings>
+      <ExceptionHandling>
+      </ExceptionHandling>
+      <InlineFunctionExpansion>OnlyExplicitInline</InlineFunctionExpansion>
+      <Optimization>MinSpace</Optimization>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+      <UseFullPaths>false</UseFullPaths>
+      <PreprocessorDefinitions>WIN32;_WINDOWS;NDEBUG;_VA2_STATIC_;UNICODE;_UNICODE;_CRT_SECURE_NO_WARNINGS;_CRT_NONSTDC_NO_WARNINGS;CMAKE_INTDIR="MinSizeRel";%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ObjectFileName>$(IntDir)</ObjectFileName>
+      <DebugInformationFormat>
+      </DebugInformationFormat>
+    </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>WIN32;_WINDOWS;NDEBUG;_VA2_STATIC_;UNICODE;_UNICODE;_CRT_SECURE_NO_WARNINGS;_CRT_NONSTDC_NO_WARNINGS;CMAKE_INTDIR=\"MinSizeRel\";%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>D:\desktop\SDK\master_220107\master\vatek_sdk_2\api\core\inc;D:\desktop\SDK\master_220107\master\vatek_sdk_2\api\core\..\..\build\deps\win\libusb\1.0.24\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ResourceCompile>
+    <Midl>
+      <AdditionalIncludeDirectories>D:\desktop\SDK\master_220107\master\vatek_sdk_2\api\core\inc;D:\desktop\SDK\master_220107\master\vatek_sdk_2\api\core\..\..\build\deps\win\libusb\1.0.24\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
+      <HeaderFileName>%(Filename).h</HeaderFileName>
+      <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
+      <InterfaceIdentifierFileName>%(Filename)_i.c</InterfaceIdentifierFileName>
+      <ProxyFileName>%(Filename)_p.c</ProxyFileName>
+    </Midl>
+    <Lib>
+      <AdditionalOptions>%(AdditionalOptions) /machine:x64</AdditionalOptions>
+    </Lib>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">
+    <ClCompile>
+      <AdditionalIncludeDirectories>D:\desktop\SDK\master_220107\master\vatek_sdk_2\api\core\inc;D:\desktop\SDK\master_220107\master\vatek_sdk_2\api\core\..\..\build\deps\win\libusb\1.0.24\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AssemblerListingLocation>$(IntDir)</AssemblerListingLocation>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <DisableSpecificWarnings>26495;26812;26498</DisableSpecificWarnings>
+      <ExceptionHandling>
+      </ExceptionHandling>
+      <InlineFunctionExpansion>OnlyExplicitInline</InlineFunctionExpansion>
+      <Optimization>MaxSpeed</Optimization>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+      <UseFullPaths>false</UseFullPaths>
+      <PreprocessorDefinitions>WIN32;_WINDOWS;NDEBUG;_VA2_STATIC_;UNICODE;_UNICODE;_CRT_SECURE_NO_WARNINGS;_CRT_NONSTDC_NO_WARNINGS;CMAKE_INTDIR="RelWithDebInfo";%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ObjectFileName>$(IntDir)</ObjectFileName>
+    </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>WIN32;_WINDOWS;NDEBUG;_VA2_STATIC_;UNICODE;_UNICODE;_CRT_SECURE_NO_WARNINGS;_CRT_NONSTDC_NO_WARNINGS;CMAKE_INTDIR=\"RelWithDebInfo\";%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>D:\desktop\SDK\master_220107\master\vatek_sdk_2\api\core\inc;D:\desktop\SDK\master_220107\master\vatek_sdk_2\api\core\..\..\build\deps\win\libusb\1.0.24\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ResourceCompile>
+    <Midl>
+      <AdditionalIncludeDirectories>D:\desktop\SDK\master_220107\master\vatek_sdk_2\api\core\inc;D:\desktop\SDK\master_220107\master\vatek_sdk_2\api\core\..\..\build\deps\win\libusb\1.0.24\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
+      <HeaderFileName>%(Filename).h</HeaderFileName>
+      <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
+      <InterfaceIdentifierFileName>%(Filename)_i.c</InterfaceIdentifierFileName>
+      <ProxyFileName>%(Filename)_p.c</ProxyFileName>
+    </Midl>
+    <Lib>
+      <AdditionalOptions>%(AdditionalOptions) /machine:x64</AdditionalOptions>
+    </Lib>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <CustomBuild Include="D:\desktop\SDK\master_220107\master\vatek_sdk_2\api\core\CMakeLists.txt">
+      <StdOutEncoding>UTF-8</StdOutEncoding>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Building Custom Rule D:/desktop/SDK/master_220107/master/vatek_sdk_2/api/core/CMakeLists.txt</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">setlocal
+D:\desktop\cmake-3.20.1-windows-x86_64\bin\cmake.exe -SD:/desktop/SDK/master_220107/master/vatek_sdk_2/extend/tsduck-vatek -BD:/desktop/SDK/master_220107/master/vatek_sdk_2/extend/tsduck-vatek/bin --check-stamp-file D:/desktop/SDK/master_220107/master/vatek_sdk_2/extend/tsduck-vatek/bin/vatek_sdk_2.out/api/core/CMakeFiles/generate.stamp
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">D:\desktop\SDK\master_220107\master\vatek_sdk_2\extend\tsduck-vatek\bin\vatek_sdk_2.out\api\core\CMakeFiles\generate.stamp</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</LinkObjects>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Building Custom Rule D:/desktop/SDK/master_220107/master/vatek_sdk_2/api/core/CMakeLists.txt</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">setlocal
+D:\desktop\cmake-3.20.1-windows-x86_64\bin\cmake.exe -SD:/desktop/SDK/master_220107/master/vatek_sdk_2/extend/tsduck-vatek -BD:/desktop/SDK/master_220107/master/vatek_sdk_2/extend/tsduck-vatek/bin --check-stamp-file D:/desktop/SDK/master_220107/master/vatek_sdk_2/extend/tsduck-vatek/bin/vatek_sdk_2.out/api/core/CMakeFiles/generate.stamp
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">D:\desktop\SDK\master_220107\master\vatek_sdk_2\extend\tsduck-vatek\bin\vatek_sdk_2.out\api\core\CMakeFiles\generate.stamp</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</LinkObjects>
+      <Message Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">Building Custom Rule D:/desktop/SDK/master_220107/master/vatek_sdk_2/api/core/CMakeLists.txt</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">setlocal
+D:\desktop\cmake-3.20.1-windows-x86_64\bin\cmake.exe -SD:/desktop/SDK/master_220107/master/vatek_sdk_2/extend/tsduck-vatek -BD:/desktop/SDK/master_220107/master/vatek_sdk_2/extend/tsduck-vatek/bin --check-stamp-file D:/desktop/SDK/master_220107/master/vatek_sdk_2/extend/tsduck-vatek/bin/vatek_sdk_2.out/api/core/CMakeFiles/generate.stamp
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">D:\desktop\SDK\master_220107\master\vatek_sdk_2\extend\tsduck-vatek\bin\vatek_sdk_2.out\api\core\CMakeFiles\generate.stamp</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">false</LinkObjects>
+      <Message Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">Building Custom Rule D:/desktop/SDK/master_220107/master/vatek_sdk_2/api/core/CMakeLists.txt</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">setlocal
+D:\desktop\cmake-3.20.1-windows-x86_64\bin\cmake.exe -SD:/desktop/SDK/master_220107/master/vatek_sdk_2/extend/tsduck-vatek -BD:/desktop/SDK/master_220107/master/vatek_sdk_2/extend/tsduck-vatek/bin --check-stamp-file D:/desktop/SDK/master_220107/master/vatek_sdk_2/extend/tsduck-vatek/bin/vatek_sdk_2.out/api/core/CMakeFiles/generate.stamp
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">D:\desktop\SDK\master_220107\master\vatek_sdk_2\extend\tsduck-vatek\bin\vatek_sdk_2.out\api\core\CMakeFiles\generate.stamp</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">false</LinkObjects>
+    </CustomBuild>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="D:\desktop\SDK\master_220107\master\vatek_sdk_2\api\core\src\core\chip_define.c" />
+    <ClCompile Include="D:\desktop\SDK\master_220107\master\vatek_sdk_2\api\core\src\core\calibration_define.c" />
+    <ClCompile Include="D:\desktop\SDK\master_220107\master\vatek_sdk_2\api\core\src\core\output_modulator.c" />
+    <ClCompile Include="D:\desktop\SDK\master_220107\master\vatek_sdk_2\api\core\src\core\output_rfmixer.c" />
+    <ClCompile Include="D:\desktop\SDK\master_220107\master\vatek_sdk_2\api\core\src\core\storage_section.c" />
+    <ClCompile Include="D:\desktop\SDK\master_220107\master\vatek_sdk_2\api\core\src\core\storage_default.c" />
+    <ClCompile Include="D:\desktop\SDK\master_220107\master\vatek_sdk_2\api\core\src\core\stream_base.c" />
+    <ClCompile Include="D:\desktop\SDK\master_220107\master\vatek_sdk_2\api\core\src\core\stream_encoder.c" />
+    <ClCompile Include="D:\desktop\SDK\master_220107\master\vatek_sdk_2\api\core\src\core\device_usb.c" />
+    <ClCompile Include="D:\desktop\SDK\master_220107\master\vatek_sdk_2\api\core\src\core\tool_binary_crc.c" />
+    <ClCompile Include="D:\desktop\SDK\master_220107\master\vatek_sdk_2\api\core\src\core\tool_bufstream.c" />
+    <ClCompile Include="D:\desktop\SDK\master_220107\master\vatek_sdk_2\api\core\src\core\tool_crc32.c" />
+    <ClCompile Include="D:\desktop\SDK\master_220107\master\vatek_sdk_2\api\core\src\core\tool_dvb.c" />
+    <ClCompile Include="D:\desktop\SDK\master_220107\master\vatek_sdk_2\api\core\src\core\tool_dvb_t2.c" />
+    <ClCompile Include="D:\desktop\SDK\master_220107\master\vatek_sdk_2\api\core\src\core\tool_dtmb.c" />
+    <ClCompile Include="D:\desktop\SDK\master_220107\master\vatek_sdk_2\api\core\src\core\tool_ofdm.c" />
+    <ClCompile Include="D:\desktop\SDK\master_220107\master\vatek_sdk_2\api\core\src\core\tool_helpful_bitstream.c" />
+    <ClCompile Include="D:\desktop\SDK\master_220107\master\vatek_sdk_2\api\core\src\core\tool_helpful_circlebuf.c" />
+    <ClCompile Include="D:\desktop\SDK\master_220107\master\vatek_sdk_2\api\core\src\core\tool_helpful_fifo.c" />
+    <ClCompile Include="D:\desktop\SDK\master_220107\master\vatek_sdk_2\api\core\src\core\tool_helpful_mempool.c" />
+    <ClCompile Include="D:\desktop\SDK\master_220107\master\vatek_sdk_2\api\core\src\core\tool_helpful_memquery.c" />
+    <ClCompile Include="D:\desktop\SDK\master_220107\master\vatek_sdk_2\api\core\src\core\tool_helpful_objectlist.c" />
+    <ClCompile Include="D:\desktop\SDK\master_220107\master\vatek_sdk_2\api\core\src\core\tool_isdb_t.c" />
+    <ClCompile Include="D:\desktop\SDK\master_220107\master\vatek_sdk_2\api\core\src\core\tool_j83abc.c" />
+    <ClCompile Include="D:\desktop\SDK\master_220107\master\vatek_sdk_2\api\core\src\core\tool_8vsb.c" />
+    <ClCompile Include="D:\desktop\SDK\master_220107\master\vatek_sdk_2\api\core\src\core\tool_output.c" />
+    <ClCompile Include="D:\desktop\SDK\master_220107\master\vatek_sdk_2\api\core\src\core\ui_props_api.c" />
+    <ClCompile Include="D:\desktop\SDK\master_220107\master\vatek_sdk_2\api\core\src\cross\cross_bridge.c" />
+    <ClCompile Include="D:\desktop\SDK\master_220107\master\vatek_sdk_2\api\core\src\cross\cross_bridge_board.c" />
+    <ClCompile Include="D:\desktop\SDK\master_220107\master\vatek_sdk_2\api\core\src\cross\cross_os_api.c" />
+    <ClCompile Include="D:\desktop\SDK\master_220107\master\vatek_sdk_2\api\core\src\cross\cross_os_socket.c" />
+    <ClCompile Include="D:\desktop\SDK\master_220107\master\vatek_sdk_2\api\core\src\cross\cross_stream.c" />
+    <ClCompile Include="D:\desktop\SDK\master_220107\master\vatek_sdk_2\api\core\src\cross\cross_stream_file.c" />
+    <ClCompile Include="D:\desktop\SDK\master_220107\master\vatek_sdk_2\api\core\src\cross\cross_stream_test.c" />
+    <ClCompile Include="D:\desktop\SDK\master_220107\master\vatek_sdk_2\api\core\src\cross\cross_stream_udp.c" />
+    <ClCompile Include="D:\desktop\SDK\master_220107\master\vatek_sdk_2\api\core\src\cross\cross_stream_mux.c" />
+    <ClCompile Include="D:\desktop\SDK\master_220107\master\vatek_sdk_2\api\core\src\cross\cross_usb_device_libusb.c" />
+    <ClCompile Include="D:\desktop\SDK\master_220107\master\vatek_sdk_2\api\core\src\cross\libusb_tool.c" />
+    <ClCompile Include="D:\desktop\SDK\master_220107\master\vatek_sdk_2\api\core\src\device\cross_device_bridge.c" />
+    <ClCompile Include="D:\desktop\SDK\master_220107\master\vatek_sdk_2\api\core\src\device\cross_device_tool.c" />
+    <ClCompile Include="D:\desktop\SDK\master_220107\master\vatek_sdk_2\api\core\src\device\cross_device_usb.c" />
+    <ClCompile Include="D:\desktop\SDK\master_220107\master\vatek_sdk_2\api\core\src\device\mux_usbstream.c" />
+    <ClCompile Include="D:\desktop\SDK\master_220107\master\vatek_sdk_2\api\core\src\mux\mux_epg.c" />
+    <ClCompile Include="D:\desktop\SDK\master_220107\master\vatek_sdk_2\api\core\src\mux\mux_hadnel_playload.c" />
+    <ClCompile Include="D:\desktop\SDK\master_220107\master\vatek_sdk_2\api\core\src\mux\mux_handle_broadcast.c" />
+    <ClCompile Include="D:\desktop\SDK\master_220107\master\vatek_sdk_2\api\core\src\mux\mux_handle_channel.c" />
+    <ClCompile Include="D:\desktop\SDK\master_220107\master\vatek_sdk_2\api\core\src\mux\mux_handle_core.c" />
+    <ClCompile Include="D:\desktop\SDK\master_220107\master\vatek_sdk_2\api\core\src\mux\mux_handle_raw.c" />
+    <ClCompile Include="D:\desktop\SDK\master_220107\master\vatek_sdk_2\api\core\src\mux\mux_packet_base.c" />
+    <ClCompile Include="D:\desktop\SDK\master_220107\master\vatek_sdk_2\api\core\src\mux\mux_packet_pes.c" />
+    <ClCompile Include="D:\desktop\SDK\master_220107\master\vatek_sdk_2\api\core\src\mux\mux_rule.c" />
+    <ClCompile Include="D:\desktop\SDK\master_220107\master\vatek_sdk_2\api\core\src\mux\mux_spec.c" />
+    <ClCompile Include="D:\desktop\SDK\master_220107\master\vatek_sdk_2\api\core\src\mux\mux_time.c" />
+    <ClCompile Include="D:\desktop\SDK\master_220107\master\vatek_sdk_2\api\core\src\mux\mux_tool_tick.c" />
+    <ClCompile Include="D:\desktop\SDK\master_220107\master\vatek_sdk_2\api\core\src\cross\os\win\win_os_bridge.c" />
+    <ClCompile Include="D:\desktop\SDK\master_220107\master\vatek_sdk_2\api\core\src\cross\os\win\win_os_common.c" />
+    <ClCompile Include="D:\desktop\SDK\master_220107\master\vatek_sdk_2\api\core\src\cross\os\win\win_os_event_api.c" />
+    <ClCompile Include="D:\desktop\SDK\master_220107\master\vatek_sdk_2\api\core\src\cross\os\win\win_os_mutex_api.c" />
+    <ClCompile Include="D:\desktop\SDK\master_220107\master\vatek_sdk_2\api\core\src\cross\os\win\win_os_process.c" />
+    <ClCompile Include="D:\desktop\SDK\master_220107\master\vatek_sdk_2\api\core\src\cross\os\win\win_os_smem_api.c" />
+    <ClCompile Include="D:\desktop\SDK\master_220107\master\vatek_sdk_2\api\core\src\cross\os\win\win_os_sys_api.c" />
+    <ClCompile Include="D:\desktop\SDK\master_220107\master\vatek_sdk_2\api\core\src\cross\os\win\win_os_thread_api.c" />
+    <ClCompile Include="D:\desktop\SDK\master_220107\master\vatek_sdk_2\api\core\src\cross\os\win\win_os_time_api.c" />
+    <ClCompile Include="D:\desktop\SDK\master_220107\master\vatek_sdk_2\api\core\src\cross\os\win\win_os_uart_api.c" />
+    <ClCompile Include="D:\desktop\SDK\master_220107\master\vatek_sdk_2\api\core\src\vatek_sdk_base.c" />
+    <ClCompile Include="D:\desktop\SDK\master_220107\master\vatek_sdk_2\api\core\src\vatek_sdk_bridge.c" />
+    <ClCompile Include="D:\desktop\SDK\master_220107\master\vatek_sdk_2\api\core\src\vatek_sdk_broadcast.c" />
+    <ClCompile Include="D:\desktop\SDK\master_220107\master\vatek_sdk_2\api\core\src\vatek_sdk_device.c" />
+    <ClCompile Include="D:\desktop\SDK\master_220107\master\vatek_sdk_2\api\core\src\vatek_sdk_storage.c" />
+    <ClCompile Include="D:\desktop\SDK\master_220107\master\vatek_sdk_2\api\core\src\vatek_sdk_transform.c" />
+    <ClCompile Include="D:\desktop\SDK\master_220107\master\vatek_sdk_2\api\core\src\vatek_sdk_usbmux.c" />
+    <ClCompile Include="D:\desktop\SDK\master_220107\master\vatek_sdk_2\api\core\src\vatek_sdk_usbstream.c" />
+    <ClCompile Include="D:\desktop\SDK\master_220107\master\vatek_sdk_2\api\core\src\service\service_base.c" />
+    <ClCompile Include="D:\desktop\SDK\master_220107\master\vatek_sdk_2\api\core\src\service\service_broadcast.c" />
+    <ClCompile Include="D:\desktop\SDK\master_220107\master\vatek_sdk_2\api\core\src\service\service_transform.c" />
+    <ClInclude Include="D:\desktop\SDK\master_220107\master\vatek_sdk_2\api\core\inc\bridge\bridge_base.h" />
+    <ClInclude Include="D:\desktop\SDK\master_220107\master\vatek_sdk_2\api\core\inc\bridge\bridge_demod.h" />
+    <ClInclude Include="D:\desktop\SDK\master_220107\master\vatek_sdk_2\api\core\inc\bridge\bridge_device.h" />
+    <ClInclude Include="D:\desktop\SDK\master_220107\master\vatek_sdk_2\api\core\inc\bridge\bridge_rfmixer.h" />
+    <ClInclude Include="D:\desktop\SDK\master_220107\master\vatek_sdk_2\api\core\inc\bridge\bridge_source.h" />
+    <ClInclude Include="D:\desktop\SDK\master_220107\master\vatek_sdk_2\api\core\inc\bridge\bridge_usb.h" />
+    <ClInclude Include="D:\desktop\SDK\master_220107\master\vatek_sdk_2\api\core\inc\bridge\ui\ui_bridge_base.h" />
+    <ClInclude Include="D:\desktop\SDK\master_220107\master\vatek_sdk_2\api\core\inc\bridge\ui\ui_bridge_source.h" />
+    <ClInclude Include="D:\desktop\SDK\master_220107\master\vatek_sdk_2\api\core\inc\core\vatek_base.h" />
+    <ClInclude Include="D:\desktop\SDK\master_220107\master\vatek_sdk_2\api\core\inc\core\base\binary_rom.h" />
+    <ClInclude Include="D:\desktop\SDK\master_220107\master\vatek_sdk_2\api\core\inc\core\base\chip_define.h" />
+    <ClInclude Include="D:\desktop\SDK\master_220107\master\vatek_sdk_2\api\core\inc\core\base\device_usb.h" />
+    <ClInclude Include="D:\desktop\SDK\master_220107\master\vatek_sdk_2\api\core\inc\core\base\media_audio.h" />
+    <ClInclude Include="D:\desktop\SDK\master_220107\master\vatek_sdk_2\api\core\inc\core\base\media_video.h" />
+    <ClInclude Include="D:\desktop\SDK\master_220107\master\vatek_sdk_2\api\core\inc\core\base\output_base.h" />
+    <ClInclude Include="D:\desktop\SDK\master_220107\master\vatek_sdk_2\api\core\inc\core\base\output_modulator.h" />
+    <ClInclude Include="D:\desktop\SDK\master_220107\master\vatek_sdk_2\api\core\inc\core\base\output_rfmixer.h" />
+    <ClInclude Include="D:\desktop\SDK\master_220107\master\vatek_sdk_2\api\core\inc\core\base\stream_base.h" />
+    <ClInclude Include="D:\desktop\SDK\master_220107\master\vatek_sdk_2\api\core\inc\core\base\stream_encoder.h" />
+    <ClInclude Include="D:\desktop\SDK\master_220107\master\vatek_sdk_2\api\core\inc\core\base\calibration_define.h" />
+    <ClInclude Include="D:\desktop\SDK\master_220107\master\vatek_sdk_2\api\core\inc\core\hal\halreg_define.h" />
+    <ClInclude Include="D:\desktop\SDK\master_220107\master\vatek_sdk_2\api\core\inc\core\hal\halreg_mux.h" />
+    <ClInclude Include="D:\desktop\SDK\master_220107\master\vatek_sdk_2\api\core\inc\core\hal\halreg_output.h" />
+    <ClInclude Include="D:\desktop\SDK\master_220107\master\vatek_sdk_2\api\core\inc\core\hal\halreg_playload.h" />
+    <ClInclude Include="D:\desktop\SDK\master_220107\master\vatek_sdk_2\api\core\inc\core\hal\halreg_rfmixer.h" />
+    <ClInclude Include="D:\desktop\SDK\master_220107\master\vatek_sdk_2\api\core\inc\core\hal\halreg_stream.h" />
+    <ClInclude Include="D:\desktop\SDK\master_220107\master\vatek_sdk_2\api\core\inc\core\hal\halreg_calibration.h" />
+    <ClInclude Include="D:\desktop\SDK\master_220107\master\vatek_sdk_2\api\core\inc\core\hal\halservice_base.h" />
+    <ClInclude Include="D:\desktop\SDK\master_220107\master\vatek_sdk_2\api\core\inc\core\hal\halservice_broadcast.h" />
+    <ClInclude Include="D:\desktop\SDK\master_220107\master\vatek_sdk_2\api\core\inc\core\hal\halservice_rescure.h" />
+    <ClInclude Include="D:\desktop\SDK\master_220107\master\vatek_sdk_2\api\core\inc\core\hal\halservice_transform.h" />
+    <ClInclude Include="D:\desktop\SDK\master_220107\master\vatek_sdk_2\api\core\inc\core\storage\storage_broadcast.h" />
+    <ClInclude Include="D:\desktop\SDK\master_220107\master\vatek_sdk_2\api\core\inc\core\storage\storage_config.h" />
+    <ClInclude Include="D:\desktop\SDK\master_220107\master\vatek_sdk_2\api\core\inc\core\storage\storage_r2tune.h" />
+    <ClInclude Include="D:\desktop\SDK\master_220107\master\vatek_sdk_2\api\core\inc\core\storage\storage_section.h" />
+    <ClInclude Include="D:\desktop\SDK\master_220107\master\vatek_sdk_2\api\core\inc\core\storage\storage_transform.h" />
+    <ClInclude Include="D:\desktop\SDK\master_220107\master\vatek_sdk_2\api\core\inc\core\tools\tool_8vsb.h" />
+    <ClInclude Include="D:\desktop\SDK\master_220107\master\vatek_sdk_2\api\core\inc\core\tools\tool_binary_crc.h" />
+    <ClInclude Include="D:\desktop\SDK\master_220107\master\vatek_sdk_2\api\core\inc\core\tools\tool_bufstream.h" />
+    <ClInclude Include="D:\desktop\SDK\master_220107\master\vatek_sdk_2\api\core\inc\core\tools\tool_crc32.h" />
+    <ClInclude Include="D:\desktop\SDK\master_220107\master\vatek_sdk_2\api\core\inc\core\tools\tool_dvb.h" />
+    <ClInclude Include="D:\desktop\SDK\master_220107\master\vatek_sdk_2\api\core\inc\core\tools\tool_dvb_t2.h" />
+    <ClInclude Include="D:\desktop\SDK\master_220107\master\vatek_sdk_2\api\core\inc\core\tools\tool_dtmb.h" />
+    <ClInclude Include="D:\desktop\SDK\master_220107\master\vatek_sdk_2\api\core\inc\core\tools\tool_helpful.h" />
+    <ClInclude Include="D:\desktop\SDK\master_220107\master\vatek_sdk_2\api\core\inc\core\tools\tool_isdb_t.h" />
+    <ClInclude Include="D:\desktop\SDK\master_220107\master\vatek_sdk_2\api\core\inc\core\tools\tool_j83abc.h" />
+    <ClInclude Include="D:\desktop\SDK\master_220107\master\vatek_sdk_2\api\core\inc\core\tools\tool_ofdm.h" />
+    <ClInclude Include="D:\desktop\SDK\master_220107\master\vatek_sdk_2\api\core\inc\core\tools\tool_output.h" />
+    <ClInclude Include="D:\desktop\SDK\master_220107\master\vatek_sdk_2\api\core\inc\core\ui\ui_props_api.h" />
+    <ClInclude Include="D:\desktop\SDK\master_220107\master\vatek_sdk_2\api\core\inc\core\ui\ui_props_define.h" />
+    <ClInclude Include="D:\desktop\SDK\master_220107\master\vatek_sdk_2\api\core\inc\core\ui\ui_props\ui_props_chip.h" />
+    <ClInclude Include="D:\desktop\SDK\master_220107\master\vatek_sdk_2\api\core\inc\core\ui\ui_props\ui_props_encoder.h" />
+    <ClInclude Include="D:\desktop\SDK\master_220107\master\vatek_sdk_2\api\core\inc\core\ui\ui_props\ui_props_modulator.h" />
+    <ClInclude Include="D:\desktop\SDK\master_220107\master\vatek_sdk_2\api\core\inc\core\ui\ui_props\ui_props_output.h" />
+    <ClInclude Include="D:\desktop\SDK\master_220107\master\vatek_sdk_2\api\core\inc\core\ui\ui_props\ui_props_stream.h" />
+    <ClInclude Include="D:\desktop\SDK\master_220107\master\vatek_sdk_2\api\core\inc\cross\cross_bridge.h" />
+    <ClInclude Include="D:\desktop\SDK\master_220107\master\vatek_sdk_2\api\core\inc\cross\cross_os_api.h" />
+    <ClInclude Include="D:\desktop\SDK\master_220107\master\vatek_sdk_2\api\core\inc\cross\cross_stream.h" />
+    <ClInclude Include="D:\desktop\SDK\master_220107\master\vatek_sdk_2\api\core\inc\cross\cross_usb_device.h" />
+    <ClInclude Include="D:\desktop\SDK\master_220107\master\vatek_sdk_2\api\core\inc\mux\mux_define.h" />
+    <ClInclude Include="D:\desktop\SDK\master_220107\master\vatek_sdk_2\api\core\inc\mux\mux_epg.h" />
+    <ClInclude Include="D:\desktop\SDK\master_220107\master\vatek_sdk_2\api\core\inc\mux\mux_handle.h" />
+    <ClInclude Include="D:\desktop\SDK\master_220107\master\vatek_sdk_2\api\core\inc\mux\mux_packet.h" />
+    <ClInclude Include="D:\desktop\SDK\master_220107\master\vatek_sdk_2\api\core\inc\mux\mux_rule.h" />
+    <ClInclude Include="D:\desktop\SDK\master_220107\master\vatek_sdk_2\api\core\inc\mux\mux_spec.h" />
+    <ClInclude Include="D:\desktop\SDK\master_220107\master\vatek_sdk_2\api\core\inc\mux\mux_time.h" />
+    <ClInclude Include="D:\desktop\SDK\master_220107\master\vatek_sdk_2\api\core\inc\mux\spec\spec_arib.h" />
+    <ClInclude Include="D:\desktop\SDK\master_220107\master\vatek_sdk_2\api\core\inc\mux\spec\spec_dvb.h" />
+    <ClInclude Include="D:\desktop\SDK\master_220107\master\vatek_sdk_2\api\core\inc\mux\spec\spec_iso_13818.h" />
+    <ClInclude Include="D:\desktop\SDK\master_220107\master\vatek_sdk_2\api\core\inc\mux\spec\spec_psip.h" />
+    <ClInclude Include="D:\desktop\SDK\master_220107\master\vatek_sdk_2\api\core\inc\mux\ui\spec\ui_mux_spec_arib.h" />
+    <ClInclude Include="D:\desktop\SDK\master_220107\master\vatek_sdk_2\api\core\inc\mux\ui\spec\ui_mux_spec_dvb.h" />
+    <ClInclude Include="D:\desktop\SDK\master_220107\master\vatek_sdk_2\api\core\inc\mux\ui\spec\ui_mux_spec_iso.h" />
+    <ClInclude Include="D:\desktop\SDK\master_220107\master\vatek_sdk_2\api\core\inc\mux\ui\spec\ui_mux_spec_psip.h" />
+    <ClInclude Include="D:\desktop\SDK\master_220107\master\vatek_sdk_2\api\core\inc\mux\ui\ui_props_mux.h" />
+    <ClInclude Include="D:\desktop\SDK\master_220107\master\vatek_sdk_2\api\core\inc\mux\ui\ui_tool_arib.h" />
+    <ClInclude Include="D:\desktop\SDK\master_220107\master\vatek_sdk_2\api\core\inc\mux\ui\ui_tool_country.h" />
+    <ClInclude Include="D:\desktop\SDK\master_220107\master\vatek_sdk_2\api\core\inc\vatek_sdk_bridge.h" />
+    <ClInclude Include="D:\desktop\SDK\master_220107\master\vatek_sdk_2\api\core\inc\vatek_sdk_broadcast.h" />
+    <ClInclude Include="D:\desktop\SDK\master_220107\master\vatek_sdk_2\api\core\inc\vatek_sdk_device.h" />
+    <ClInclude Include="D:\desktop\SDK\master_220107\master\vatek_sdk_2\api\core\inc\vatek_sdk_storage.h" />
+    <ClInclude Include="D:\desktop\SDK\master_220107\master\vatek_sdk_2\api\core\inc\vatek_sdk_transform.h" />
+    <ClInclude Include="D:\desktop\SDK\master_220107\master\vatek_sdk_2\api\core\inc\vatek_sdk_usbmux.h" />
+    <ClInclude Include="D:\desktop\SDK\master_220107\master\vatek_sdk_2\api\core\inc\vatek_sdk_usbstream.h" />
+    <ClInclude Include="D:\desktop\SDK\master_220107\master\vatek_sdk_2\api\core\inc\service\service_base.h" />
+    <ClInclude Include="D:\desktop\SDK\master_220107\master\vatek_sdk_2\api\core\inc\service\service_broadcast.h" />
+    <ClInclude Include="D:\desktop\SDK\master_220107\master\vatek_sdk_2\api\core\inc\service\service_transform.h" />
+    <ClInclude Include="D:\desktop\SDK\master_220107\master\vatek_sdk_2\api\core\inc\service\ui\ui_service_base.h" />
+    <ClInclude Include="D:\desktop\SDK\master_220107\master\vatek_sdk_2\api\core\inc\service\ui\ui_service_broadcast.h" />
+    <ClInclude Include="D:\desktop\SDK\master_220107\master\vatek_sdk_2\api\core\inc\service\ui\ui_service_transform.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="D:\desktop\SDK\master_220107\master\vatek_sdk_2\extend\tsduck-vatek\bin\ZERO_CHECK.vcxproj">
+      <Project>{3E895EA6-B043-3A15-809F-D3E4B8C97864}</Project>
+      <Name>ZERO_CHECK</Name>
+      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

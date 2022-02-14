@@ -1,0 +1,10 @@
+^D:\DESKTOP\SDK\MASTER_220107\MASTER\VATEK_SDK_2\EXTEND\TSDUCK-VATEK\CMAKELISTS.TXT
+setlocal
+D:\desktop\cmake-3.20.1-windows-x86_64\bin\cmake.exe -SD:/desktop/SDK/master_220107/master/vatek_sdk_2/extend/tsduck-vatek -BD:/desktop/SDK/master_220107/master/vatek_sdk_2/extend/tsduck-vatek/bin --check-stamp-file D:/desktop/SDK/master_220107/master/vatek_sdk_2/extend/tsduck-vatek/bin/CMakeFiles/generate.stamp
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal & call :cmErrorLevel %errorlevel% & goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd

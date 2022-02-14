@@ -1,0 +1,23 @@
+# CMake generation dependency list for this directory.
+D:/desktop/SDK/master_220107/master/vatek_sdk_2/extend/tsduck-vatek/CMakeLists.txt
+D:/desktop/SDK/master_220107/master/vatek_sdk_2/extend/tsduck-vatek/bin/CMakeFiles/3.20.1/CMakeCCompiler.cmake
+D:/desktop/SDK/master_220107/master/vatek_sdk_2/extend/tsduck-vatek/bin/CMakeFiles/3.20.1/CMakeCXXCompiler.cmake
+D:/desktop/SDK/master_220107/master/vatek_sdk_2/extend/tsduck-vatek/bin/CMakeFiles/3.20.1/CMakeRCCompiler.cmake
+D:/desktop/SDK/master_220107/master/vatek_sdk_2/extend/tsduck-vatek/bin/CMakeFiles/3.20.1/CMakeSystem.cmake
+D:/desktop/cmake-3.20.1-windows-x86_64/share/cmake-3.20/Modules/CMakeCInformation.cmake
+D:/desktop/cmake-3.20.1-windows-x86_64/share/cmake-3.20/Modules/CMakeCXXInformation.cmake
+D:/desktop/cmake-3.20.1-windows-x86_64/share/cmake-3.20/Modules/CMakeCommonLanguageInclude.cmake
+D:/desktop/cmake-3.20.1-windows-x86_64/share/cmake-3.20/Modules/CMakeGenericSystem.cmake
+D:/desktop/cmake-3.20.1-windows-x86_64/share/cmake-3.20/Modules/CMakeInitializeConfigs.cmake
+D:/desktop/cmake-3.20.1-windows-x86_64/share/cmake-3.20/Modules/CMakeLanguageInformation.cmake
+D:/desktop/cmake-3.20.1-windows-x86_64/share/cmake-3.20/Modules/CMakeRCInformation.cmake
+D:/desktop/cmake-3.20.1-windows-x86_64/share/cmake-3.20/Modules/CMakeSystemSpecificInformation.cmake
+D:/desktop/cmake-3.20.1-windows-x86_64/share/cmake-3.20/Modules/CMakeSystemSpecificInitialize.cmake
+D:/desktop/cmake-3.20.1-windows-x86_64/share/cmake-3.20/Modules/Compiler/CMakeCommonCompilerMacros.cmake
+D:/desktop/cmake-3.20.1-windows-x86_64/share/cmake-3.20/Modules/Compiler/MSVC-C.cmake
+D:/desktop/cmake-3.20.1-windows-x86_64/share/cmake-3.20/Modules/Compiler/MSVC-CXX.cmake
+D:/desktop/cmake-3.20.1-windows-x86_64/share/cmake-3.20/Modules/Platform/Windows-MSVC-C.cmake
+D:/desktop/cmake-3.20.1-windows-x86_64/share/cmake-3.20/Modules/Platform/Windows-MSVC-CXX.cmake
+D:/desktop/cmake-3.20.1-windows-x86_64/share/cmake-3.20/Modules/Platform/Windows-MSVC.cmake
+D:/desktop/cmake-3.20.1-windows-x86_64/share/cmake-3.20/Modules/Platform/Windows.cmake
+D:/desktop/cmake-3.20.1-windows-x86_64/share/cmake-3.20/Modules/Platform/WindowsPaths.cmake

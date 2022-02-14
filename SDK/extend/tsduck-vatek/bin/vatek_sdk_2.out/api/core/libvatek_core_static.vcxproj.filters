@@ -1,0 +1,546 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="16.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="D:\desktop\SDK\master_220107\master\vatek_sdk_2\api\core\src\core\chip_define.c">
+      <Filter>src\core</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\desktop\SDK\master_220107\master\vatek_sdk_2\api\core\src\core\calibration_define.c">
+      <Filter>src\core</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\desktop\SDK\master_220107\master\vatek_sdk_2\api\core\src\core\output_modulator.c">
+      <Filter>src\core</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\desktop\SDK\master_220107\master\vatek_sdk_2\api\core\src\core\output_rfmixer.c">
+      <Filter>src\core</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\desktop\SDK\master_220107\master\vatek_sdk_2\api\core\src\core\storage_section.c">
+      <Filter>src\core</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\desktop\SDK\master_220107\master\vatek_sdk_2\api\core\src\core\storage_default.c">
+      <Filter>src\core</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\desktop\SDK\master_220107\master\vatek_sdk_2\api\core\src\core\stream_base.c">
+      <Filter>src\core</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\desktop\SDK\master_220107\master\vatek_sdk_2\api\core\src\core\stream_encoder.c">
+      <Filter>src\core</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\desktop\SDK\master_220107\master\vatek_sdk_2\api\core\src\core\device_usb.c">
+      <Filter>src\core</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\desktop\SDK\master_220107\master\vatek_sdk_2\api\core\src\core\tool_binary_crc.c">
+      <Filter>src\core</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\desktop\SDK\master_220107\master\vatek_sdk_2\api\core\src\core\tool_bufstream.c">
+      <Filter>src\core</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\desktop\SDK\master_220107\master\vatek_sdk_2\api\core\src\core\tool_crc32.c">
+      <Filter>src\core</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\desktop\SDK\master_220107\master\vatek_sdk_2\api\core\src\core\tool_dvb.c">
+      <Filter>src\core</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\desktop\SDK\master_220107\master\vatek_sdk_2\api\core\src\core\tool_dvb_t2.c">
+      <Filter>src\core</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\desktop\SDK\master_220107\master\vatek_sdk_2\api\core\src\core\tool_dtmb.c">
+      <Filter>src\core</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\desktop\SDK\master_220107\master\vatek_sdk_2\api\core\src\core\tool_ofdm.c">
+      <Filter>src\core</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\desktop\SDK\master_220107\master\vatek_sdk_2\api\core\src\core\tool_helpful_bitstream.c">
+      <Filter>src\core</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\desktop\SDK\master_220107\master\vatek_sdk_2\api\core\src\core\tool_helpful_circlebuf.c">
+      <Filter>src\core</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\desktop\SDK\master_220107\master\vatek_sdk_2\api\core\src\core\tool_helpful_fifo.c">
+      <Filter>src\core</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\desktop\SDK\master_220107\master\vatek_sdk_2\api\core\src\core\tool_helpful_mempool.c">
+      <Filter>src\core</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\desktop\SDK\master_220107\master\vatek_sdk_2\api\core\src\core\tool_helpful_memquery.c">
+      <Filter>src\core</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\desktop\SDK\master_220107\master\vatek_sdk_2\api\core\src\core\tool_helpful_objectlist.c">
+      <Filter>src\core</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\desktop\SDK\master_220107\master\vatek_sdk_2\api\core\src\core\tool_isdb_t.c">
+      <Filter>src\core</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\desktop\SDK\master_220107\master\vatek_sdk_2\api\core\src\core\tool_j83abc.c">
+      <Filter>src\core</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\desktop\SDK\master_220107\master\vatek_sdk_2\api\core\src\core\tool_8vsb.c">
+      <Filter>src\core</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\desktop\SDK\master_220107\master\vatek_sdk_2\api\core\src\core\tool_output.c">
+      <Filter>src\core</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\desktop\SDK\master_220107\master\vatek_sdk_2\api\core\src\core\ui_props_api.c">
+      <Filter>src\core</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\desktop\SDK\master_220107\master\vatek_sdk_2\api\core\src\cross\cross_bridge.c">
+      <Filter>src\cross</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\desktop\SDK\master_220107\master\vatek_sdk_2\api\core\src\cross\cross_bridge_board.c">
+      <Filter>src\cross</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\desktop\SDK\master_220107\master\vatek_sdk_2\api\core\src\cross\cross_os_api.c">
+      <Filter>src\cross</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\desktop\SDK\master_220107\master\vatek_sdk_2\api\core\src\cross\cross_os_socket.c">
+      <Filter>src\cross</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\desktop\SDK\master_220107\master\vatek_sdk_2\api\core\src\cross\cross_stream.c">
+      <Filter>src\cross</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\desktop\SDK\master_220107\master\vatek_sdk_2\api\core\src\cross\cross_stream_file.c">
+      <Filter>src\cross</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\desktop\SDK\master_220107\master\vatek_sdk_2\api\core\src\cross\cross_stream_test.c">
+      <Filter>src\cross</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\desktop\SDK\master_220107\master\vatek_sdk_2\api\core\src\cross\cross_stream_udp.c">
+      <Filter>src\cross</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\desktop\SDK\master_220107\master\vatek_sdk_2\api\core\src\cross\cross_stream_mux.c">
+      <Filter>src\cross</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\desktop\SDK\master_220107\master\vatek_sdk_2\api\core\src\cross\cross_usb_device_libusb.c">
+      <Filter>src\cross</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\desktop\SDK\master_220107\master\vatek_sdk_2\api\core\src\cross\libusb_tool.c">
+      <Filter>src\cross</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\desktop\SDK\master_220107\master\vatek_sdk_2\api\core\src\device\cross_device_bridge.c">
+      <Filter>src\device</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\desktop\SDK\master_220107\master\vatek_sdk_2\api\core\src\device\cross_device_tool.c">
+      <Filter>src\device</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\desktop\SDK\master_220107\master\vatek_sdk_2\api\core\src\device\cross_device_usb.c">
+      <Filter>src\device</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\desktop\SDK\master_220107\master\vatek_sdk_2\api\core\src\device\mux_usbstream.c">
+      <Filter>src\device</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\desktop\SDK\master_220107\master\vatek_sdk_2\api\core\src\mux\mux_epg.c">
+      <Filter>src\mux</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\desktop\SDK\master_220107\master\vatek_sdk_2\api\core\src\mux\mux_hadnel_playload.c">
+      <Filter>src\mux</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\desktop\SDK\master_220107\master\vatek_sdk_2\api\core\src\mux\mux_handle_broadcast.c">
+      <Filter>src\mux</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\desktop\SDK\master_220107\master\vatek_sdk_2\api\core\src\mux\mux_handle_channel.c">
+      <Filter>src\mux</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\desktop\SDK\master_220107\master\vatek_sdk_2\api\core\src\mux\mux_handle_core.c">
+      <Filter>src\mux</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\desktop\SDK\master_220107\master\vatek_sdk_2\api\core\src\mux\mux_handle_raw.c">
+      <Filter>src\mux</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\desktop\SDK\master_220107\master\vatek_sdk_2\api\core\src\mux\mux_packet_base.c">
+      <Filter>src\mux</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\desktop\SDK\master_220107\master\vatek_sdk_2\api\core\src\mux\mux_packet_pes.c">
+      <Filter>src\mux</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\desktop\SDK\master_220107\master\vatek_sdk_2\api\core\src\mux\mux_rule.c">
+      <Filter>src\mux</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\desktop\SDK\master_220107\master\vatek_sdk_2\api\core\src\mux\mux_spec.c">
+      <Filter>src\mux</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\desktop\SDK\master_220107\master\vatek_sdk_2\api\core\src\mux\mux_time.c">
+      <Filter>src\mux</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\desktop\SDK\master_220107\master\vatek_sdk_2\api\core\src\mux\mux_tool_tick.c">
+      <Filter>src\mux</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\desktop\SDK\master_220107\master\vatek_sdk_2\api\core\src\cross\os\win\win_os_bridge.c">
+      <Filter>src\os</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\desktop\SDK\master_220107\master\vatek_sdk_2\api\core\src\cross\os\win\win_os_common.c">
+      <Filter>src\os</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\desktop\SDK\master_220107\master\vatek_sdk_2\api\core\src\cross\os\win\win_os_event_api.c">
+      <Filter>src\os</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\desktop\SDK\master_220107\master\vatek_sdk_2\api\core\src\cross\os\win\win_os_mutex_api.c">
+      <Filter>src\os</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\desktop\SDK\master_220107\master\vatek_sdk_2\api\core\src\cross\os\win\win_os_process.c">
+      <Filter>src\os</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\desktop\SDK\master_220107\master\vatek_sdk_2\api\core\src\cross\os\win\win_os_smem_api.c">
+      <Filter>src\os</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\desktop\SDK\master_220107\master\vatek_sdk_2\api\core\src\cross\os\win\win_os_sys_api.c">
+      <Filter>src\os</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\desktop\SDK\master_220107\master\vatek_sdk_2\api\core\src\cross\os\win\win_os_thread_api.c">
+      <Filter>src\os</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\desktop\SDK\master_220107\master\vatek_sdk_2\api\core\src\cross\os\win\win_os_time_api.c">
+      <Filter>src\os</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\desktop\SDK\master_220107\master\vatek_sdk_2\api\core\src\cross\os\win\win_os_uart_api.c">
+      <Filter>src\os</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\desktop\SDK\master_220107\master\vatek_sdk_2\api\core\src\vatek_sdk_base.c">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\desktop\SDK\master_220107\master\vatek_sdk_2\api\core\src\vatek_sdk_bridge.c">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\desktop\SDK\master_220107\master\vatek_sdk_2\api\core\src\vatek_sdk_broadcast.c">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\desktop\SDK\master_220107\master\vatek_sdk_2\api\core\src\vatek_sdk_device.c">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\desktop\SDK\master_220107\master\vatek_sdk_2\api\core\src\vatek_sdk_storage.c">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\desktop\SDK\master_220107\master\vatek_sdk_2\api\core\src\vatek_sdk_transform.c">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\desktop\SDK\master_220107\master\vatek_sdk_2\api\core\src\vatek_sdk_usbmux.c">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\desktop\SDK\master_220107\master\vatek_sdk_2\api\core\src\vatek_sdk_usbstream.c">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\desktop\SDK\master_220107\master\vatek_sdk_2\api\core\src\service\service_base.c">
+      <Filter>src\service</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\desktop\SDK\master_220107\master\vatek_sdk_2\api\core\src\service\service_broadcast.c">
+      <Filter>src\service</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\desktop\SDK\master_220107\master\vatek_sdk_2\api\core\src\service\service_transform.c">
+      <Filter>src\service</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="D:\desktop\SDK\master_220107\master\vatek_sdk_2\api\core\inc\bridge\bridge_base.h">
+      <Filter>inc\bridge</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\desktop\SDK\master_220107\master\vatek_sdk_2\api\core\inc\bridge\bridge_demod.h">
+      <Filter>inc\bridge</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\desktop\SDK\master_220107\master\vatek_sdk_2\api\core\inc\bridge\bridge_device.h">
+      <Filter>inc\bridge</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\desktop\SDK\master_220107\master\vatek_sdk_2\api\core\inc\bridge\bridge_rfmixer.h">
+      <Filter>inc\bridge</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\desktop\SDK\master_220107\master\vatek_sdk_2\api\core\inc\bridge\bridge_source.h">
+      <Filter>inc\bridge</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\desktop\SDK\master_220107\master\vatek_sdk_2\api\core\inc\bridge\bridge_usb.h">
+      <Filter>inc\bridge</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\desktop\SDK\master_220107\master\vatek_sdk_2\api\core\inc\bridge\ui\ui_bridge_base.h">
+      <Filter>inc\bridge</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\desktop\SDK\master_220107\master\vatek_sdk_2\api\core\inc\bridge\ui\ui_bridge_source.h">
+      <Filter>inc\bridge</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\desktop\SDK\master_220107\master\vatek_sdk_2\api\core\inc\core\vatek_base.h">
+      <Filter>inc\core</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\desktop\SDK\master_220107\master\vatek_sdk_2\api\core\inc\core\base\binary_rom.h">
+      <Filter>inc\core</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\desktop\SDK\master_220107\master\vatek_sdk_2\api\core\inc\core\base\chip_define.h">
+      <Filter>inc\core</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\desktop\SDK\master_220107\master\vatek_sdk_2\api\core\inc\core\base\device_usb.h">
+      <Filter>inc\core</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\desktop\SDK\master_220107\master\vatek_sdk_2\api\core\inc\core\base\media_audio.h">
+      <Filter>inc\core</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\desktop\SDK\master_220107\master\vatek_sdk_2\api\core\inc\core\base\media_video.h">
+      <Filter>inc\core</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\desktop\SDK\master_220107\master\vatek_sdk_2\api\core\inc\core\base\output_base.h">
+      <Filter>inc\core</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\desktop\SDK\master_220107\master\vatek_sdk_2\api\core\inc\core\base\output_modulator.h">
+      <Filter>inc\core</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\desktop\SDK\master_220107\master\vatek_sdk_2\api\core\inc\core\base\output_rfmixer.h">
+      <Filter>inc\core</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\desktop\SDK\master_220107\master\vatek_sdk_2\api\core\inc\core\base\stream_base.h">
+      <Filter>inc\core</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\desktop\SDK\master_220107\master\vatek_sdk_2\api\core\inc\core\base\stream_encoder.h">
+      <Filter>inc\core</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\desktop\SDK\master_220107\master\vatek_sdk_2\api\core\inc\core\base\calibration_define.h">
+      <Filter>inc\core</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\desktop\SDK\master_220107\master\vatek_sdk_2\api\core\inc\core\hal\halreg_define.h">
+      <Filter>inc\core</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\desktop\SDK\master_220107\master\vatek_sdk_2\api\core\inc\core\hal\halreg_mux.h">
+      <Filter>inc\core</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\desktop\SDK\master_220107\master\vatek_sdk_2\api\core\inc\core\hal\halreg_output.h">
+      <Filter>inc\core</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\desktop\SDK\master_220107\master\vatek_sdk_2\api\core\inc\core\hal\halreg_playload.h">
+      <Filter>inc\core</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\desktop\SDK\master_220107\master\vatek_sdk_2\api\core\inc\core\hal\halreg_rfmixer.h">
+      <Filter>inc\core</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\desktop\SDK\master_220107\master\vatek_sdk_2\api\core\inc\core\hal\halreg_stream.h">
+      <Filter>inc\core</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\desktop\SDK\master_220107\master\vatek_sdk_2\api\core\inc\core\hal\halreg_calibration.h">
+      <Filter>inc\core</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\desktop\SDK\master_220107\master\vatek_sdk_2\api\core\inc\core\hal\halservice_base.h">
+      <Filter>inc\core</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\desktop\SDK\master_220107\master\vatek_sdk_2\api\core\inc\core\hal\halservice_broadcast.h">
+      <Filter>inc\core</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\desktop\SDK\master_220107\master\vatek_sdk_2\api\core\inc\core\hal\halservice_rescure.h">
+      <Filter>inc\core</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\desktop\SDK\master_220107\master\vatek_sdk_2\api\core\inc\core\hal\halservice_transform.h">
+      <Filter>inc\core</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\desktop\SDK\master_220107\master\vatek_sdk_2\api\core\inc\core\storage\storage_broadcast.h">
+      <Filter>inc\core</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\desktop\SDK\master_220107\master\vatek_sdk_2\api\core\inc\core\storage\storage_config.h">
+      <Filter>inc\core</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\desktop\SDK\master_220107\master\vatek_sdk_2\api\core\inc\core\storage\storage_r2tune.h">
+      <Filter>inc\core</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\desktop\SDK\master_220107\master\vatek_sdk_2\api\core\inc\core\storage\storage_section.h">
+      <Filter>inc\core</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\desktop\SDK\master_220107\master\vatek_sdk_2\api\core\inc\core\storage\storage_transform.h">
+      <Filter>inc\core</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\desktop\SDK\master_220107\master\vatek_sdk_2\api\core\inc\core\tools\tool_8vsb.h">
+      <Filter>inc\core</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\desktop\SDK\master_220107\master\vatek_sdk_2\api\core\inc\core\tools\tool_binary_crc.h">
+      <Filter>inc\core</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\desktop\SDK\master_220107\master\vatek_sdk_2\api\core\inc\core\tools\tool_bufstream.h">
+      <Filter>inc\core</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\desktop\SDK\master_220107\master\vatek_sdk_2\api\core\inc\core\tools\tool_crc32.h">
+      <Filter>inc\core</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\desktop\SDK\master_220107\master\vatek_sdk_2\api\core\inc\core\tools\tool_dvb.h">
+      <Filter>inc\core</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\desktop\SDK\master_220107\master\vatek_sdk_2\api\core\inc\core\tools\tool_dvb_t2.h">
+      <Filter>inc\core</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\desktop\SDK\master_220107\master\vatek_sdk_2\api\core\inc\core\tools\tool_dtmb.h">
+      <Filter>inc\core</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\desktop\SDK\master_220107\master\vatek_sdk_2\api\core\inc\core\tools\tool_helpful.h">
+      <Filter>inc\core</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\desktop\SDK\master_220107\master\vatek_sdk_2\api\core\inc\core\tools\tool_isdb_t.h">
+      <Filter>inc\core</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\desktop\SDK\master_220107\master\vatek_sdk_2\api\core\inc\core\tools\tool_j83abc.h">
+      <Filter>inc\core</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\desktop\SDK\master_220107\master\vatek_sdk_2\api\core\inc\core\tools\tool_ofdm.h">
+      <Filter>inc\core</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\desktop\SDK\master_220107\master\vatek_sdk_2\api\core\inc\core\tools\tool_output.h">
+      <Filter>inc\core</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\desktop\SDK\master_220107\master\vatek_sdk_2\api\core\inc\core\ui\ui_props_api.h">
+      <Filter>inc\core</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\desktop\SDK\master_220107\master\vatek_sdk_2\api\core\inc\core\ui\ui_props_define.h">
+      <Filter>inc\core</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\desktop\SDK\master_220107\master\vatek_sdk_2\api\core\inc\core\ui\ui_props\ui_props_chip.h">
+      <Filter>inc\core</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\desktop\SDK\master_220107\master\vatek_sdk_2\api\core\inc\core\ui\ui_props\ui_props_encoder.h">
+      <Filter>inc\core</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\desktop\SDK\master_220107\master\vatek_sdk_2\api\core\inc\core\ui\ui_props\ui_props_modulator.h">
+      <Filter>inc\core</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\desktop\SDK\master_220107\master\vatek_sdk_2\api\core\inc\core\ui\ui_props\ui_props_output.h">
+      <Filter>inc\core</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\desktop\SDK\master_220107\master\vatek_sdk_2\api\core\inc\core\ui\ui_props\ui_props_stream.h">
+      <Filter>inc\core</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\desktop\SDK\master_220107\master\vatek_sdk_2\api\core\inc\cross\cross_bridge.h">
+      <Filter>inc\cross</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\desktop\SDK\master_220107\master\vatek_sdk_2\api\core\inc\cross\cross_os_api.h">
+      <Filter>inc\cross</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\desktop\SDK\master_220107\master\vatek_sdk_2\api\core\inc\cross\cross_stream.h">
+      <Filter>inc\cross</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\desktop\SDK\master_220107\master\vatek_sdk_2\api\core\inc\cross\cross_usb_device.h">
+      <Filter>inc\cross</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\desktop\SDK\master_220107\master\vatek_sdk_2\api\core\inc\mux\mux_define.h">
+      <Filter>inc\mux</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\desktop\SDK\master_220107\master\vatek_sdk_2\api\core\inc\mux\mux_epg.h">
+      <Filter>inc\mux</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\desktop\SDK\master_220107\master\vatek_sdk_2\api\core\inc\mux\mux_handle.h">
+      <Filter>inc\mux</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\desktop\SDK\master_220107\master\vatek_sdk_2\api\core\inc\mux\mux_packet.h">
+      <Filter>inc\mux</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\desktop\SDK\master_220107\master\vatek_sdk_2\api\core\inc\mux\mux_rule.h">
+      <Filter>inc\mux</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\desktop\SDK\master_220107\master\vatek_sdk_2\api\core\inc\mux\mux_spec.h">
+      <Filter>inc\mux</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\desktop\SDK\master_220107\master\vatek_sdk_2\api\core\inc\mux\mux_time.h">
+      <Filter>inc\mux</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\desktop\SDK\master_220107\master\vatek_sdk_2\api\core\inc\mux\spec\spec_arib.h">
+      <Filter>inc\mux</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\desktop\SDK\master_220107\master\vatek_sdk_2\api\core\inc\mux\spec\spec_dvb.h">
+      <Filter>inc\mux</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\desktop\SDK\master_220107\master\vatek_sdk_2\api\core\inc\mux\spec\spec_iso_13818.h">
+      <Filter>inc\mux</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\desktop\SDK\master_220107\master\vatek_sdk_2\api\core\inc\mux\spec\spec_psip.h">
+      <Filter>inc\mux</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\desktop\SDK\master_220107\master\vatek_sdk_2\api\core\inc\mux\ui\spec\ui_mux_spec_arib.h">
+      <Filter>inc\mux</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\desktop\SDK\master_220107\master\vatek_sdk_2\api\core\inc\mux\ui\spec\ui_mux_spec_dvb.h">
+      <Filter>inc\mux</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\desktop\SDK\master_220107\master\vatek_sdk_2\api\core\inc\mux\ui\spec\ui_mux_spec_iso.h">
+      <Filter>inc\mux</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\desktop\SDK\master_220107\master\vatek_sdk_2\api\core\inc\mux\ui\spec\ui_mux_spec_psip.h">
+      <Filter>inc\mux</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\desktop\SDK\master_220107\master\vatek_sdk_2\api\core\inc\mux\ui\ui_props_mux.h">
+      <Filter>inc\mux</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\desktop\SDK\master_220107\master\vatek_sdk_2\api\core\inc\mux\ui\ui_tool_arib.h">
+      <Filter>inc\mux</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\desktop\SDK\master_220107\master\vatek_sdk_2\api\core\inc\mux\ui\ui_tool_country.h">
+      <Filter>inc\mux</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\desktop\SDK\master_220107\master\vatek_sdk_2\api\core\inc\vatek_sdk_bridge.h">
+      <Filter>inc</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\desktop\SDK\master_220107\master\vatek_sdk_2\api\core\inc\vatek_sdk_broadcast.h">
+      <Filter>inc</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\desktop\SDK\master_220107\master\vatek_sdk_2\api\core\inc\vatek_sdk_device.h">
+      <Filter>inc</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\desktop\SDK\master_220107\master\vatek_sdk_2\api\core\inc\vatek_sdk_storage.h">
+      <Filter>inc</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\desktop\SDK\master_220107\master\vatek_sdk_2\api\core\inc\vatek_sdk_transform.h">
+      <Filter>inc</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\desktop\SDK\master_220107\master\vatek_sdk_2\api\core\inc\vatek_sdk_usbmux.h">
+      <Filter>inc</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\desktop\SDK\master_220107\master\vatek_sdk_2\api\core\inc\vatek_sdk_usbstream.h">
+      <Filter>inc</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\desktop\SDK\master_220107\master\vatek_sdk_2\api\core\inc\service\service_base.h">
+      <Filter>inc\service</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\desktop\SDK\master_220107\master\vatek_sdk_2\api\core\inc\service\service_broadcast.h">
+      <Filter>inc\service</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\desktop\SDK\master_220107\master\vatek_sdk_2\api\core\inc\service\service_transform.h">
+      <Filter>inc\service</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\desktop\SDK\master_220107\master\vatek_sdk_2\api\core\inc\service\ui\ui_service_base.h">
+      <Filter>inc\service</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\desktop\SDK\master_220107\master\vatek_sdk_2\api\core\inc\service\ui\ui_service_broadcast.h">
+      <Filter>inc\service</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\desktop\SDK\master_220107\master\vatek_sdk_2\api\core\inc\service\ui\ui_service_transform.h">
+      <Filter>inc\service</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="D:\desktop\SDK\master_220107\master\vatek_sdk_2\api\core\CMakeLists.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="inc">
+      <UniqueIdentifier>{30589801-4265-38D3-B323-3BC62EA5AC5E}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="inc\bridge">
+      <UniqueIdentifier>{854E216E-719A-3CF6-9313-3BC68258CF60}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="inc\core">
+      <UniqueIdentifier>{6AC109A0-20E5-36AD-AE05-E5DCD25D7CF6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="inc\cross">
+      <UniqueIdentifier>{C32B0752-7630-31D7-BA31-58AD3FADD6C1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="inc\mux">
+      <UniqueIdentifier>{14E29FE5-3994-3857-8A27-59987B8B294B}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="inc\service">
+      <UniqueIdentifier>{AE2AFA1A-28FD-3FF4-A1DB-58DD9581A230}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src">
+      <UniqueIdentifier>{A977FD63-EB81-3044-B49D-1E29AAAFD444}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\core">
+      <UniqueIdentifier>{D60FC8D6-7495-391E-B056-ED36D24E5E67}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\cross">
+      <UniqueIdentifier>{C417A837-50D9-3E94-AE8C-2A1F55750175}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\device">
+      <UniqueIdentifier>{73480529-0FCF-32F7-8D85-2E3F898BAC15}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\mux">
+      <UniqueIdentifier>{96695A10-2246-30D7-9E03-7CE30E664B72}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\os">
+      <UniqueIdentifier>{A46A741F-B2F8-3231-9E1B-B90BB8DA419C}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\service">
+      <UniqueIdentifier>{FB24BA5D-CA65-3D9A-A6B7-20623304DCB4}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>

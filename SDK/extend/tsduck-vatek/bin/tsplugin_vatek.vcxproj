@@ -1,0 +1,337 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="16.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <PreferredToolArchitecture>x64</PreferredToolArchitecture>
+  </PropertyGroup>
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="MinSizeRel|x64">
+      <Configuration>MinSizeRel</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="RelWithDebInfo|x64">
+      <Configuration>RelWithDebInfo</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{A081EBC5-0E14-336E-A344-0586A885EABF}</ProjectGuid>
+    <WindowsTargetPlatformVersion>10.0.19041.0</WindowsTargetPlatformVersion>
+    <Keyword>Win32Proj</Keyword>
+    <Platform>x64</Platform>
+    <ProjectName>tsplugin_vatek</ProjectName>
+    <VCProjectUpgraderObjectName>NoUpgrade</VCProjectUpgraderObjectName>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v142</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v142</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v142</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v142</PlatformToolset>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup>
+    <_ProjectFileVersion>10.0.20506.1</_ProjectFileVersion>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">D:\desktop\SDK\master_220107\master\vatek_sdk_2\extend\tsduck-vatek\bin\Debug\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">tsplugin_vatek.dir\Debug\</IntDir>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">tsplugin_vatek</TargetName>
+    <TargetExt Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">.dll</TargetExt>
+    <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</LinkIncremental>
+    <GenerateManifest Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</GenerateManifest>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Release|x64'">D:\desktop\SDK\master_220107\master\vatek_sdk_2\extend\tsduck-vatek\bin\Release\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Release|x64'">tsplugin_vatek.dir\Release\</IntDir>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">tsplugin_vatek</TargetName>
+    <TargetExt Condition="'$(Configuration)|$(Platform)'=='Release|x64'">.dll</TargetExt>
+    <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</LinkIncremental>
+    <GenerateManifest Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</GenerateManifest>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">D:\desktop\SDK\master_220107\master\vatek_sdk_2\extend\tsduck-vatek\bin\MinSizeRel\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">tsplugin_vatek.dir\MinSizeRel\</IntDir>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">tsplugin_vatek</TargetName>
+    <TargetExt Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">.dll</TargetExt>
+    <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">false</LinkIncremental>
+    <GenerateManifest Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">true</GenerateManifest>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">D:\desktop\SDK\master_220107\master\vatek_sdk_2\extend\tsduck-vatek\bin\RelWithDebInfo\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">tsplugin_vatek.dir\RelWithDebInfo\</IntDir>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">tsplugin_vatek</TargetName>
+    <TargetExt Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">.dll</TargetExt>
+    <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">true</LinkIncremental>
+    <GenerateManifest Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">true</GenerateManifest>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <ClCompile>
+      <AdditionalIncludeDirectories>D:\desktop\SDK\master_220107\master\vatek_sdk_2\extend\tsduck-vatek\..\..\api\core\inc;D:\desktop\SDK\master_220107\master\vatek_sdk_2\extend\tsduck-vatek\TSDuck\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AssemblerListingLocation>$(IntDir)</AssemblerListingLocation>
+      <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <DisableSpecificWarnings>26495;26812;26498</DisableSpecificWarnings>
+      <ExceptionHandling>Sync</ExceptionHandling>
+      <InlineFunctionExpansion>Disabled</InlineFunctionExpansion>
+      <LanguageStandard>stdcpp14</LanguageStandard>
+      <Optimization>Disabled</Optimization>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
+      <RuntimeTypeInfo>true</RuntimeTypeInfo>
+      <UseFullPaths>false</UseFullPaths>
+      <PreprocessorDefinitions>WIN32;_WINDOWS;_TSDUCKDLL_USE;_VA2_STATIC_;CMAKE_INTDIR="Debug";tsplugin_vatek_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ObjectFileName>$(IntDir)</ObjectFileName>
+    </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;_TSDUCKDLL_USE;_VA2_STATIC_;CMAKE_INTDIR=\"Debug\";tsplugin_vatek_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>D:\desktop\SDK\master_220107\master\vatek_sdk_2\extend\tsduck-vatek\..\..\api\core\inc;D:\desktop\SDK\master_220107\master\vatek_sdk_2\extend\tsduck-vatek\TSDuck\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ResourceCompile>
+    <Midl>
+      <AdditionalIncludeDirectories>D:\desktop\SDK\master_220107\master\vatek_sdk_2\extend\tsduck-vatek\..\..\api\core\inc;D:\desktop\SDK\master_220107\master\vatek_sdk_2\extend\tsduck-vatek\TSDuck\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
+      <HeaderFileName>%(Filename).h</HeaderFileName>
+      <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
+      <InterfaceIdentifierFileName>%(Filename)_i.c</InterfaceIdentifierFileName>
+      <ProxyFileName>%(Filename)_p.c</ProxyFileName>
+    </Midl>
+    <Link>
+      <AdditionalDependencies>tsduck.lib;lib\Debug\libvatek_core_static.lib;libusb-1.0.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;comdlg32.lib;advapi32.lib</AdditionalDependencies>
+      <AdditionalLibraryDirectories>D:/desktop/SDK/master_220107/master/vatek_sdk_2/extend/tsduck-vatek/TSDuck/lib/Debug-Win64;D:/desktop/SDK/master_220107/master/vatek_sdk_2/extend/tsduck-vatek/TSDuck/lib/Debug-Win64/$(Configuration);D:/desktop/SDK/master_220107/master/vatek_sdk_2/extend/tsduck-vatek/../../build/deps/win/libusb/1.0.24/VS2019/MS64/static;D:/desktop/SDK/master_220107/master/vatek_sdk_2/extend/tsduck-vatek/../../build/deps/win/libusb/1.0.24/VS2019/MS64/static/$(Configuration);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalOptions>%(AdditionalOptions) /machine:x64</AdditionalOptions>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <IgnoreSpecificDefaultLibraries>%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
+      <ImportLibrary>D:/desktop/SDK/master_220107/master/vatek_sdk_2/extend/tsduck-vatek/bin/Debug/tsplugin_vatek.lib</ImportLibrary>
+      <ProgramDataBaseFile>D:/desktop/SDK/master_220107/master/vatek_sdk_2/extend/tsduck-vatek/bin/Debug/tsplugin_vatek.pdb</ProgramDataBaseFile>
+      <SubSystem>Windows</SubSystem>
+    </Link>
+    <ProjectReference>
+      <LinkLibraryDependencies>false</LinkLibraryDependencies>
+    </ProjectReference>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <ClCompile>
+      <AdditionalIncludeDirectories>D:\desktop\SDK\master_220107\master\vatek_sdk_2\extend\tsduck-vatek\..\..\api\core\inc;D:\desktop\SDK\master_220107\master\vatek_sdk_2\extend\tsduck-vatek\TSDuck\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AssemblerListingLocation>$(IntDir)</AssemblerListingLocation>
+      <DisableSpecificWarnings>26495;26812;26498</DisableSpecificWarnings>
+      <ExceptionHandling>Sync</ExceptionHandling>
+      <InlineFunctionExpansion>AnySuitable</InlineFunctionExpansion>
+      <LanguageStandard>stdcpp14</LanguageStandard>
+      <Optimization>MaxSpeed</Optimization>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+      <RuntimeTypeInfo>true</RuntimeTypeInfo>
+      <UseFullPaths>false</UseFullPaths>
+      <PreprocessorDefinitions>WIN32;_WINDOWS;NDEBUG;_TSDUCKDLL_USE;_VA2_STATIC_;CMAKE_INTDIR="Release";tsplugin_vatek_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ObjectFileName>$(IntDir)</ObjectFileName>
+      <DebugInformationFormat>
+      </DebugInformationFormat>
+    </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>WIN32;_WINDOWS;NDEBUG;_TSDUCKDLL_USE;_VA2_STATIC_;CMAKE_INTDIR=\"Release\";tsplugin_vatek_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>D:\desktop\SDK\master_220107\master\vatek_sdk_2\extend\tsduck-vatek\..\..\api\core\inc;D:\desktop\SDK\master_220107\master\vatek_sdk_2\extend\tsduck-vatek\TSDuck\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ResourceCompile>
+    <Midl>
+      <AdditionalIncludeDirectories>D:\desktop\SDK\master_220107\master\vatek_sdk_2\extend\tsduck-vatek\..\..\api\core\inc;D:\desktop\SDK\master_220107\master\vatek_sdk_2\extend\tsduck-vatek\TSDuck\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
+      <HeaderFileName>%(Filename).h</HeaderFileName>
+      <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
+      <InterfaceIdentifierFileName>%(Filename)_i.c</InterfaceIdentifierFileName>
+      <ProxyFileName>%(Filename)_p.c</ProxyFileName>
+    </Midl>
+    <Link>
+      <AdditionalDependencies>tsduck.lib;lib\Release\libvatek_core_static.lib;libusb-1.0.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;comdlg32.lib;advapi32.lib</AdditionalDependencies>
+      <AdditionalLibraryDirectories>D:/desktop/SDK/master_220107/master/vatek_sdk_2/extend/tsduck-vatek/TSDuck/lib/Debug-Win64;D:/desktop/SDK/master_220107/master/vatek_sdk_2/extend/tsduck-vatek/TSDuck/lib/Debug-Win64/$(Configuration);D:/desktop/SDK/master_220107/master/vatek_sdk_2/extend/tsduck-vatek/../../build/deps/win/libusb/1.0.24/VS2019/MS64/static;D:/desktop/SDK/master_220107/master/vatek_sdk_2/extend/tsduck-vatek/../../build/deps/win/libusb/1.0.24/VS2019/MS64/static/$(Configuration);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalOptions>%(AdditionalOptions) /machine:x64</AdditionalOptions>
+      <GenerateDebugInformation>false</GenerateDebugInformation>
+      <IgnoreSpecificDefaultLibraries>%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
+      <ImportLibrary>D:/desktop/SDK/master_220107/master/vatek_sdk_2/extend/tsduck-vatek/bin/Release/tsplugin_vatek.lib</ImportLibrary>
+      <ProgramDataBaseFile>D:/desktop/SDK/master_220107/master/vatek_sdk_2/extend/tsduck-vatek/bin/Release/tsplugin_vatek.pdb</ProgramDataBaseFile>
+      <SubSystem>Windows</SubSystem>
+    </Link>
+    <ProjectReference>
+      <LinkLibraryDependencies>false</LinkLibraryDependencies>
+    </ProjectReference>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">
+    <ClCompile>
+      <AdditionalIncludeDirectories>D:\desktop\SDK\master_220107\master\vatek_sdk_2\extend\tsduck-vatek\..\..\api\core\inc;D:\desktop\SDK\master_220107\master\vatek_sdk_2\extend\tsduck-vatek\TSDuck\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AssemblerListingLocation>$(IntDir)</AssemblerListingLocation>
+      <DisableSpecificWarnings>26495;26812;26498</DisableSpecificWarnings>
+      <ExceptionHandling>Sync</ExceptionHandling>
+      <InlineFunctionExpansion>OnlyExplicitInline</InlineFunctionExpansion>
+      <LanguageStandard>stdcpp14</LanguageStandard>
+      <Optimization>MinSpace</Optimization>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+      <RuntimeTypeInfo>true</RuntimeTypeInfo>
+      <UseFullPaths>false</UseFullPaths>
+      <PreprocessorDefinitions>WIN32;_WINDOWS;NDEBUG;_TSDUCKDLL_USE;_VA2_STATIC_;CMAKE_INTDIR="MinSizeRel";tsplugin_vatek_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ObjectFileName>$(IntDir)</ObjectFileName>
+      <DebugInformationFormat>
+      </DebugInformationFormat>
+    </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>WIN32;_WINDOWS;NDEBUG;_TSDUCKDLL_USE;_VA2_STATIC_;CMAKE_INTDIR=\"MinSizeRel\";tsplugin_vatek_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>D:\desktop\SDK\master_220107\master\vatek_sdk_2\extend\tsduck-vatek\..\..\api\core\inc;D:\desktop\SDK\master_220107\master\vatek_sdk_2\extend\tsduck-vatek\TSDuck\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ResourceCompile>
+    <Midl>
+      <AdditionalIncludeDirectories>D:\desktop\SDK\master_220107\master\vatek_sdk_2\extend\tsduck-vatek\..\..\api\core\inc;D:\desktop\SDK\master_220107\master\vatek_sdk_2\extend\tsduck-vatek\TSDuck\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
+      <HeaderFileName>%(Filename).h</HeaderFileName>
+      <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
+      <InterfaceIdentifierFileName>%(Filename)_i.c</InterfaceIdentifierFileName>
+      <ProxyFileName>%(Filename)_p.c</ProxyFileName>
+    </Midl>
+    <Link>
+      <AdditionalDependencies>tsduck.lib;lib\MinSizeRel\libvatek_core_static.lib;libusb-1.0.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;comdlg32.lib;advapi32.lib</AdditionalDependencies>
+      <AdditionalLibraryDirectories>D:/desktop/SDK/master_220107/master/vatek_sdk_2/extend/tsduck-vatek/TSDuck/lib/Debug-Win64;D:/desktop/SDK/master_220107/master/vatek_sdk_2/extend/tsduck-vatek/TSDuck/lib/Debug-Win64/$(Configuration);D:/desktop/SDK/master_220107/master/vatek_sdk_2/extend/tsduck-vatek/../../build/deps/win/libusb/1.0.24/VS2019/MS64/static;D:/desktop/SDK/master_220107/master/vatek_sdk_2/extend/tsduck-vatek/../../build/deps/win/libusb/1.0.24/VS2019/MS64/static/$(Configuration);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalOptions>%(AdditionalOptions) /machine:x64</AdditionalOptions>
+      <GenerateDebugInformation>false</GenerateDebugInformation>
+      <IgnoreSpecificDefaultLibraries>%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
+      <ImportLibrary>D:/desktop/SDK/master_220107/master/vatek_sdk_2/extend/tsduck-vatek/bin/MinSizeRel/tsplugin_vatek.lib</ImportLibrary>
+      <ProgramDataBaseFile>D:/desktop/SDK/master_220107/master/vatek_sdk_2/extend/tsduck-vatek/bin/MinSizeRel/tsplugin_vatek.pdb</ProgramDataBaseFile>
+      <SubSystem>Windows</SubSystem>
+    </Link>
+    <ProjectReference>
+      <LinkLibraryDependencies>false</LinkLibraryDependencies>
+    </ProjectReference>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">
+    <ClCompile>
+      <AdditionalIncludeDirectories>D:\desktop\SDK\master_220107\master\vatek_sdk_2\extend\tsduck-vatek\..\..\api\core\inc;D:\desktop\SDK\master_220107\master\vatek_sdk_2\extend\tsduck-vatek\TSDuck\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AssemblerListingLocation>$(IntDir)</AssemblerListingLocation>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <DisableSpecificWarnings>26495;26812;26498</DisableSpecificWarnings>
+      <ExceptionHandling>Sync</ExceptionHandling>
+      <InlineFunctionExpansion>OnlyExplicitInline</InlineFunctionExpansion>
+      <LanguageStandard>stdcpp14</LanguageStandard>
+      <Optimization>MaxSpeed</Optimization>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+      <RuntimeTypeInfo>true</RuntimeTypeInfo>
+      <UseFullPaths>false</UseFullPaths>
+      <PreprocessorDefinitions>WIN32;_WINDOWS;NDEBUG;_TSDUCKDLL_USE;_VA2_STATIC_;CMAKE_INTDIR="RelWithDebInfo";tsplugin_vatek_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ObjectFileName>$(IntDir)</ObjectFileName>
+    </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>WIN32;_WINDOWS;NDEBUG;_TSDUCKDLL_USE;_VA2_STATIC_;CMAKE_INTDIR=\"RelWithDebInfo\";tsplugin_vatek_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>D:\desktop\SDK\master_220107\master\vatek_sdk_2\extend\tsduck-vatek\..\..\api\core\inc;D:\desktop\SDK\master_220107\master\vatek_sdk_2\extend\tsduck-vatek\TSDuck\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ResourceCompile>
+    <Midl>
+      <AdditionalIncludeDirectories>D:\desktop\SDK\master_220107\master\vatek_sdk_2\extend\tsduck-vatek\..\..\api\core\inc;D:\desktop\SDK\master_220107\master\vatek_sdk_2\extend\tsduck-vatek\TSDuck\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
+      <HeaderFileName>%(Filename).h</HeaderFileName>
+      <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
+      <InterfaceIdentifierFileName>%(Filename)_i.c</InterfaceIdentifierFileName>
+      <ProxyFileName>%(Filename)_p.c</ProxyFileName>
+    </Midl>
+    <Link>
+      <AdditionalDependencies>tsduck.lib;lib\RelWithDebInfo\libvatek_core_static.lib;libusb-1.0.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;comdlg32.lib;advapi32.lib</AdditionalDependencies>
+      <AdditionalLibraryDirectories>D:/desktop/SDK/master_220107/master/vatek_sdk_2/extend/tsduck-vatek/TSDuck/lib/Debug-Win64;D:/desktop/SDK/master_220107/master/vatek_sdk_2/extend/tsduck-vatek/TSDuck/lib/Debug-Win64/$(Configuration);D:/desktop/SDK/master_220107/master/vatek_sdk_2/extend/tsduck-vatek/../../build/deps/win/libusb/1.0.24/VS2019/MS64/static;D:/desktop/SDK/master_220107/master/vatek_sdk_2/extend/tsduck-vatek/../../build/deps/win/libusb/1.0.24/VS2019/MS64/static/$(Configuration);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalOptions>%(AdditionalOptions) /machine:x64</AdditionalOptions>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <IgnoreSpecificDefaultLibraries>%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
+      <ImportLibrary>D:/desktop/SDK/master_220107/master/vatek_sdk_2/extend/tsduck-vatek/bin/RelWithDebInfo/tsplugin_vatek.lib</ImportLibrary>
+      <ProgramDataBaseFile>D:/desktop/SDK/master_220107/master/vatek_sdk_2/extend/tsduck-vatek/bin/RelWithDebInfo/tsplugin_vatek.pdb</ProgramDataBaseFile>
+      <SubSystem>Windows</SubSystem>
+    </Link>
+    <ProjectReference>
+      <LinkLibraryDependencies>false</LinkLibraryDependencies>
+    </ProjectReference>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <CustomBuild Include="D:\desktop\SDK\master_220107\master\vatek_sdk_2\extend\tsduck-vatek\CMakeLists.txt">
+      <StdOutEncoding>UTF-8</StdOutEncoding>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Building Custom Rule D:/desktop/SDK/master_220107/master/vatek_sdk_2/extend/tsduck-vatek/CMakeLists.txt</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">setlocal
+D:\desktop\cmake-3.20.1-windows-x86_64\bin\cmake.exe -SD:/desktop/SDK/master_220107/master/vatek_sdk_2/extend/tsduck-vatek -BD:/desktop/SDK/master_220107/master/vatek_sdk_2/extend/tsduck-vatek/bin --check-stamp-file D:/desktop/SDK/master_220107/master/vatek_sdk_2/extend/tsduck-vatek/bin/CMakeFiles/generate.stamp
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">D:\desktop\SDK\master_220107\master\vatek_sdk_2\extend\tsduck-vatek\bin\CMakeFiles\3.20.1\CMakeCCompiler.cmake;D:\desktop\SDK\master_220107\master\vatek_sdk_2\extend\tsduck-vatek\bin\CMakeFiles\3.20.1\CMakeCXXCompiler.cmake;D:\desktop\SDK\master_220107\master\vatek_sdk_2\extend\tsduck-vatek\bin\CMakeFiles\3.20.1\CMakeRCCompiler.cmake;D:\desktop\SDK\master_220107\master\vatek_sdk_2\extend\tsduck-vatek\bin\CMakeFiles\3.20.1\CMakeSystem.cmake;D:\desktop\cmake-3.20.1-windows-x86_64\share\cmake-3.20\Modules\CMakeCInformation.cmake;D:\desktop\cmake-3.20.1-windows-x86_64\share\cmake-3.20\Modules\CMakeCXXInformation.cmake;D:\desktop\cmake-3.20.1-windows-x86_64\share\cmake-3.20\Modules\CMakeCommonLanguageInclude.cmake;D:\desktop\cmake-3.20.1-windows-x86_64\share\cmake-3.20\Modules\CMakeGenericSystem.cmake;D:\desktop\cmake-3.20.1-windows-x86_64\share\cmake-3.20\Modules\CMakeInitializeConfigs.cmake;D:\desktop\cmake-3.20.1-windows-x86_64\share\cmake-3.20\Modules\CMakeLanguageInformation.cmake;D:\desktop\cmake-3.20.1-windows-x86_64\share\cmake-3.20\Modules\CMakeRCInformation.cmake;D:\desktop\cmake-3.20.1-windows-x86_64\share\cmake-3.20\Modules\CMakeSystemSpecificInformation.cmake;D:\desktop\cmake-3.20.1-windows-x86_64\share\cmake-3.20\Modules\CMakeSystemSpecificInitialize.cmake;D:\desktop\cmake-3.20.1-windows-x86_64\share\cmake-3.20\Modules\Compiler\CMakeCommonCompilerMacros.cmake;D:\desktop\cmake-3.20.1-windows-x86_64\share\cmake-3.20\Modules\Compiler\MSVC-C.cmake;D:\desktop\cmake-3.20.1-windows-x86_64\share\cmake-3.20\Modules\Compiler\MSVC-CXX.cmake;D:\desktop\cmake-3.20.1-windows-x86_64\share\cmake-3.20\Modules\Platform\Windows-MSVC-C.cmake;D:\desktop\cmake-3.20.1-windows-x86_64\share\cmake-3.20\Modules\Platform\Windows-MSVC-CXX.cmake;D:\desktop\cmake-3.20.1-windows-x86_64\share\cmake-3.20\Modules\Platform\Windows-MSVC.cmake;D:\desktop\cmake-3.20.1-windows-x86_64\share\cmake-3.20\Modules\Platform\Windows.cmake;D:\desktop\cmake-3.20.1-windows-x86_64\share\cmake-3.20\Modules\Platform\WindowsPaths.cmake;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">D:\desktop\SDK\master_220107\master\vatek_sdk_2\extend\tsduck-vatek\bin\CMakeFiles\generate.stamp</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</LinkObjects>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Building Custom Rule D:/desktop/SDK/master_220107/master/vatek_sdk_2/extend/tsduck-vatek/CMakeLists.txt</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">setlocal
+D:\desktop\cmake-3.20.1-windows-x86_64\bin\cmake.exe -SD:/desktop/SDK/master_220107/master/vatek_sdk_2/extend/tsduck-vatek -BD:/desktop/SDK/master_220107/master/vatek_sdk_2/extend/tsduck-vatek/bin --check-stamp-file D:/desktop/SDK/master_220107/master/vatek_sdk_2/extend/tsduck-vatek/bin/CMakeFiles/generate.stamp
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">D:\desktop\SDK\master_220107\master\vatek_sdk_2\extend\tsduck-vatek\bin\CMakeFiles\3.20.1\CMakeCCompiler.cmake;D:\desktop\SDK\master_220107\master\vatek_sdk_2\extend\tsduck-vatek\bin\CMakeFiles\3.20.1\CMakeCXXCompiler.cmake;D:\desktop\SDK\master_220107\master\vatek_sdk_2\extend\tsduck-vatek\bin\CMakeFiles\3.20.1\CMakeRCCompiler.cmake;D:\desktop\SDK\master_220107\master\vatek_sdk_2\extend\tsduck-vatek\bin\CMakeFiles\3.20.1\CMakeSystem.cmake;D:\desktop\cmake-3.20.1-windows-x86_64\share\cmake-3.20\Modules\CMakeCInformation.cmake;D:\desktop\cmake-3.20.1-windows-x86_64\share\cmake-3.20\Modules\CMakeCXXInformation.cmake;D:\desktop\cmake-3.20.1-windows-x86_64\share\cmake-3.20\Modules\CMakeCommonLanguageInclude.cmake;D:\desktop\cmake-3.20.1-windows-x86_64\share\cmake-3.20\Modules\CMakeGenericSystem.cmake;D:\desktop\cmake-3.20.1-windows-x86_64\share\cmake-3.20\Modules\CMakeInitializeConfigs.cmake;D:\desktop\cmake-3.20.1-windows-x86_64\share\cmake-3.20\Modules\CMakeLanguageInformation.cmake;D:\desktop\cmake-3.20.1-windows-x86_64\share\cmake-3.20\Modules\CMakeRCInformation.cmake;D:\desktop\cmake-3.20.1-windows-x86_64\share\cmake-3.20\Modules\CMakeSystemSpecificInformation.cmake;D:\desktop\cmake-3.20.1-windows-x86_64\share\cmake-3.20\Modules\CMakeSystemSpecificInitialize.cmake;D:\desktop\cmake-3.20.1-windows-x86_64\share\cmake-3.20\Modules\Compiler\CMakeCommonCompilerMacros.cmake;D:\desktop\cmake-3.20.1-windows-x86_64\share\cmake-3.20\Modules\Compiler\MSVC-C.cmake;D:\desktop\cmake-3.20.1-windows-x86_64\share\cmake-3.20\Modules\Compiler\MSVC-CXX.cmake;D:\desktop\cmake-3.20.1-windows-x86_64\share\cmake-3.20\Modules\Platform\Windows-MSVC-C.cmake;D:\desktop\cmake-3.20.1-windows-x86_64\share\cmake-3.20\Modules\Platform\Windows-MSVC-CXX.cmake;D:\desktop\cmake-3.20.1-windows-x86_64\share\cmake-3.20\Modules\Platform\Windows-MSVC.cmake;D:\desktop\cmake-3.20.1-windows-x86_64\share\cmake-3.20\Modules\Platform\Windows.cmake;D:\desktop\cmake-3.20.1-windows-x86_64\share\cmake-3.20\Modules\Platform\WindowsPaths.cmake;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">D:\desktop\SDK\master_220107\master\vatek_sdk_2\extend\tsduck-vatek\bin\CMakeFiles\generate.stamp</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</LinkObjects>
+      <Message Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">Building Custom Rule D:/desktop/SDK/master_220107/master/vatek_sdk_2/extend/tsduck-vatek/CMakeLists.txt</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">setlocal
+D:\desktop\cmake-3.20.1-windows-x86_64\bin\cmake.exe -SD:/desktop/SDK/master_220107/master/vatek_sdk_2/extend/tsduck-vatek -BD:/desktop/SDK/master_220107/master/vatek_sdk_2/extend/tsduck-vatek/bin --check-stamp-file D:/desktop/SDK/master_220107/master/vatek_sdk_2/extend/tsduck-vatek/bin/CMakeFiles/generate.stamp
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">D:\desktop\SDK\master_220107\master\vatek_sdk_2\extend\tsduck-vatek\bin\CMakeFiles\3.20.1\CMakeCCompiler.cmake;D:\desktop\SDK\master_220107\master\vatek_sdk_2\extend\tsduck-vatek\bin\CMakeFiles\3.20.1\CMakeCXXCompiler.cmake;D:\desktop\SDK\master_220107\master\vatek_sdk_2\extend\tsduck-vatek\bin\CMakeFiles\3.20.1\CMakeRCCompiler.cmake;D:\desktop\SDK\master_220107\master\vatek_sdk_2\extend\tsduck-vatek\bin\CMakeFiles\3.20.1\CMakeSystem.cmake;D:\desktop\cmake-3.20.1-windows-x86_64\share\cmake-3.20\Modules\CMakeCInformation.cmake;D:\desktop\cmake-3.20.1-windows-x86_64\share\cmake-3.20\Modules\CMakeCXXInformation.cmake;D:\desktop\cmake-3.20.1-windows-x86_64\share\cmake-3.20\Modules\CMakeCommonLanguageInclude.cmake;D:\desktop\cmake-3.20.1-windows-x86_64\share\cmake-3.20\Modules\CMakeGenericSystem.cmake;D:\desktop\cmake-3.20.1-windows-x86_64\share\cmake-3.20\Modules\CMakeInitializeConfigs.cmake;D:\desktop\cmake-3.20.1-windows-x86_64\share\cmake-3.20\Modules\CMakeLanguageInformation.cmake;D:\desktop\cmake-3.20.1-windows-x86_64\share\cmake-3.20\Modules\CMakeRCInformation.cmake;D:\desktop\cmake-3.20.1-windows-x86_64\share\cmake-3.20\Modules\CMakeSystemSpecificInformation.cmake;D:\desktop\cmake-3.20.1-windows-x86_64\share\cmake-3.20\Modules\CMakeSystemSpecificInitialize.cmake;D:\desktop\cmake-3.20.1-windows-x86_64\share\cmake-3.20\Modules\Compiler\CMakeCommonCompilerMacros.cmake;D:\desktop\cmake-3.20.1-windows-x86_64\share\cmake-3.20\Modules\Compiler\MSVC-C.cmake;D:\desktop\cmake-3.20.1-windows-x86_64\share\cmake-3.20\Modules\Compiler\MSVC-CXX.cmake;D:\desktop\cmake-3.20.1-windows-x86_64\share\cmake-3.20\Modules\Platform\Windows-MSVC-C.cmake;D:\desktop\cmake-3.20.1-windows-x86_64\share\cmake-3.20\Modules\Platform\Windows-MSVC-CXX.cmake;D:\desktop\cmake-3.20.1-windows-x86_64\share\cmake-3.20\Modules\Platform\Windows-MSVC.cmake;D:\desktop\cmake-3.20.1-windows-x86_64\share\cmake-3.20\Modules\Platform\Windows.cmake;D:\desktop\cmake-3.20.1-windows-x86_64\share\cmake-3.20\Modules\Platform\WindowsPaths.cmake;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">D:\desktop\SDK\master_220107\master\vatek_sdk_2\extend\tsduck-vatek\bin\CMakeFiles\generate.stamp</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">false</LinkObjects>
+      <Message Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">Building Custom Rule D:/desktop/SDK/master_220107/master/vatek_sdk_2/extend/tsduck-vatek/CMakeLists.txt</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">setlocal
+D:\desktop\cmake-3.20.1-windows-x86_64\bin\cmake.exe -SD:/desktop/SDK/master_220107/master/vatek_sdk_2/extend/tsduck-vatek -BD:/desktop/SDK/master_220107/master/vatek_sdk_2/extend/tsduck-vatek/bin --check-stamp-file D:/desktop/SDK/master_220107/master/vatek_sdk_2/extend/tsduck-vatek/bin/CMakeFiles/generate.stamp
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">D:\desktop\SDK\master_220107\master\vatek_sdk_2\extend\tsduck-vatek\bin\CMakeFiles\3.20.1\CMakeCCompiler.cmake;D:\desktop\SDK\master_220107\master\vatek_sdk_2\extend\tsduck-vatek\bin\CMakeFiles\3.20.1\CMakeCXXCompiler.cmake;D:\desktop\SDK\master_220107\master\vatek_sdk_2\extend\tsduck-vatek\bin\CMakeFiles\3.20.1\CMakeRCCompiler.cmake;D:\desktop\SDK\master_220107\master\vatek_sdk_2\extend\tsduck-vatek\bin\CMakeFiles\3.20.1\CMakeSystem.cmake;D:\desktop\cmake-3.20.1-windows-x86_64\share\cmake-3.20\Modules\CMakeCInformation.cmake;D:\desktop\cmake-3.20.1-windows-x86_64\share\cmake-3.20\Modules\CMakeCXXInformation.cmake;D:\desktop\cmake-3.20.1-windows-x86_64\share\cmake-3.20\Modules\CMakeCommonLanguageInclude.cmake;D:\desktop\cmake-3.20.1-windows-x86_64\share\cmake-3.20\Modules\CMakeGenericSystem.cmake;D:\desktop\cmake-3.20.1-windows-x86_64\share\cmake-3.20\Modules\CMakeInitializeConfigs.cmake;D:\desktop\cmake-3.20.1-windows-x86_64\share\cmake-3.20\Modules\CMakeLanguageInformation.cmake;D:\desktop\cmake-3.20.1-windows-x86_64\share\cmake-3.20\Modules\CMakeRCInformation.cmake;D:\desktop\cmake-3.20.1-windows-x86_64\share\cmake-3.20\Modules\CMakeSystemSpecificInformation.cmake;D:\desktop\cmake-3.20.1-windows-x86_64\share\cmake-3.20\Modules\CMakeSystemSpecificInitialize.cmake;D:\desktop\cmake-3.20.1-windows-x86_64\share\cmake-3.20\Modules\Compiler\CMakeCommonCompilerMacros.cmake;D:\desktop\cmake-3.20.1-windows-x86_64\share\cmake-3.20\Modules\Compiler\MSVC-C.cmake;D:\desktop\cmake-3.20.1-windows-x86_64\share\cmake-3.20\Modules\Compiler\MSVC-CXX.cmake;D:\desktop\cmake-3.20.1-windows-x86_64\share\cmake-3.20\Modules\Platform\Windows-MSVC-C.cmake;D:\desktop\cmake-3.20.1-windows-x86_64\share\cmake-3.20\Modules\Platform\Windows-MSVC-CXX.cmake;D:\desktop\cmake-3.20.1-windows-x86_64\share\cmake-3.20\Modules\Platform\Windows-MSVC.cmake;D:\desktop\cmake-3.20.1-windows-x86_64\share\cmake-3.20\Modules\Platform\Windows.cmake;D:\desktop\cmake-3.20.1-windows-x86_64\share\cmake-3.20\Modules\Platform\WindowsPaths.cmake;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">D:\desktop\SDK\master_220107\master\vatek_sdk_2\extend\tsduck-vatek\bin\CMakeFiles\generate.stamp</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">false</LinkObjects>
+    </CustomBuild>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="D:\desktop\SDK\master_220107\master\vatek_sdk_2\extend\tsduck-vatek\src\tsduck_vatek_output.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="D:\desktop\SDK\master_220107\master\vatek_sdk_2\extend\tsduck-vatek\bin\ZERO_CHECK.vcxproj">
+      <Project>{3E895EA6-B043-3A15-809F-D3E4B8C97864}</Project>
+      <Name>ZERO_CHECK</Name>
+      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </ProjectReference>
+    <ProjectReference Include="D:\desktop\SDK\master_220107\master\vatek_sdk_2\extend\tsduck-vatek\bin\vatek_sdk_2.out\api\core\libvatek_core_static.vcxproj">
+      <Project>{9D1874E0-BEF7-3DA0-A182-DFD105630652}</Project>
+      <Name>libvatek_core_static</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

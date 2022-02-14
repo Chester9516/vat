@@ -1,0 +1,7 @@
+D:/desktop/SDK/master_220107/master/vatek_sdk_2/extend/tsduck-vatek/bin/CMakeFiles/tsvatek.dir
+D:/desktop/SDK/master_220107/master/vatek_sdk_2/extend/tsduck-vatek/bin/CMakeFiles/tsplugin_vatek.dir
+D:/desktop/SDK/master_220107/master/vatek_sdk_2/extend/tsduck-vatek/bin/CMakeFiles/ALL_BUILD.dir
+D:/desktop/SDK/master_220107/master/vatek_sdk_2/extend/tsduck-vatek/bin/CMakeFiles/ZERO_CHECK.dir
+D:/desktop/SDK/master_220107/master/vatek_sdk_2/extend/tsduck-vatek/bin/vatek_sdk_2.out/CMakeFiles/ALL_BUILD.dir
+D:/desktop/SDK/master_220107/master/vatek_sdk_2/extend/tsduck-vatek/bin/vatek_sdk_2.out/api/core/CMakeFiles/libvatek_core_static.dir
+D:/desktop/SDK/master_220107/master/vatek_sdk_2/extend/tsduck-vatek/bin/vatek_sdk_2.out/api/core/CMakeFiles/ALL_BUILD.dir
