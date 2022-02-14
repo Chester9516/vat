@@ -1,4 +1,6 @@
 # VATEK source code
+VATEK provide several source code, like SDK and MDK, they use on diffrient environment.
+
 # GITHUB User Guide
 Description of Source code
 # VAT SDK
