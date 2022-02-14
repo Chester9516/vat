@@ -1,0 +1,187 @@
+
+#ifndef _HALREG_IP_BASE_
+#define _HALREG_IP_BASE_
+
+/* base register command	*/
+
+#define BASE_CMD_REBOOT					0x00000100
+#define BASE_CMD_REBOOT_RESCURE			0x00000200
+
+#define BASE_CMD_CALIBRATION_APPLY		0x10000000
+#define BASE_CMD_CALIBRATION_SAVE		0x20000000
+#define BASE_CMD_CALIBRATION_LOAD		0x40000000
+
+/* base register define		*/
+
+#define HALREG_ERR_SUCCESS              0x00000000
+#define HALREG_ERR_TAG                  0x80000000
+
+#define IS_HALREG_ERR(res)              ((res & HALREG_ERR_TAG) != 0)
+#define HALREG_EMPTY_HAL				0x00
+
+/* base register */
+
+#define HALREG_SYS_STATUS_0             0x20
+    #define SYS_STATUS_TAG              0xFF000000
+    #define SYS_STATUS_IDLE             0xFF000001
+    #define SYS_STATUS_RUN              0xFF000002
+
+	#define SYS_STATUS_ERRTAG			0xFF000080
+	#define SYS_STATUS_LOADER_FAIL		0xFF000085
+	#define SYS_STATUS_SERVICE_FAIL		0xFF000086
+	#define SYS_STATUS_EXCEPTION_FAIL	0xFF000088
+	#define SYS_STATUS_BADSTATUS		0xFF00008E
+	#define SYS_STATUS_UNKNOWN_FAIL		0xFF00008F
+
+
+#define HALREG_SYS_STATUS_1             0x21
+#define HALREG_SYS_STATUS_2             0x22
+
+#define HALREG_SYS_ERRCODE              0x23
+    #define SYS_ERRCODE_INIT            0x80000001
+
+    #define LOADER_ERRCODE_NOAPP        0x80010001
+    #define LOADER_ERRCODE_CRC32        0x80010002
+    #define LOADER_ERRCODE_HW           0x80010003
+    
+    #define SERVICE_INIT_FAIL           0x80020001
+
+#define HALREG_CHIP_ID                  0x24
+    #define HAL_CHIPID_A1               0x00010100
+	#define HAL_CHIPID_A3               0x00010300
+    #define HAL_CHIPID_B1               0x00020100
+    #define HAL_CHIPID_B2               0x00020200
+	#define HAL_CHIPID_B2_PLUS			0x00020201
+    #define HAL_CHIPID_B3               0x00020300
+	#define HAL_CHIPID_B3_PLUS			0x00020301
+	#define HAL_CHIPID_E1				0x00040300
+
+	#define CHIPID_MAIN_MASK			0x000FFF00
+	#define CHIPID_VER_MASK				0x000000FF
+	#define CHIPID_AX_BASE				0x00010000
+	#define CHIPID_BX_BASE				0x00020000
+
+#define HALREG_FW_VER                   0x25
+#define HALREG_SERVICE_MODE             0x26
+    #define SERVICE_TAG_RESCUE          0xFF000001
+    #define SERVICE_TAG_BROADCAST       0xF8000001
+	#define SERVICE_TAG_TRANSFORM		0xF8000002
+
+#define HALREG_PERIPHERAL_EN            0x27
+    #define PERIPHERAL_RF_MASK          0x0000FFFF
+    #define PERIPHERAL_FINTEKR2         0x00000002
+    #define PERIPHERAL_VIDEO_MASK       0x7FFF0000
+    #define PERIPHERAL_EP9555E          0x00010000 
+
+	#define PERIPHERAL_LICENSED			0x80000000  
+
+#define HALREG_INPUT_SUPPORT            0x28
+
+	#define INPUT_EN_TEST				0x00000001
+	#define INPUT_EN_USB                0x00000002
+    #define INPUT_EN_TS                 0x00000004    
+	#define INPUT_EN_ENC				0x00000008
+
+    #define VENC_EN_MPEG2				0x00000010
+    #define VENC_EN_H264				0x00000020
+	#define VENC_EN_HEVC				0x00000040
+	#define VENC_EN_FULLHD				0x00000100
+
+	#define AENC_EN_MP1_L2				0x00001000
+	#define AENC_EN_AAC_LC_ADTS			0x00002000
+	#define AENC_EN_AC_3				0x00004000
+	#define AENC_EN_AAC_LC_LATM			0x00008000
+	
+	#define TSIN_EN_BYPASS				0x00010000
+	#define TSIN_EN_TSSMOOTH			0x00020000
+    #define TSIN_EN_TSREMUX				0x00040000
+	#define TSIN_EN_ALL					0x00070000
+
+	#define TEST_EN_HW					0x00100000
+	#define TEST_EN_REMUX				0x00200000
+
+	#define TEST_EN_ALL					0x00300000
+
+	#define ABASE_EN_IN					(INPUT_EN_TEST | INPUT_EN_USB | INPUT_EN_TS | TSIN_EN_BYPASS | TEST_EN_HW)
+	#define BBASE_EN_IN					(INPUT_EN_TEST | INPUT_EN_ENC | AENC_EN_MP1_L2 | TEST_EN_ALL)
+
+	#define A1_EN_IN					ABASE_EN_IN
+	#define A3_EN_IN					(A1_EN_IN | TSIN_EN_ALL | TEST_EN_ALL)
+
+	#define BX_EN_AUDIO_ALL				(AENC_EN_AAC_LC_ADTS | AENC_EN_AAC_LC_LATM | AENC_EN_AC_3)
+
+	#define B1_EN_IN					(BBASE_EN_IN | VENC_EN_MPEG2)
+	#define B2_EN_IN					(B1_EN_IN | VENC_EN_FULLHD | BX_EN_AUDIO_ALL)
+	#define B3_EN_IN					(BBASE_EN_IN | VENC_EN_H264 | VENC_EN_FULLHD | BX_EN_AUDIO_ALL)
+	#define B3PLUS_EN_IN				(B3_EN_IN | VENC_EN_MPEG2)
+
+#define HALREG_OUTPUT_SUPPORT           0x29
+	#define OUTPUT_EN_MOD				0x00000001
+	#define OUTPUT_EN_SINEWAVE			0x00000002
+	#define OUTPUT_EN_TS				0x00000004
+	#define OUTPUT_EN_USB				0x00000008
+	#define OUTPUT_EN_PCIE				0x00000010
+	#define OUTPUT_EN_BASE				0x00000003
+	
+
+    #define MOD_EN_DVB_T				0x00000100
+    #define MOD_EN_J83_A				0x00000200
+    #define MOD_EN_ATSC					0x00000400
+    #define MOD_EN_J83_B				0x00000800
+    #define MOD_EN_DTMB					0x00001000
+    #define MOD_EN_ISDB_T				0x00002000
+	#define MOD_EN_J83_C				0x00004000
+    #define MOD_EN_DVB_T2				0x00008000
+	#define MOD_EN_BASE					0x00005F00
+
+	#define DVB_T2_EN_FFT32K			0x01000000
+
+	#define A1_EN_OUT					(OUTPUT_EN_BASE | MOD_EN_BASE)
+	#define A3_EN_OUT					(A1_EN_OUT | MOD_EN_ISDB_T | MOD_EN_DVB_T2)
+
+	#define B1_EN_OUT					(OUTPUT_EN_BASE | MOD_EN_BASE)
+	#define B2_EN_OUT					(B1_EN_OUT | MOD_EN_ISDB_T)
+	#define B3_EN_OUT					(B2_EN_OUT)
+	#define B3PLUS_EN_OUT				(B2_EN_OUT | MOD_EN_DVB_T2)
+
+	#define E1_EN_OUT					(OUTPUT_EN_USB | OUTPUT_EN_TS | OUTPUT_EN_PCIE)
+
+
+#define HALREG_RESCUE_CNTL				0x31
+	#define RESCUE_CNTL_TAG				0xFA000000
+	#define RESCUE_CNTL_WRITE			0xFA010000
+	#define RESCUE_CNTL_READ			0xFA020000
+	#define RESCUE_CNTL_REBOOT			0xFA0300FB
+	#define RESCUE_SECTION_MASK			0x0000FFFF
+
+#define HALREG_RESCUE_CRC32				0x32
+#define HALREG_RESCUE_RESULT            0x33
+	#define RESCUE_ERR_SUCCESS          0x00000000
+	#define RESCUE_ERR_CRC              0x80000001
+	#define RESCUE_ERR_SPIFLASH         0x80000002
+	#define RESCUE_ERR_BADCNTL			0x80000003
+	#define RESCUE_ERR_BADSTATUS		0x80000004
+
+#define HALREG_APP_DEBUG                0x3E
+#define HALREG_SYS_DEBUG                0x3F
+
+#define HALREG_RESCUE_DATA				0x3C00
+
+#define HALREG_RESCUE_EN				0x4000
+	#define RESCUE_EN_TAG				0xFF1229FF  /* next reboot enter rescue mode */
+
+/* register address range*/
+
+#define HALREG_RANGE_BASE_START			0x0000
+#define HALREG_RANGE_BASE_END			0x0100
+
+#define HALREG_RANGE_DATA_START			0x3C00
+#define HALREG_RANGE_DATA_END			0x4000
+
+#define HALREG_RANGE_APP_0_START		0x600
+#define HALREG_RANGE_APP_0_END			0x800
+#define HALREG_RANGE_APP_1_START		0x800
+#define HALREG_RANGE_APP_1_END			0x4000
+
+#endif
+

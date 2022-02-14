@@ -1,0 +1,40 @@
+#ifndef _HALSERVICE_TRANSFORM_
+#define _HALSERVICE_TRANSFORM_
+
+#include <hal/halservice_rescure.h>
+
+#define HALREG_TRANSFORM_CNTL				HALREG_SERVICE_BASE_CNTL				/* inheritance HALREG_BROADCAST_CNTL 						*/
+    #define TR_START                    	BASE_CMD_START
+    #define TR_STOP                     	BASE_CMD_STOP
+	#define TR_START_SINE					BASE_CMD_TEST_START_SINE
+	#define TR_START_TEST					BASE_CMD_TEST_START
+
+    #define TR_REBOOT                   	BASE_CMD_REBOOT
+    #define TR_REBOOT_RESCURE           	BASE_CMD_REBOOT_RESCURE
+
+    #define TR_RFMIXER_START            	RFMIXER_CMD_START
+    #define TR_RFMIXER_STOP             	RFMIXER_CMD_STOP
+
+	#define TR_CALIBRATION_SAVE				BASE_CMD_CALIBRATION_SAVE
+
+#define HALREG_TRANSFORM_MODE				0x601
+	#define TRANSFORM_ENUM					0x00000003
+	#define TRANSFORM_CAPTURE				0x00000004
+	#define TRANSFORM_BROADCAST				0x00000005
+
+#define HALREG_TRANSFORM_INPUT				HALREG_SERVICE_INPUT
+
+#define HALREG_TRCAPTURE_PID				0x608				/* capture packet put start at HALRANGE_PLAYLOAD_START		*/
+#define HALREG_TRCAPTURE_TIMEOUT			0x609
+#define HALREG_TRCAPTURE_SECTION_NUM		0x60A
+#define HALREG_TRCAPTURE_PACKET_NUMS		0x60B
+
+#define HALREG_TRENUM_TIMEOUT				0x608
+
+
+/* extended information	*/
+
+#define HALREG_TRINFO_MODE					0x628
+#define HALREG_TRINFO_PACKETNUMS			0x629
+
+#endif
