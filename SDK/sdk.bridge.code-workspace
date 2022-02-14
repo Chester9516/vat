@@ -1,0 +1,65 @@
+{
+	"folders": [
+		{
+			"path": "."
+		}
+	],
+	"settings": {
+		"files.exclude": {
+			"**/.git": true,
+			"**/.svn": true,
+			"**/.hg": true,
+			"**/CVS": true,
+			"**/.DS_Store": true,
+			"**/.vs": true,
+			"**/.vscode" : true,
+			"**/*.code-workspace" : true,
+			"**/os/linux/**" : true,
+			"**/os/android/**" : true,
+			"api/inc/vatek_sdk_*.h" : true,
+			"api/inc/mux/**" : true,
+			"api/inc/service/**" : true,
+			"api/inc/cross/**" : true,
+			"api/src/cross/**" : true,
+			"api/src/vatek_sdk_*.c" : true,
+			"api/src/mux/**" : true,
+			"api/src/service/**" : true,
+			"api/src/internal/**" : true,
+			"app/**" : true,
+			"build/msvc/**" : true,
+			"output/**" : true
+		},
+		"files.associations": {
+			"cmath": "c",
+			"cstdarg": "c",
+			"cstdio": "c",
+			"cstdlib": "c",
+			"type_traits": "c",
+			"limits": "c",
+			"*.tcc": "c",
+			"cinttypes": "c",
+			"cstdint": "c",
+			"typeinfo": "c"
+		},
+		"C_Cpp.default.browse.databaseFilename": "${workspaceFolder}/../../output/.vscode/browse.bridge.f401.vc.db",
+		"C_Cpp.default.includePath": 
+		[
+			"${workspaceFolder}/api/inc",
+			"${workspaceFolder}/bridge/api/inc",
+			"${workspaceFolder}/bridge/boards/stm32/f401/Drivers/CMSIS/Include",
+			"${workspaceFolder}/bridge/boards/stm32/f401/Drivers/CMSIS/Device/ST/STM32F4xx/Include",
+			"${workspaceFolder}/bridge/boards/stm32/f401/Drivers/STM32F4xx_HAL_Driver/Inc",
+			"${workspaceFolder}/bridge/boards/stm32/f401/Middlewares/ST/STM32_USB_Device_Library/Class/CustomHID/Inc",
+			"${workspaceFolder}/bridge/boards/stm32/f401/Middlewares/ST/STM32_USB_Device_Library/Core/Inc",
+			"${workspaceFolder}/bridge/boards/stm32/f401/USB_DEVICE/App",
+			"${workspaceFolder}/bridge/boards/stm32/f401/USB_DEVICE/Target",
+			"${workspaceFolder}/bridge/boards/stm32/f401/Core/Inc",
+			"${workspaceFolder}/bridge/boards/stm32/core/inc"
+		],
+		"C_Cpp.default.defines": 
+		[
+			"STM32F401xC"
+		],
+		"C_Cpp.default.intelliSenseMode": "gcc-arm",
+	}
+}

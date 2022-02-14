@@ -1,0 +1,42 @@
+{
+	"folders": [
+		{
+			"path": "."
+		}
+	],
+	"settings": {
+		"files.exclude": {
+			"**/.git": true,
+			"**/.svn": true,
+			"**/.hg": true,
+			"**/CVS": true,
+			"**/.DS_Store": true,
+			"**/.vs": true,
+			"**/.vscode" : true,
+			"**/*.code-workspace" : true,
+			"**/os/linux/**" : true,
+			"**/os/android/**" : true,
+			"bridge/**" : true,
+			"output/**" : true
+		},
+		"files.associations": {
+			"tool_printf.h": "c",
+			"tool_tspacket.h": "c",
+			"tool_stream.h": "c",
+			"cross_os_api.h": "c",
+			"tool_binary_crc.h": "c",
+			"vatek_sdk_storage.h": "c"
+		},
+		"C_Cpp.default.browse.databaseFilename": "${workspaceFolder}/../../output/.vscode/browse.win.vc.db",
+		"C_Cpp.default.includePath": 
+		[
+			"${workspaceFolder}/api/core/inc",
+			"${workspaceFolder}/api/qt/inc",
+			"${workspaceFolder}/bridge/api/inc",
+			"${workspaceFolder}/build/deps/win/libusb/1.0.22/include",
+			"${workspaceFolder}/build/deps/win/json-c/Win32/include",
+			"${workspaceFolder}/build/deps/win/libsdr/inc"
+		],
+		"C_Cpp.default.intelliSenseMode": "msvc-x64",
+	}
+}

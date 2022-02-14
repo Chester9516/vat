@@ -1,0 +1,47 @@
+{
+	"folders": [
+		{
+			"path": "."
+		}
+	],
+	"settings": {
+		"files.exclude": {
+			"**/.git": true,
+			"**/.svn": true,
+			"**/.hg": true,
+			"**/CVS": true,
+			"**/.DS_Store": true,
+			"**/.vs": true,
+			"**/.vscode" : true,
+			"**/*.code-workspace" : true,
+			"**/os/win/**" : true,
+			"**/os/android/**" : true,
+			"app/**" : true,
+			"api/qt/**" : true,
+			"api/calibration/**" : true,
+			"bridge/**" : true,
+			"output/**" : true
+		},
+		"files.associations": {
+			"tool_printf.h": "c",
+			"tool_tspacket.h": "c",
+			"tool_stream.h": "c",
+			"cross_os_api.h": "c",
+			"tool_binary_crc.h": "c",
+			"vatek_sdk_storage.h": "c",
+			"libusb_tools.h": "c"
+		},
+		"C_Cpp.default.browse.databaseFilename": "${workspaceFolder}/../../output/.vscode/browse.linux.vc.db",
+		"C_Cpp.default.includePath": 
+		[
+			"${workspaceFolder}/api/core/inc",
+			"${workspaceFolder}/api/qt/inc",
+			"${workspaceFolder}/bridge/api/inc",
+			"${workspaceFolder}/build/deps/win/libusb/1.0.22/include",
+			"${workspaceFolder}/build/deps/win/json-c/Win32/include",
+			"${workspaceFolder}/build/deps/win/libsdr/inc"
+		],
+		"C_Cpp.default.intelliSenseMode": "msvc-x64",
+		"cmake.buildDirectory": "${workspaceFolder}/output/build",
+	}
+}
