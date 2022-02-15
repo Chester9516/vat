@@ -1,2 +1,2 @@
-#VATek MDK 說明文件
+VATek MDK 說明文件
 
