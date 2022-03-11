@@ -1,7 +1,7 @@
 ## VATEK source code
 VATEK source code used to control VATEK chip, VATEK provide two type of source code, base on OS and Embeded system.
 
-### VATEK A series CHIP
+### VATEK CHIP
 VATEK provide two series chip, A series chip of modulation is for transforming, and B series chip of ENMODER (encoder & modulator) are for broadcasting, two series of chip are used to broadcast on DTV by output transport stream. All VATEK chip are controlled by writing and reading register. You can see more register detail in [RegisterMap_A](https://github.com/Chester9516/vat/blob/source-code/docs/220216_1_3_Asereis_Register%20Map.pdf) and [RegisterMap_B](https://github.com/Chester9516/vat/blob/source-code/docs/220216_1_3_Bseries_Register%20Map.pdf)
 
 ### VAT SDK
