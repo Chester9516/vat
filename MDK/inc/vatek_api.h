@@ -1001,9 +1001,6 @@
     vatek_result vatek_transform_psispec_default_start(void);
     /** @} */
 
-    
-
-
     /**
     * @brief API for chip system.
     * @defgroup chip
@@ -1127,6 +1124,7 @@
     * @{
     */
     vatek_result vatek_phy_enable(Phphy handle, uint8_t enable);
+		
     /** @} */
     
     /**
@@ -1253,11 +1251,12 @@
     * @{
     */
     vatek_result vatek_phy_setbaseclk(Phphy handle, phy_output_baseclock clk);
+		
+		vatek_result vatek_phy_get_h1_info(Phphy handle);
+		vatek_result vatek_phy_dump_h1(Phphy handle);
+		vatek_result vatek_phy_polling_check(Phphy handle);
     /** @} */
-    
-    vatek_result vatek_phy_write(Phphy handle, uint32_t addr, uint8_t val);
-    vatek_result vatek_phy_read(Phphy handle, uint32_t addr, uint8_t* val);
-    
+
     /* rfmixer */
     typedef void* Phrf;
     
@@ -1346,7 +1345,7 @@
     */
     vatek_result vatek_rf_getstatus(Phrf handle, rf_status *status);
     /** @} */
-#if 0    
+    
     /**
     * @brief calibrate parameter for back-end rf system.
     *
@@ -1357,12 +1356,33 @@
     *
     * @retval vatek_result_success 
     * @retval vatek_result_invalidparm
+    * @retval vatek_result_timeout
+    * @retval vatek_result_badstatus
+    * @retval vatek_result_unsupport
     * @retval vatek_result_i2cfail
     * @{
     */
     vatek_result vatek_rf_setcalibrate(Phrf handle, Prf_calibrate parm);
     /** @} */
-#endif    
+    
+    /**
+    * @brief save calibrate parameter for back-end rf system in chip.
+    *
+    * @ingroup  rfmixer
+    *
+    * @param[in]  handle    rf handler.
+    *
+    * @retval vatek_result_success 
+    * @retval vatek_result_invalidparm
+    * @retval vatek_result_timeout
+    * @retval vatek_result_badstatus
+    * @retval vatek_result_unsupport
+    * @retval vatek_result_i2cfail
+    * @{
+    */
+    vatek_result vatek_rf_savecalibrate(Phrf handle);
+	
+    /** @} */
 
     /* demod */
     typedef void* Phdemod;
@@ -1544,7 +1564,7 @@
     vatek_result vatek_tuner_getrfstrength(Phtuner handle, int32_t *power);
     /** @} */
     
-
+	vatek_result vatek_device_r2_apply(Phrf handle, int r2_power);
     
 #ifdef __cplusplus
     }

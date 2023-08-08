@@ -98,8 +98,8 @@
         uint32_t q_offset;
         uint32_t image_offset;
         uint32_t phase_offset;
-        uint32_t gpio;
-        uint32_t gain;
+//        uint32_t gpio;
+//        uint32_t gain;
     }r2_calibrate, *Pr2_calibrate;
 
 

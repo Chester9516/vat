@@ -104,14 +104,7 @@
         logo_type_max                  = logo_type_bootlogo,
     }logo_type;
 
-    /**
-    * @brief logo output index of logo type of logo mode.
-    */
-    typedef struct _logo_input_parm
-    {
-        logo_type type;      ///< see logo_type
-        uint32_t logoidx;    ///< logo index. logo images is stored in the flash.
-    }logo_input_parm, *Plogo_input_parm;
+    
     
     /**
     * @brief video input resolution.
@@ -190,6 +183,18 @@
         ai_samplerate_max              = ai_samplerate_32K,
     }audio_input_samplerate;
 
+		/**
+    * @brief logo output index of logo type of logo mode.
+    */
+    typedef struct _logo_input_parm
+    {
+        logo_type type;      ///< see logo_type
+        uint32_t logoidx;    ///< logo index. logo images is stored in the flash.
+				video_input_resolution resolution;
+				video_input_aspectrate aspectrate;
+				audio_input_samplerate samplerate;
+    }logo_input_parm, *Plogo_input_parm;
+		
     /**
     * @brief audio input parameter in chip. input parameter must be as same as phy output parameter. 
     */
@@ -216,12 +221,14 @@
     typedef struct _video_encoder_parm
     {
         video_encode_type type;                  ///< video encoder type.
-#if 0        
-        uint8_t interlaced_frame;                ///< merge two field into a frame.
-#endif        
+      
         uint8_t progressive_2_i;                 ///< video progressive change to interlace.
-        uint8_t latency_q_close;                 ///< stop the latency of the encode parm affect the q(quantization).
-        uint8_t disable_deinterlaced;            ///< disable deinterlaced via b3+.
+        uint8_t fixed_rc_threshold;              ///< stop the latency of the encode parm affect the q(quantization).
+        uint8_t en_interlaced;                   ///< enable interlaced via b3+.
+        uint8_t en_sw_clk;
+				uint8_t en_h264_fullrun;
+				uint8_t en_drop_frame;
+				uint8_t en_qcost;
     }video_encode_parm, *Pvideo_encode_parm;
 
     /**
@@ -259,8 +266,9 @@
     */
     typedef struct _audio_encoder_parm
     {
-        audio_encode_type type;                  ///< audio encoder type.
-        audio_encode_channel channel;            ///< audio channel type.
+        audio_encode_type       type;               ///< audio encoder type.
+        audio_encode_channel    channel;            ///< audio channel type.
+        uint32_t                sw_i2s;             ///< audio software i2s.
     }audio_encode_parm, *Paudio_encode_parm;
 
     /**
@@ -278,17 +286,9 @@
     typedef enum _quality_rcmode
     {
         q_rcmode_unknown                = 0,     ///< unknown type.
-        q_rcmode_vbr                    = 1,     ///< rate control can exceed the threshold in a short time in vbr mode.
-#if 0        
-        q_rcmode_fixedq                 = 2,
-        q_rcmode_auto                   = 3,     ///< rate control must be not exceed the thresholdin vbr mode.
-#endif        
+        q_rcmode_vbr                    = 1,     ///< rate control can exceed the threshold in a short time in vbr mode.     
         q_rcmode_min                    = q_rcmode_unknown,
-#if 0        
-        q_rcmode_max                    = q_rcmode_auto,
-#else
         q_rcmode_max                    = q_rcmode_vbr,
-#endif        
     }quality_rcmode;
 
     /**
@@ -323,31 +323,31 @@
     /**
     * @brief psi creater type of the muxer.
     */
-#if 0    
     typedef enum
     {
         tsmux_type_unknown              = 0,     ///< unknown type.
-        tsmux_type_pure                 = 1,     ///< pure mode of psi create type.
-        tsmux_type_iso13818             = 2,     ///< iso mode of psi create type.
+        tsmux_type_iso13818             = 1,     ///< iso13818 mode of psi create type.
+        tsmux_type_pure                 = 2,     ///< pure mode of psi create type.
         tsmux_type_rule                 = 3,     ///< license mode of psi create type.
         tsmux_type_default              = 4,     ///< default mode of psi create type.
         tsmux_type_min                  = tsmux_type_unknown,
         tsmux_type_max                  = tsmux_type_default,
     }tsmux_type;
-#else
-    typedef enum
-    {
-        tsmux_type_unknown              = 0,     ///< unknown type.
-        tsmux_type_pure                 = 1,     ///< pure mode of psi create type.
-        tsmux_type_rule                 = 2,     ///< license mode of psi create type.
-        tsmux_type_default              = 3,     ///< default mode of psi create type.
-        tsmux_type_min                  = tsmux_type_unknown,
-        tsmux_type_max                  = tsmux_type_default,
-    }tsmux_type;
-#endif    
 
     typedef void* Ptsmux_parm;
 
+    /**
+    * @brief iso13818 mode parameter.
+    */
+    typedef struct _tsmux_iso13818_parm
+    {
+        uint32_t pcr_pid;          /** PCR */
+        uint32_t padding_pid;      /** Null Packet */
+        uint32_t pmtpid;           /** PMT */
+        uint32_t tsid;             /** TS ID */
+        uint32_t program_num;      /** Program Number */
+    }tsmux_iso13818_parm, *Ptsmux_iso13818_parm;
+    
     /**
     * @brief pure mode parameter.
     */
@@ -357,19 +357,7 @@
         uint32_t padding_pid;                     ///< padding pid.
         uint32_t en_function;                     ///< option function.
     }tsmux_pure_parm, *Ptsmux_pure_parm;
-#if 0
-    /**
-    * @brief iso mode parameter.
-    */
-    typedef struct _tsmux_iso13818_parm
-    {
-        uint32_t pcr_pid;                         ///< pcr pid.
-        uint32_t padding_pid;                     ///< padding pid.
-        uint32_t pmtpid;                          ///< PMT table pid.
-        uint32_t tsid;                            ///< TS id.
-        uint32_t program_num;                     ///< program number.
-    }tsmux_iso13818_parm, *Ptsmux_iso13818_parm;
-#endif
+
     /**
     * @brief license mode parameter.
     */
@@ -389,6 +377,7 @@
         uint32_t pmt_pid;                         ///< PMT table pid.
         uint32_t padding_pid;                     ///< padding pid.
         uint32_t en_function;                     ///< option function.
+				uint32_t mux_bitrate;
     }tsmux_default_parm, *Ptsmux_default_parm;
 
 
@@ -839,9 +828,8 @@
         dvbt2_fft_4k                    = 3,
         dvbt2_fft_8k                    = 4,
         dvbt2_fft_16k                   = 5,
-        dvbt2_fft_32k                   = 6,
         dvbt2_fft_min                   = dvbt2_fft_unknown,
-        dvbt2_fft_max                   = dvbt2_fft_32k,
+        dvbt2_fft_max                   = dvbt2_fft_16k,
     }dvbt2_fft;
 
     typedef enum _dvbt2_coderate
