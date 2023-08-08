@@ -204,6 +204,7 @@ vatek_result adv7182a_create(Pvatek_i2c vi2c, adv7182a_si_type type, Padv7182a_h
         {0x04, 0x07},   //Power-up INTRQ, HS & VS pads
         {0x13, 0x00},   //Enable ADV7182A for 28_63636MHz crystal 
         {0x1D, 0x40},   //Enable LLC output driver [ADV7182A writes finished]
+				//{0x39, 0x100},//test PAL comb
     };
     static adv7182a_regs cvbs_sys_init[]={       
         {ADV7182A_ADIControl1,          ADV7182A_REG_MAP_MAIN},     //Enter Main Map
@@ -242,7 +243,7 @@ vatek_result adv7182a_create(Pvatek_i2c vi2c, adv7182a_si_type type, Padv7182a_h
     if (vi2c == NULL || hadv7182a == NULL)
         return vatek_result_invalidparm;
 
-    if (type < si_type_min || type > si_type_max)
+    if (/*type < si_type_min ||*/ type > si_type_max)
         return vatek_result_overrange;
     
     newphy = (Padv7182a_handle)malloc(sizeof(adv7182a_handle));
@@ -376,7 +377,7 @@ vatek_result adv7182a_get_videoinfo(Padv7182a_handle hadv7182a, Pphy_video_info 
         return result;
 
     if (status3 & ADV7182A_STATUS3_Interlace)
-        isinterlace = 1;
+        isinterlace = 1; //1
 
     switch (encoding)
     {
@@ -393,7 +394,7 @@ vatek_result adv7182a_get_videoinfo(Padv7182a_handle hadv7182a, Pphy_video_info 
             if (isinterlace)
                 info->resolution = vi_resolution_576i50;
             else
-                info->resolution = vi_resolution_576p25;
+                info->resolution = vi_resolution_576p50;
             break;
 
         case encoding_ntsc_4_3:

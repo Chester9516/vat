@@ -1,0 +1,12 @@
+vatek_transform_f407\tuner_mxl608.o: ..\..\..\..\peripheral\src\tuner\tuner_MxL608.c
+vatek_transform_f407\tuner_mxl608.o: ..\..\..\..\system\inc\vatek_system.h
+vatek_transform_f407\tuner_mxl608.o: D:\Keil_C\ARM_Pack\ARM\ARMCC\Bin\..\include\stdio.h
+vatek_transform_f407\tuner_mxl608.o: D:\Keil_C\ARM_Pack\ARM\ARMCC\Bin\..\include\stdlib.h
+vatek_transform_f407\tuner_mxl608.o: D:\Keil_C\ARM_Pack\ARM\ARMCC\Bin\..\include\string.h
+vatek_transform_f407\tuner_mxl608.o: ..\..\..\..\inc\vatek_define.h
+vatek_transform_f407\tuner_mxl608.o: D:\Keil_C\ARM_Pack\ARM\ARMCC\Bin\..\include\stdint.h
+vatek_transform_f407\tuner_mxl608.o: ..\..\..\..\inc\vatek_define_periphral.h
+vatek_transform_f407\tuner_mxl608.o: ..\..\..\..\peripheral\inc\tuner/MxL608/MxL608_TunerApi.h
+vatek_transform_f407\tuner_mxl608.o: ..\..\..\..\peripheral\inc\tuner/MxL608/MxL608_MaxLinearDataTypes.h
+vatek_transform_f407\tuner_mxl608.o: ..\..\..\..\peripheral\inc\tuner/MxL608/MxL608_OEM_Drv.h
+vatek_transform_f407\tuner_mxl608.o: ..\..\..\..\peripheral\inc\tuner/MxL608/MxL608_Debug.h

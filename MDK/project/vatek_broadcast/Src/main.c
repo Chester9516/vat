@@ -103,13 +103,15 @@ int main(void)
   sample_bc_init(&hi2c1, &hi2c1, &hi2c1);
 
   /* USER CODE END 2 */
+
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
   while (1)
   {
     /* USER CODE END WHILE */
-    sample_bc_polling();
+
     /* USER CODE BEGIN 3 */
+    sample_bc_polling();
   }
   /* USER CODE END 3 */
 }

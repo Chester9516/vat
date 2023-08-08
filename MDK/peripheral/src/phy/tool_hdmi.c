@@ -87,32 +87,6 @@ vatek_result tool_hdmi_get_videoinfo(uint8_t vid, Phdmi_video_timing pvid)
     return result;
 }
 
-
-#if 0
-vatek_result tool_ep9xxx_get_videoinfo(uint8_t vid, Pep9xxx_video_info info)
-{
-    vatek_result result = vatek_result_unsupport;
-    int32_t i = 0;
-
-    if (info == NULL)
-        return vatek_result_invalidparm;
-    
-    for(i = 0; i < VIDEO_INFO_NUMS; i++)
-    {
-        if(ep9xxx_videoinfo_tablelist[i].vid == vid)
-        {
-            info->vid = ep9xxx_videoinfo_tablelist[i].vid;
-            info->represent = ep9xxx_videoinfo_tablelist[i].represent;
-            info->resolution = ep9xxx_videoinfo_tablelist[i].resolution;
-            info->aspectrate = ep9xxx_videoinfo_tablelist[i].aspectrate;
-            return vatek_result_success;
-        }
-    }
-        
-    return result;
-}
-#endif
-
 void tool_hdmi_print_videotiming(Phdmi_video_timing ptiming)
 {
     VATEK_LOG(hdmi,"printf video timing");

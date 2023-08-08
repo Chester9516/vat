@@ -1,0 +1,12 @@
+vatek_transform_f407\avl_demod_commonapi.o: ..\..\..\..\peripheral\src\demod\AVL68XX\AVL_Demod_CommonAPI.c
+vatek_transform_f407\avl_demod_commonapi.o: ..\..\..\..\peripheral\inc\demod/AVL68XX/AVL_Demod.h
+vatek_transform_f407\avl_demod_commonapi.o: ..\..\..\..\peripheral\inc\demod/AVL68XX/user_defined_data_type.h
+vatek_transform_f407\avl_demod_commonapi.o: D:\Keil_C\ARM_Pack\ARM\ARMCC\Bin\..\include\stdbool.h
+vatek_transform_f407\avl_demod_commonapi.o: ..\..\..\..\peripheral\inc\demod/AVL68XX/user_defined_function.h
+vatek_transform_f407\avl_demod_commonapi.o: ..\..\..\..\peripheral\inc\demod/AVL68XX/AVL_Demod_CommonInternal.h
+vatek_transform_f407\avl_demod_commonapi.o: ..\..\..\..\peripheral\inc\demod/AVL68XX/AVL_Demod_DVBSx.h
+vatek_transform_f407\avl_demod_commonapi.o: ..\..\..\..\peripheral\inc\demod/AVL68XX/AVL_Demod_DVBTx.h
+vatek_transform_f407\avl_demod_commonapi.o: ..\..\..\..\peripheral\inc\demod/AVL68XX/AVL_Demod_DVBC.h
+vatek_transform_f407\avl_demod_commonapi.o: ..\..\..\..\peripheral\inc\demod/AVL68XX/AVL_Demod_ISDBT.h
+vatek_transform_f407\avl_demod_commonapi.o: D:\Keil_C\ARM_Pack\ARM\ARMCC\Bin\..\include\time.h
+vatek_transform_f407\avl_demod_commonapi.o: D:\Keil_C\ARM_Pack\ARM\ARMCC\Bin\..\include\stdio.h

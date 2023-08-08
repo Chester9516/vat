@@ -12,7 +12,7 @@
     #define ADV7182A_SLAVE_READ       (ADV7182A_SLAVE_WRITE | 1)
     */
     //if ALSB pin high
-    #define ADV7182A_SLAVE_WRITE      0x42
+    #define ADV7182A_SLAVE_WRITE      0x42 //!!!
     #define ADV7182A_SLAVE_READ       (ADV7182A_SLAVE_WRITE | 1)
     
     /* Main Register Map Details(User Map) */

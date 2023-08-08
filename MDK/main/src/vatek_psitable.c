@@ -196,17 +196,6 @@ vatek_result vatek_psitable_register(Phms_handle handle, Ppsitablelist_parm parm
 
     if ((result = psitable_register_end(handle)) != vatek_result_success)
         return result;
-#if 0
-    if (parm->psip_en)
-    {
-        if ((result = vatek_hms_read_hal(handle, HALREG_MUX_FLAGS, &remux_flag)) != vatek_result_success)
-            return result;
-        
-        remux_flag |= MUX_FLAG_EN_PSIP;
-        if ((result = vatek_hms_write_hal(handle, HALREG_MUX_FLAGS, remux_flag)) != vatek_result_success)
-            return result;
-    }
-#endif    
 
     return result;
 }

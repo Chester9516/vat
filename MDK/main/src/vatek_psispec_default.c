@@ -544,7 +544,7 @@ static vatek_result psip_format(data_type type, void* pdata, Ppsispec_default_bu
         WBUF( PSIPSTR_SHORT_NAME_MAXLEN, ptr, pos)
         pos += LEN( PSIPSTR_SHORT_NAME_MAXLEN);
         memset( &ptr[pos], 0, BUF_ALIGN( PSIPSTR_SHORT_NAME_MAXLEN));
-        memcpy( &ptr[pos], &chan.short_name->text, chan.short_name->len);
+        memcpy( &ptr[pos], chan.short_name->text, chan.short_name->len);
         pos += BUF_ALIGN( PSIPSTR_SHORT_NAME_MAXLEN);
         
         pbuf->buf_len = pos;
@@ -568,7 +568,7 @@ static vatek_result psip_format(data_type type, void* pdata, Ppsispec_default_bu
         WBUF( PSIPSTR_LONG_NAME_MAXLEN, ptr, pos)
         pos += LEN( PSIPSTR_LONG_NAME_MAXLEN);
         memset( &ptr[pos], 0, BUF_ALIGN( PSIPSTR_LONG_NAME_MAXLEN));
-        memcpy( &ptr[pos], &prog.long_name->text, prog.long_name->len);
+        memcpy( &ptr[pos], prog.long_name->text, prog.long_name->len);
         pos += BUF_ALIGN( PSIPSTR_LONG_NAME_MAXLEN);
 
         pbuf->buf_len = pos;

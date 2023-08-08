@@ -7,7 +7,7 @@ uint8_t *table_lookup( table_type type, uint32_t val)
 {
     uint8_t *str = "no support";    
     
-    if( type<table_type_min || type>table_type_max)
+    if( /*type < table_type_min ||*/ type>table_type_max)
         return str;
     
     uint8_t i = 0;

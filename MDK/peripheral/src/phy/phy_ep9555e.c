@@ -583,7 +583,7 @@ vatek_result ep9555e_create(Pvatek_i2c vi2c, Pep9555e_handle *hep9555e)
     
     newphy->vi2c = vi2c;    
     newphy->outputmode = ep9555e_interlaced_2_p;
-    newphy->baseclk = baseclock_1001;
+    newphy->baseclk = baseclock_1000;
     *hep9555e = newphy;
 
     vatek_system_delay(200); // wait ep9555e initialize

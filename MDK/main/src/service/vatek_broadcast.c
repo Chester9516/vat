@@ -8,6 +8,7 @@
 #include "vatek_userdata.h"
 #include "vatek_psispec_rule.h"
 #include "vatek_psispec_default.h"
+#include "main.h"
 
 #if defined(LOG_TABLE)
 #include "vatek_log_table.h"
@@ -19,13 +20,15 @@
 vatek_result vatek_broadcast_chipstatus(Phbroadcast handle, chip_status *status);
 
 #if defined(LOG_TABLE)
+uint32_t vi_type, vi_resolution, vi_framerate, vi_aspectrate, ve_type, ae_type, psi_type, mod_type, rf_freq;
+
 static vatek_result broadcast_dump( Phms_handle handle)
 {
     vatek_result result = vatek_result_unknown;
     
     if(handle==NULL) return vatek_result_invalidparm;
     
-    uint32_t vi_type, vi_resolution, vi_framerate, vi_aspectrate, ve_type, ae_type, psi_type, mod_type, rf_freq;
+    //uint32_t vi_type, vi_resolution, vi_framerate, vi_aspectrate, ve_type, ae_type, psi_type, mod_type, rf_freq;
     
     result = vatek_hms_read_hal( handle, HALREG_ENCODER_MODE, &vi_type);
     result |= vatek_hms_read_hal( handle, HALREG_VIDEO_RESOLUTION, &vi_resolution);
@@ -188,7 +191,7 @@ static vatek_result broadcast_getstatus(Phbroadcast handle, broadcast_status *st
     return result;
 }
 
-static vatek_result broadcast_getinfo(Phbroadcast handle, broadcast_infotype type, uint32_t *value)
+vatek_result broadcast_getinfo(Phbroadcast handle, broadcast_infotype type, uint32_t *value)
 {
     vatek_result result = vatek_result_unknown;
     
@@ -310,7 +313,7 @@ vatek_result vatek_broadcast_stop(Phbroadcast handle)
     
     uint32_t errcode;
     if ((result = broadcast_ctrl(handle, BC_STOP, &errcode)) != vatek_result_success)
-        BROADCAST_ERR("BC_STOP fail, errcode = 0x%lX", errcode);
+        BROADCAST_ERR("BC_STOP fail, errcode = 0x%1X", errcode);
     
     if ((result = broadcast_reset(handle)) != vatek_result_success)
         return result;
@@ -345,6 +348,12 @@ vatek_result vatek_broadcast_bcstatus(Phbroadcast handle, broadcast_status *stat
     return result;
 }
 
+uint32_t read_bitrate = 0;
+uint32_t read_datarate = 0;
+uint32_t max_read_bitrate = 0;
+uint32_t max_read_datarate = 0;
+uint32_t read_chip_id = 0;
+uint32_t read_chip_fw_ver = 0;
 vatek_result vatek_broadcast_chipstatus(Pboard_handle hboard, chip_status *status)
 {
     vatek_result result = vatek_result_unknown;
@@ -356,6 +365,27 @@ vatek_result vatek_broadcast_chipstatus(Pboard_handle hboard, chip_status *statu
     *status = chip_status_unknown;
     if ((result = vatek_hms_read_hal(hboard, HALREG_SYS_STATUS_0, &value)) != vatek_result_success)
         return result;
+        
+
+
+#if 1//add may
+	if ((result = vatek_hms_read_hal(hboard, HALREG_BCINFO_CURRATE, &read_bitrate)) != vatek_result_success)		
+        return result;
+	if ((result = vatek_hms_read_hal(hboard, HALREG_BCINFO_DATARATE, &read_datarate)) != vatek_result_success)
+        return result;
+	
+	if(read_bitrate > max_read_bitrate){
+	  max_read_bitrate = read_bitrate; 	  
+	}
+	if(read_datarate > max_read_datarate){
+	  max_read_datarate = read_datarate; 	  
+	}
+	
+	result = vatek_hms_read_hal(hboard, HALREG_CHIP_ID, &read_chip_id);	       
+	result = vatek_hms_read_hal(hboard, HALREG_FW_VER, &read_chip_fw_ver);
+    
+	
+#endif	
 
     if (value == 0xFFFFFFFF || value == 0)
     {
@@ -419,7 +449,7 @@ vatek_result vatek_broadcast_getinfo(Phbroadcast handle, broadcast_infotype type
     if (handle == NULL || value == NULL)
         return vatek_result_invalidparm;
     
-    result = vatek_broadcast_getinfo(handle, type, value);
+    result = broadcast_getinfo(handle, type, value);
 
     return result;
 }

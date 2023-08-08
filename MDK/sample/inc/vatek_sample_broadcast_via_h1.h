@@ -18,6 +18,9 @@
     vatek_result sample_bc_broadcast_stop(void);
     vatek_result sample_bc_broadcast_signalischange(void);
     vatek_result sample_bc_polling_cc(void);
+		
+		//add by mhkim
+		vatek_result vatek_phy_get_h1_input(void);
 
     #define SAMPLE_ERR(fmt,...)    printf("sample  :  error [%s-%d]"fmt"\r\n",__func__ ,__LINE__,##__VA_ARGS__)
     #define SAMPLE_LOG(fmt,...)    printf("sample  :  "fmt"\r\n",##__VA_ARGS__)

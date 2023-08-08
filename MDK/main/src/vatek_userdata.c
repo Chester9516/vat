@@ -44,7 +44,7 @@ vatek_result vatek_userdata_setvideocodec(video_encode_type type)
 {
     vatek_result result = vatek_result_success;
 
-    if (type > ve_type_max || type < ve_type_min)
+    if (type > ve_type_max /*|| type < ve_type_min*/)
         return vatek_result_overrange;
 
     enctype = type;
@@ -193,11 +193,23 @@ vatek_result vatek_userdata_cc_insert(Phms_handle handle, uint16_t cc_num, Puser
     }
 
     len = pos-buf;
-    cmd = ENC_EXTDATA_TAG | (ENC_EXTDATA_LEN_MASK & (len));
-    len = ((len >> 2) + 1) << 2; //4-bytes aligned
-    
-	if ((result = vatek_hms_write_halbuf(handle, HALREG_EN_EXTDATA_START, buf, len)) != vatek_result_success)
+//		if(len<=ENC_EXTDATA_MAXLEN){
+//			printf("cc data use 64 bytes register\r\n");
+//			cmd = ENC_EXTDATA_TAG | (ENC_EXTDATA_LEN_MASK & (len)); //<64 use this
+//			len = ((len >> 2) + 1) << 2; //4-bytes aligned
+//			if ((result = vatek_hms_write_halbuf(handle, HALREG_EN_EXTDATA_START, buf, len)) != vatek_result_success)
+//        return result;
+//		}
+//		else{
+			printf("cc data use 256 bytes register\r\n");
+			cmd = ENC_EXTLDATA_TAG | (ENC_EXTDATA_LEN_MASK & (len));//>64 use this
+			len = ((len >> 2) + 1) << 2; //4-bytes aligned
+			if ((result = vatek_hms_write_halbuf(handle, HALREG_EN_EXTLDATA_START, buf, len)) != vatek_result_success)
         return result;
+//		}
+//    len = ((len >> 2) + 1) << 2; //4-bytes aligned
+    
+	
     
     if ((result = vatek_hms_write_hal(handle, HALREG_ENC_EXTDATA, cmd)) != vatek_result_success)
         return result;

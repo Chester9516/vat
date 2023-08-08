@@ -104,11 +104,14 @@ int main(void)
 
   sample_tf_init( &hi2c1, &hi2c1, &hi2c1, &hi2c1);
   
-#if defined (VATEK_SAMPLE)
+#if 1
   /* USER CODE END 2 */
   
   /* Input data rate should be less than output data rate. */
-  sample_tf_play_allprogram();
+ sample_tf_play_program(1);
+//    sample_tf_play_allprogram();
+//  sample_tf_capture();
+    
   
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */

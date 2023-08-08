@@ -26,6 +26,11 @@ typedef struct _hphy
     void *hdriver;
 }hphy, *Phphy;
 
+
+vatek_result vatek_phy_gettiming(Phphy handle, Phdmi_video_timing timing);
+vatek_result vatek_phy_settiming(Phphy handle, hdmi_video_timing timing);
+
+
 vatek_result vatek_phy_create(Pboard_handle hboard, phy_type type, Phphy *handle)
 {
     vatek_result result = vatek_result_unknown;
@@ -34,7 +39,7 @@ vatek_result vatek_phy_create(Pboard_handle hboard, phy_type type, Phphy *handle
     if (hboard == NULL || handle == NULL)
         return vatek_result_invalidparm;
 
-    if (type > phy_type_max || type < phy_type_min)
+    if (type > phy_type_max /*|| type < phy_type_min*/)
         return vatek_result_overrange;
 
     *handle = NULL;    
@@ -104,8 +109,10 @@ vatek_result vatek_phy_create(Pboard_handle hboard, phy_type type, Phphy *handle
     
     if (result != vatek_result_success)
     {
+	  	newphy->vi2c->stop(newphy->vi2c->hboard);//!!!
         vatek_system_i2c_destroy(newphy->vi2c);
         free(newphy);
+		
     }
 
     *handle = newphy;
@@ -299,7 +306,9 @@ vatek_result vatek_phy_setvideoinfo(Phphy handle, Pphy_video_info info)
         #endif
 
         default:
-            return vatek_result_unsupport;
+		  	//return vatek_result_unsupport;
+		  	result = vatek_result_unsupport;
+			break;     
     }
     
     return result;
@@ -434,9 +443,10 @@ vatek_result vatek_phy_getccdata(Phphy handle, Puserdata_cc_parm cc_parm)
         #endif
         
         default:
-            return vatek_result_unsupport; 
+            //return vatek_result_unsupport; 
+		  	result = vatek_result_unsupport;
+			break;
     }
-
     return result;
 }
 
@@ -553,3 +563,45 @@ vatek_result vatek_phy_setparm(Phphy handle)
 
     return result;
 }
+
+
+vatek_result vatek_phy_get_h1_info(Phphy handle){
+	vatek_result result = vatek_result_unknown;
+	if(handle->type == phy_type_h1)
+		result = get_h1_HV(handle->hdriver);
+	return result;
+}
+
+vatek_result vatek_phy_dump_h1(Phphy handle)
+{
+	vatek_result result = vatek_result_unknown;
+	if(handle->type == phy_type_h1)
+		result = h1_dump_reg(handle->hdriver);
+	return result;
+}
+
+vatek_result vatek_phy_polling_check(Phphy handle)
+{
+	vatek_result result = vatek_result_unknown;
+	if(handle->type == phy_type_h1)
+		result = h1_vout_check(handle->hdriver);
+	return result;
+}
+
+#if 1//may
+vatek_result vatek_phy_gettiming(Phphy handle, Phdmi_video_timing timing){
+	vatek_result result = vatek_result_unknown;
+	if(handle->type == phy_type_h1)
+		//result = get_h1_input(handle->hdriver);
+		result = get_input_timming(handle->hdriver, timing);	
+	return result;
+}
+vatek_result vatek_phy_settiming(Phphy handle, hdmi_video_timing timing){
+	vatek_result result = vatek_result_unknown;
+	if(handle->type == phy_type_h1)
+		result = set_output_timing(handle->hdriver, &timing);
+	return result;
+}
+
+
+#endif

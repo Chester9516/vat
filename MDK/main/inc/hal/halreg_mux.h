@@ -17,11 +17,6 @@
 #define HALREG_MUX_BITRATE				0x612				/* mux stream target bitrate								*/
 #define HALREG_MUX_STUFFING_PID			0x613
 #define HALREG_MUX_FLAGS				0x614
-#if 0
-	#define MUX_FLAG_EN_PSIP			0x00000001			/* pid_0x1FFB_psi_table would used same continue			*/
-	#define MUX_FLAG_DISABLE_PCR		0x00000002			/* mux stream no create _pcr_packet							*/	
-	#define MUX_FLAG_SW_PCR				0x00000004			/* mux stream _pcr_packet clock source in _sw or _hw		*/
-#endif
 	#define MUX_FLAG_PRI_PRIVATE		0x00000008			/* mux private stream high priority */
 
 /* auxiliary_stream_ip				*/

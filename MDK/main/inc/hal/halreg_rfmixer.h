@@ -37,4 +37,19 @@
 #define HALREG_R2_PARAM_GPIO            0x120E
 #define HALREG_R2_PARAM_GAIN            0x120F
 
+#define HALREG_CALIBRATION_CNTL         0x1220
+    #define CALIBRATION_EN_TAG              0x78122900
+    #define CALIBRATION_APPLY               0x00000001
+    
+    
+#define HALREG_CALIBRATION_CLOCK        0x1228
+#define HALREG_CALIBRATION_DAC          0x1229
+
+#define HALREG_CALIBRATION_R2_0_I       0x1280
+#define HALREG_CALIBRATION_R2_0_Q       0x1281
+#define HALREG_CALIBRATION_R2_0_IMAGE   0x1282
+#define HALREG_CALIBRATION_R2_0_PHASE   0x1283
+
+
+
 #endif

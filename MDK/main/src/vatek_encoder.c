@@ -22,26 +22,28 @@ static vatek_result encoder_vi_setparm(Phms_handle handle, video_input_parm vpar
     }
     else
     {
-        if (vparm.resolution > vi_resolution_max || vparm.resolution < vi_resolution_min)
+        if (vparm.resolution > vi_resolution_max /*|| vparm.resolution < vi_resolution_min*/)
         {
             ENCODER_ERR("vi resolution overrange");
             return vatek_result_overrange;
         }
     }
 
-    if (vparm.aspectrate > vi_aspectrate_max || vparm.aspectrate < vi_aspectrate_min)
+    if (vparm.aspectrate > vi_aspectrate_max /*|| vparm.aspectrate < vi_aspectrate_min*/)
     {
         ENCODER_ERR("vi aspectrate overrange");
         return vatek_result_overrange;
     }
 
     uint32_t resolution = 0, framerate = 0, clk = 0;
+	
     switch (vparm.resolution)
     {
         case vi_resolution_1080p60:
             resolution = RESOLUTION_1080P;
             framerate = FRAMERATE_60;
             clk = 148500;
+			//clk = 148352;
             break;
 
         case vi_resolution_1080p59_94:
@@ -180,7 +182,11 @@ static vatek_result encoder_vi_setparm(Phms_handle handle, video_input_parm vpar
 
     if (vparm.buswidth_16 == 0)
         clk = clk << 1;
-
+    
+//	if(frame_mode < 8){
+//		framerate = (uint32_t)(frame_mode);
+//	}
+	
     if ((result = vatek_hms_write_hal(handle, HALREG_BROADCAST_STREAM, STREAM_ENCODER)) != vatek_result_success)
         return result;
 
@@ -256,7 +262,7 @@ static vatek_result encoder_ai_setparm(Phms_handle handle, audio_input_parm apar
 {
     vatek_result result = vatek_result_unknown;
     
-    if (aparm.samplerate > ai_samplerate_max || aparm.samplerate < ai_samplerate_min)
+    if (aparm.samplerate > ai_samplerate_max /*|| aparm.samplerate < ai_samplerate_min*/)
     {
         ENCODER_ERR("ai samplerate overrange");
         return vatek_result_overrange;
@@ -282,7 +288,7 @@ static vatek_result encoder_ai_setparm(Phms_handle handle, audio_input_parm apar
             value = SAMPLERATE_48KHZ;
             break;
     }   
-
+	
     if ((result = vatek_hms_write_hal(handle, HALREG_AUDIO_SAMPLERATE, value)) != vatek_result_success)
         return result;
 
@@ -293,7 +299,7 @@ static vatek_result encoder_logo_setparm(Phms_handle handle, logo_input_parm par
 {
     vatek_result result = vatek_result_unknown;
     
-    if (parm.type > logo_type_max || parm.type < logo_type_min)
+    if (parm.type > logo_type_max /*|| parm.type < logo_type_min*/)
     {
         ENCODER_ERR("logo type overrange");
         return vatek_result_overrange;
@@ -314,13 +320,204 @@ static vatek_result encoder_logo_setparm(Phms_handle handle, logo_input_parm par
         default:
             value = ENCMOD_COLORBAR;
             break;
-    }   
+    }
+		
+		if ((result = vatek_hms_write_hal(handle, HALREG_ENCODER_MODE, value)) != vatek_result_success)
+        return result;		
     
+		uint32_t resolution = 0, framerate = 0;
+		uint32_t clk = 0;
+		switch (parm.resolution)
+		{
+			case vi_resolution_1080p60:
+            resolution = RESOLUTION_1080P;
+            framerate = FRAMERATE_60;
+            clk = 148500;
+            break;
+
+        case vi_resolution_1080p59_94:
+            resolution = RESOLUTION_1080P;
+            framerate = FRAMERATE_59_94;
+            clk = 148351;
+            break;
+
+        case vi_resolution_1080p50:
+            resolution = RESOLUTION_1080P;
+            framerate = FRAMERATE_50;
+            clk = 148500;
+            break;
+
+        case vi_resolution_1080p30:
+            resolution = RESOLUTION_1080P;
+            framerate = FRAMERATE_30;
+            clk = 74250;
+            break;
+            
+        case vi_resolution_1080p25:
+            resolution = RESOLUTION_1080P;
+            framerate = FRAMERATE_25;
+            clk = 74250;
+            break;
+            
+        case vi_resolution_1080p24:
+            resolution = RESOLUTION_1080P;
+            framerate = FRAMERATE_24;
+            clk = 74250;
+            break;
+
+        case vi_resolution_1080p23_97:
+            resolution = RESOLUTION_1080P;
+            framerate = FRAMERATE_23_97;
+            clk = 74176;
+            break;
+
+        case vi_resolution_1080i60:
+            resolution = RESOLUTION_1080I;
+            framerate = FRAMERATE_60;
+            clk = 74250;
+            break;
+
+        case vi_resolution_1080i59_94:
+            resolution = RESOLUTION_1080I;
+            framerate = FRAMERATE_59_94;
+            clk = 74176;
+            break;
+
+        case vi_resolution_1080i50:
+            resolution = RESOLUTION_1080I;
+            framerate = FRAMERATE_50;
+            clk = 74250;
+            break;
+
+        case vi_resolution_720p60:
+            resolution = RESOLUTION_720P;
+            framerate = FRAMERATE_60;
+            clk = 74250;
+            break;
+
+        case vi_resolution_720p59_94:
+            resolution = RESOLUTION_720P;
+            framerate = FRAMERATE_59_94;
+            clk = 74176;
+            break;
+
+        case vi_resolution_720p50:
+            resolution = RESOLUTION_720P;
+            framerate = FRAMERATE_50;
+            clk = 74250;
+            break;
+
+        case vi_resolution_576p50:
+            resolution = RESOLUTION_576P;
+            framerate = FRAMERATE_50;
+            clk = 27000;
+            break;
+
+        case vi_resolution_576i50:
+            resolution = RESOLUTION_576I;
+            framerate = FRAMERATE_50;
+            clk = 13500;
+            break;
+
+        case vi_resolution_480p60:
+            resolution = RESOLUTION_480P;
+            framerate = FRAMERATE_60;
+            clk = 27000;
+            break;
+
+        case vi_resolution_480p59_94:
+            resolution = RESOLUTION_480P;
+            framerate = FRAMERATE_59_94;
+            clk = 27000;
+            break;
+
+        case vi_resolution_480i60:
+            resolution = RESOLUTION_480I;
+            framerate = FRAMERATE_60;
+            clk = 13500;
+            break;
+
+        case vi_resolution_480i59_94:
+            resolution = RESOLUTION_480I;
+            framerate = FRAMERATE_59_94;
+            clk = 13500;
+            break;
+            
+        case vi_resolution_576p25:
+            resolution = RESOLUTION_576P;
+            framerate = FRAMERATE_25;
+            clk = 13500;
+            break;
+
+        case vi_resolution_480p30:
+            resolution = RESOLUTION_480P;
+            framerate = FRAMERATE_30;
+            clk = 13500;
+            break;
+
+        case vi_resolution_480p29_97:
+            resolution = RESOLUTION_480P;
+            framerate = FRAMERATE_29_97;
+            clk = 13500;
+            break;
+
+        case vi_resolution_unknown:
+            resolution = RESOLUTION_1080P;
+            framerate = FRAMERATE_60;
+            clk = 148500;
+        default:
+            break;
+		}
+		if ((result = vatek_hms_write_hal(handle, HALREG_VIDEO_RESOLUTION, resolution)) != vatek_result_success)
+        return result;
+
+    if ((result = vatek_hms_write_hal(handle, HALREG_VIDEO_FRAMERATE, framerate)) != vatek_result_success)
+        return result;
+
+//    if ((result = vatek_hms_write_hal(handle, HALREG_VI_0_PIXELCLOCK, clk)) != vatek_result_success)
+//        return result;
+		
+		switch (parm.aspectrate)
+    {
+        case vi_aspectrate_16_9:
+            value = ASPECTRATE_16_9;
+            break;
+
+        case vi_aspectrate_4_3:
+            value = ASPECTRATE_4_3;
+            break;
+
+        case vi_aspectrate_unknown:
+        default:
+            value = ASPECTRATE_16_9;
+            break;
+    }
+
+    if ((result = vatek_hms_write_hal(handle, HALREG_VIDEO_ASPECTRATE, value)) != vatek_result_success)
+        return result;
+
+		uint32_t samplerate = 0;
+		switch (parm.samplerate)
+		{
+			case ai_samplerate_48K:
+				samplerate = SAMPLERATE_48KHZ;
+			
+			case ai_samplerate_44_1K:
+				samplerate = SAMPLERATE_44_1KHZ;
+			
+			case ai_samplerate_32K:
+				samplerate = SAMPLERATE_32KHZ;
+			
+			case ai_samplerate_unknown:
+				samplerate = SAMPLERATE_48KHZ;
+		}
+		if((result = vatek_hms_write_hal(handle, HALREG_AUDIO_SAMPLERATE, samplerate))!= vatek_result_success)
+			return result;
+		
     if ((result = vatek_hms_write_hal(handle, HALREG_BROADCAST_STREAM, STREAM_ENCODER)) != vatek_result_success)
             return result;
 
-    if ((result = vatek_hms_write_hal(handle, HALREG_ENCODER_MODE, value)) != vatek_result_success)
-        return result;
+    
 
     if (parm.type == logo_type_bootlogo)
     {
@@ -335,7 +532,7 @@ static vatek_result encoder_ve_setparm(Phms_handle handle, video_encode_parm vpa
 {
     vatek_result result = vatek_result_unknown;
     
-    if (vparm.type > ve_type_max || vparm.type < ve_type_min)
+    if (vparm.type > ve_type_max /*|| vparm.type < ve_type_min*/)
     {
         ENCODER_ERR("ve type overrange");
         return vatek_result_overrange;
@@ -362,17 +559,29 @@ static vatek_result encoder_ve_setparm(Phms_handle handle, video_encode_parm vpa
         return result;
 
     value = 0;
-    if (vparm.disable_deinterlaced)
-        value |= ENC_EN_DISABLE_DEINTERLACED;
-#if 0    
-    if (vparm.interlaced_frame)
-        value |= ENC_EN_INTERLACED_FRAME;
-#endif
+    if ((result = vatek_hms_read_hal(handle, HALREG_ENCODER_FLAGS, &value)) != vatek_result_success)
+        return result;
+    
+    if (vparm.en_interlaced)
+        value |= ENC_EN_INTERLACED;
+
     if (vparm.progressive_2_i)
         value |= ENC_EN_PROGRESSIVE_2_I;
     
-    if (vparm.latency_q_close)
-        value |= ENC_EN_DISABLE_LATENCY_Q;
+    if (vparm.fixed_rc_threshold)
+        value |= ENC_EN_FIXED_RC_THR;
+    
+    if(vparm.en_sw_clk)
+        value |= ENC_EN_SW_CLK;
+		
+		if(vparm.en_h264_fullrun)
+				value |= 0x40;
+		
+		if(vparm.en_drop_frame)
+				value |= ENC_EN_DROP_FRAME;
+		
+		if(vparm.en_qcost)
+				value |= ENC_EN_Q_COST;
 
     if ((result = vatek_hms_write_hal(handle, HALREG_ENCODER_FLAGS, value)) != vatek_result_success)
         return result;
@@ -384,13 +593,13 @@ static vatek_result encoder_ae_setparm(Phms_handle handle, audio_encode_parm apa
 {
     vatek_result result = vatek_result_unknown;
     
-    if (aparm.type > ae_type_max || aparm.type < ae_type_min)
+    if (aparm.type > ae_type_max /*|| aparm.type < ae_type_min*/)
     {
         ENCODER_ERR("ae type overrange");
         return vatek_result_overrange;
     }
 
-    if (aparm.channel > ae_channel_max || aparm.channel < ae_channel_min)
+    if (aparm.channel > ae_channel_max /*|| aparm.channel < ae_channel_min*/)
     {
         ENCODER_ERR("ae channel overrange");
         return vatek_result_overrange;
@@ -458,6 +667,17 @@ static vatek_result encoder_ae_setparm(Phms_handle handle, audio_encode_parm apa
 
     if ((result = vatek_hms_write_hal(handle, HALREG_AUDIO_CHANNEL, value)) != vatek_result_success)
         return result;
+    
+    value = 0;
+    if ((result = vatek_hms_read_hal(handle, HALREG_ENCODER_FLAGS, &value)) != vatek_result_success)
+        return result;
+    
+    if (aparm.sw_i2s)
+        value |= ENC_EN_SW_I2S;
+    
+    if ((result = vatek_hms_write_hal(handle, HALREG_ENCODER_FLAGS, value)) != vatek_result_success)
+        return result;
+    
 
     return result;
 }
@@ -479,7 +699,7 @@ static vatek_result encoder_quality_setparm(Phms_handle handle, encoder_quality_
 {
     vatek_result result = vatek_result_unknown;
     
-    if (parm.rcmode > q_rcmode_max || parm.rcmode < q_rcmode_min)
+    if (parm.rcmode > q_rcmode_max /*|| parm.rcmode < q_rcmode_min*/)
     {
         ENCODER_ERR("quality rcmode overrange");
         return vatek_result_overrange;
@@ -491,15 +711,7 @@ static vatek_result encoder_quality_setparm(Phms_handle handle, encoder_quality_
         case q_rcmode_vbr:
             value = QUALITY_RC_VBR;
             break;
-#if 0
-        case q_rcmode_fixedq:
-            value = QUALITY_FIXED_Q;
-            break;
-        
-        case q_rcmode_auto:
-            value = QUALITY_AUTO;
-            break;
-#endif        
+
         case q_rcmode_unknown:
         default:
             value = QUALITY_RC_VBR;
@@ -603,13 +815,13 @@ vatek_result vatek_encoder_setmuxparm(Phms_handle handle, encoder_mux_parm parm)
     if (handle == NULL)
         return vatek_result_invalidparm;
 
-    if (parm.video_pid > MAX_PID || parm.video_pid < MIN_PID)
+    if (parm.video_pid > MAX_PID /*|| parm.video_pid < MIN_PID*/)
     {
         ENCODER_ERR("video pid overrange");
         return vatek_result_overrange;
     }
 
-    if (parm.audio_pid > MAX_PID || parm.audio_pid < MIN_PID)
+    if (parm.audio_pid > MAX_PID /*|| parm.audio_pid < MIN_PID*/)
     {
         ENCODER_ERR("audio pid overrange");
         return vatek_result_overrange;
@@ -634,13 +846,13 @@ vatek_result vatek_encoder_setqualityparm(Phms_handle handle, encoder_quality_pa
     if (handle == NULL)
         return vatek_result_invalidparm;
 
-    if (parm.minq > MAX_Q || parm.minq < MIN_Q)
+    if (parm.minq > MAX_Q /*|| parm.minq < MIN_Q*/)
     {
         ENCODER_ERR("min q overrange");
         return vatek_result_overrange;
     }
 
-    if (parm.maxq > MAX_Q || parm.maxq < MIN_Q)
+    if (parm.maxq > MAX_Q /*|| parm.maxq < MIN_Q*/)
     {
         ENCODER_ERR("max q overrange");
         return vatek_result_overrange;

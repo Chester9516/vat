@@ -13,6 +13,9 @@
     vatek_result r2_viavatek_stop(Pr2_viavatek_handle hr2);
     vatek_result r2_viavatek_getstatus(Pr2_viavatek_handle hr2, rf_status *status);
     vatek_result r2_viavatek_setcalibrate(Pr2_viavatek_handle hr2, Pr2_calibrate parm);
+    vatek_result r2_viavatek_savecalibrate(Pr2_viavatek_handle hr2);
+	vatek_result rfmixer_r2_adjust_pagain(Pr2_viavatek_handle hr2, int8_t gain);
+	
 
 #ifdef __cplusplus
     }

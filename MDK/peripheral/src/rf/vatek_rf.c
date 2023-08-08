@@ -24,7 +24,7 @@ vatek_result vatek_rf_create(Pboard_handle hboard, rf_type type, Phrf *handle)
     if (hboard == NULL || handle == NULL)
         return vatek_result_invalidparm;
 
-    if (type > rf_type_max || type < rf_type_min)
+    if (type > rf_type_max /*|| type < rf_type_min*/)
         return vatek_result_overrange;
 
     *handle = NULL;
@@ -44,6 +44,11 @@ vatek_result vatek_rf_create(Pboard_handle hboard, rf_type type, Phrf *handle)
     {
         #if defined(RF_R2_VIA_VATEK)
         case rf_type_r2_via_vatek:
+		   //add R2 Reset		  	
+			if((result = vatek_system_reset( sys_dev_type_rf_r2, hboard)) != vatek_result_success)
+        		return result; 
+		  	
+		  	vatek_system_delay(1000);
             //r2 via vatek chipset use board i2c
             newrf->type = rf_type_r2_via_vatek;
             result = r2_viavatek_create(hboard, (Pr2_viavatek_handle *)&newrf->hdriver);
@@ -217,4 +222,50 @@ vatek_result vatek_rf_setcalibrate(Phrf handle, Prf_calibrate parm)
 
     return result;
 }
+
+vatek_result vatek_rf_savecalibrate(Phrf handle, Prf_calibrate parm)
+{
+    vatek_result result = vatek_result_unknown;
+  
+    if (handle == NULL)
+        return vatek_result_invalidparm;
+
+    switch (handle->type)
+    {
+        #if defined(RF_R2_VIA_VATEK)
+        case rf_type_r2_via_vatek:
+            result = r2_viavatek_savecalibrate((Pr2_viavatek_handle)handle->hdriver);
+            break;
+        #endif
+        
+        default:
+            return vatek_result_unsupport;    
+    }
+
+    return result;
+}
+
+vatek_result vatek_device_r2_apply(Phrf handle, int r2_power)
+{
+    vatek_result result = vatek_result_unknown;
+  	
+	
+    if (handle == NULL)
+        return vatek_result_invalidparm;
+
+    switch (handle->type)
+    {
+        #if defined(RF_R2_VIA_VATEK)
+        case rf_type_r2_via_vatek:
+            //result = rfmixer_r2_adjust_pagain((Pr2_viavatek_handle)handle->hdriver, r2_power);
+            break;
+        #endif
+        
+        default:
+            return vatek_result_unsupport;    
+    }
+
+    return result;
+}
+
 

@@ -62,10 +62,13 @@
     #define H1_VOUT_V_WIDTH				        0x020e
 
     #define H1_OUT_CNTL                         0x0300
-        #define H1_OUT_CNTL_DIS_SPDIF               0x80
-        #define H1_OUT_CNTL_DIS_IIS                 0x40
-        #define H1_OUT_CNTL_DIS_VOUT                0x10
+        #define H1_OUT_CNTL_AUD_SEL_SPDIF           0x80    /*!< use after fw_rev 1101 */
+        #define H1_OUT_CNTL_EN_AOUT                 0x40    /*!< use after fw_rev 1101 */
+        #define H1_OUT_CNTL_DIS_SPDIF               0x80    /*!< use before fw_rev 1101 */
+        #define H1_OUT_CNTL_DIS_IIS                 0x40    /*!< use before fw_rev 1101 */
+        #define H1_OUT_CNTL_DIS_VOUT                0x10   
         
+        /*!< use after fw_rev 1101 */
         #define H1_OUT_CNTL_DIS_ALL                 (H1_OUT_CNTL_DIS_SPDIF | H1_OUT_CNTL_DIS_IIS | H1_OUT_CNTL_DIS_VOUT)
         
     #define H1_AOUT_CFG                         0x0301    
@@ -90,6 +93,10 @@
     
     #define H1_AVI_INFO                         0x0500  
     #define H1_AUDIO_INFO                       0x0600
+    
+    #define H1_FW_REV0                          0x0F00
+    #define H1_FW_REV1                          0x0F01
+    #define H1_FW_REV2                          0x0F02
 
 
     #define H1_ERR(fmt,...)                     VATEK_ERR(h1,fmt,##__VA_ARGS__)
@@ -140,12 +147,39 @@
         uint8_t val;
     }h1_reg, *Ph1_reg;
     
+    typedef uint32_t h1_revision;
     
+    /*!< use before fw_rev 1101 */
+    const h1_reg h1_init_cmd_0[] = 
+    {
+        { H1_OUT_CNTL   , 0xD0},        /** SPDIF, I2S, VOUT disable */
+        { H1_INT_EN     , 0x00},        /** INT disable */
+        { H1_INT_CNTL   , 0x02},        /** VSYNC low pulse */
+        { H1_HDMI_FLAG  , 0x00},        /** Vout Progressive, Scalar, Baseclk_1001 */
+        { H1_OUT_FMT    , 0xA0},        /** YUV422, BT709*/
+        { H1_AOUT_CFG   , 0x03},        /** Audio 512 sampling */
+        { H1_VOUT_CFG   , 0x40},        /** 202 Vout Y/Cb/Y/Cr */
+    };
+    
+    /*!< use after fw_rev 1101 */
+    const h1_reg h1_init_cmd_1[] = 
+    {
+        { H1_OUT_CNTL   , 0x10},        /*!< Audio select I2S, then AOUT/VOUT disable */
+        { H1_INT_EN     , 0x00},        /** INT disable */
+        { H1_INT_CNTL   , 0x02},        /** VSYNC low pulse */
+        { H1_HDMI_FLAG  , 0x00},        /** Vout Progressive, Scalar, Baseclk_1001 */
+        { H1_OUT_FMT    , 0xA0},        /** YUV422, BT709*/
+        { H1_AOUT_CFG   , 0x03},        /** Audio 512 sampling */
+        { H1_VOUT_CFG   , 0x41},        /** Vout Y/Cb/Y/Cr, Field no inverse */
+    };
+    
+    #define IS_NEW_REV(x) (x>=0x110100)
 
     static vatek_result i2c_read(Pvatek_i2c vi2c, uint8_t dev, uint16_t reg, uint8_t* pbuf, int32_t len);
     static vatek_result i2c_write(Pvatek_i2c vi2c, uint8_t dev, uint16_t reg, uint8_t pbuf);
     static vatek_result i2c_reg_write( Pvatek_i2c vi2c, uint16_t reg, uint8_t val);
     static vatek_result i2c_write_double_reg( Pvatek_i2c vi2c, uint16_t reg, uint16_t val);
+		
     
     
 #ifdef __cplusplus

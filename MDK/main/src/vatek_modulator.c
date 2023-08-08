@@ -8,13 +8,13 @@ static vatek_result modulator_base_setparm(Phms_handle handle, modulator_base_pa
     vatek_result result = vatek_result_unknown;
     uint32_t value = 0;
 
-    if (parm.type > m_type_max || parm.type < m_type_min)
+    if (parm.type > m_type_max /*|| parm.type < m_type_min*/)
     {
         MOD_ERR("modulator type overrange");
         return vatek_result_overrange;
     }
 
-    if (parm.ifmode > m_ifmode_max || parm.ifmode < m_ifmode_min)
+    if (parm.ifmode > m_ifmode_max /*|| parm.ifmode < m_ifmode_min*/)
     {
         MOD_ERR("modulator ifmode overrange");
         return vatek_result_overrange;
@@ -104,25 +104,25 @@ static vatek_result modulator_dvbt_setparm(Phms_handle handle, Pmodulator_dvbt_p
 {
     vatek_result result = vatek_result_unknown;
 
-    if (parm->constellation > dvbt_constellation_max || parm->constellation < dvbt_constellation_min)
+    if (parm->constellation > dvbt_constellation_max /*|| parm->constellation < dvbt_constellation_min*/)
     {
         MOD_ERR("dvbt constellation overrange");
         return vatek_result_overrange;
     }
 
-    if (parm->fft > dvbt_fft_max || parm->fft < dvbt_fft_min)
+    if (parm->fft > dvbt_fft_max /*|| parm->fft < dvbt_fft_min*/)
     {
         MOD_ERR("dvbt fft overrange");
         return vatek_result_overrange;
     }
 
-    if (parm->guardinterval > dvbt_guardinterval_max || parm->guardinterval < dvbt_guardinterval_min)
+    if (parm->guardinterval > dvbt_guardinterval_max /*|| parm->guardinterval < dvbt_guardinterval_min*/)
     {
         MOD_ERR("dvbt guardinterval overrange");
         return vatek_result_overrange;
     }
         
-    if (parm->coderate > dvbt_coderate_max || parm->coderate < dvbt_coderate_min)
+    if (parm->coderate > dvbt_coderate_max /*|| parm->coderate < dvbt_coderate_min*/)
     {
         MOD_ERR("dvbt coderate overrange");
         return vatek_result_overrange;
@@ -232,7 +232,7 @@ static vatek_result modulator_j83a_setparm(Phms_handle handle, Pmodulator_j83a_p
 {
     vatek_result result = vatek_result_unknown;
 
-    if (parm->constellation > j83a_constellation_max || parm->constellation < j83a_constellation_min)
+    if (parm->constellation > j83a_constellation_max /*|| parm->constellation < j83a_constellation_min*/)
     {
         MOD_ERR("j83a constellation overrange");
         return vatek_result_overrange;
@@ -275,7 +275,7 @@ static vatek_result modulator_atsc_setparm(Phms_handle handle, Pmodulator_atsc_p
 {
     vatek_result result = vatek_result_unknown;
 
-    if (parm->constellation > atsc_constellation_max || parm->constellation < atsc_constellation_min)
+    if (parm->constellation > atsc_constellation_max /*|| parm->constellation < atsc_constellation_min*/)
     {
         MOD_ERR("atsc constellation overrange");
         return vatek_result_overrange;
@@ -291,7 +291,7 @@ static vatek_result modulator_j83b_setparm(Phms_handle handle, Pmodulator_j83b_p
 {
     vatek_result result = vatek_result_unknown;
     
-    if (parm->constellation > j83b_constellation_max || parm->constellation < j83b_constellation_min)
+    if (parm->constellation > j83b_constellation_max /*|| parm->constellation < j83b_constellation_min*/)
     {
         MOD_ERR("j83b constellation overrange");
         return vatek_result_overrange;
@@ -322,31 +322,31 @@ static vatek_result modulator_dtmb_setparm(Phms_handle handle, Pmodulator_dtmb_p
 {
     vatek_result result = vatek_result_unknown;
     
-    if (parm->constellation > dtmb_constellation_max || parm->constellation < dtmb_constellation_min)
+    if (parm->constellation > dtmb_constellation_max /*|| parm->constellation < dtmb_constellation_min*/)
     {
         MOD_ERR("dtmb constellation overrange");
         return vatek_result_overrange;
     }
 
-    if (parm->ti > dtmb_time_interleaved_max || parm->ti < dtmb_time_interleaved_min)
+    if (parm->ti > dtmb_time_interleaved_max /*|| parm->ti < dtmb_time_interleaved_min*/)
     {
         MOD_ERR("dtmb timeinterleaved overrange");
         return vatek_result_overrange;
     }
 
-    if (parm->coderate > dtmb_coderate_max || parm->coderate < dtmb_coderate_min)
+    if (parm->coderate > dtmb_coderate_max /*|| parm->coderate < dtmb_coderate_min*/)
     {
         MOD_ERR("dtmb coderate overrange");
         return vatek_result_overrange;
     }
 
-    if (parm->carriermode > dtmb_carriermode_max || parm->carriermode < dtmb_carriermode_min)
+    if (parm->carriermode > dtmb_carriermode_max /*|| parm->carriermode < dtmb_carriermode_min*/)
     {
         MOD_ERR("dtmb carriermode overrange");
         return vatek_result_overrange;
     }
 
-    if (parm->syncframe > dtmb_syncframe_max || parm->syncframe < dtmb_syncframe_min)
+    if (parm->syncframe > dtmb_syncframe_max /*|| parm->syncframe < dtmb_syncframe_min*/)
     {
         MOD_ERR("dtmb syncframe overrange");
         return vatek_result_overrange;
@@ -469,31 +469,31 @@ static vatek_result modulator_isdbt_setparm(Phms_handle handle, Pmodulator_isdbt
 {
     vatek_result result = vatek_result_unknown;
 
-    if (parm->constellation > isdbt_constellation_max || parm->constellation < isdbt_constellation_min)
+    if (parm->constellation > isdbt_constellation_max /*|| parm->constellation < isdbt_constellation_min*/)
     {
         MOD_ERR("isdbt constellation overrange");
         return vatek_result_overrange;
     }
 
-    if (parm->fft > isdbt_fft_max || parm->fft < isdbt_fft_min)
+    if (parm->fft > isdbt_fft_max /*|| parm->fft < isdbt_fft_min*/)
     {
         MOD_ERR("isdbt fft overrange");
         return vatek_result_overrange;
     }
 
-    if (parm->guardinterval > isdbt_guardinterval_max || parm->guardinterval < isdbt_guardinterval_min)
+    if (parm->guardinterval > isdbt_guardinterval_max /*|| parm->guardinterval < isdbt_guardinterval_min*/)
     {
         MOD_ERR("isdbt guardinterval overrange");
         return vatek_result_overrange;
     }
 
-    if (parm->coderate > isdbt_coderate_max || parm->coderate < isdbt_coderate_min)
+    if (parm->coderate > isdbt_coderate_max /*|| parm->coderate < isdbt_coderate_min*/)
     {
         MOD_ERR("isdbt coderate overrange");
         return vatek_result_overrange;
     }
             
-    if (parm->ti > isdbt_time_interleaved_max || parm->ti < isdbt_time_interleaved_min)
+    if (parm->ti > isdbt_time_interleaved_max /*|| parm->ti < isdbt_time_interleaved_min*/)
     {
         MOD_ERR("isdbt timeinterleaved overrange");
         return vatek_result_overrange;
@@ -642,7 +642,7 @@ static vatek_result modulator_j83c_setparm(Phms_handle handle, Pmodulator_j83c_p
 {
     vatek_result result = vatek_result_unknown;
     
-    if (parm->constellation > j83c_constellation_max || parm->constellation < j83c_constellation_min)
+    if (parm->constellation > j83c_constellation_max /*|| parm->constellation < j83c_constellation_min*/)
     {
         MOD_ERR("j83c constellation overrange");
         return vatek_result_overrange;
@@ -673,61 +673,61 @@ static vatek_result modulator_dvbt2_setparm(Phms_handle handle, Pmodulator_dvbt2
 {
     vatek_result result = vatek_result_unknown;
 
-    if (parm->version > dvbt2_version_max || parm->version < dvbt2_version_min)
+    if (parm->version > dvbt2_version_max /*|| parm->version < dvbt2_version_min*/)
     {
         MOD_ERR("dvbt2 version overrange");
         return vatek_result_overrange;
     }
     
-    if (parm->issy > dvbt2_issy_max || parm->issy < dvbt2_issy_min)
+    if (parm->issy > dvbt2_issy_max /*|| parm->issy < dvbt2_issy_min*/)
     {
         MOD_ERR("dvbt2 issy overrange");
         return vatek_result_overrange;
     }
 
-    if (parm->nti > dvbt2_nti_max || parm->nti < dvbt2_nti_min)
+    if (parm->nti > dvbt2_nti_max /*|| parm->nti < dvbt2_nti_min*/)
     {
         MOD_ERR("dvbt2 nti overrange");
         return vatek_result_overrange;
     }
 
-    if (parm->l1_constellation > dvbt2_l1_constellation_max || parm->l1_constellation < dvbt2_l1_constellation_min)
+    if (parm->l1_constellation > dvbt2_l1_constellation_max /*|| parm->l1_constellation < dvbt2_l1_constellation_min*/)
     {
         MOD_ERR("dvbt2 l1_constellation overrange");
         return vatek_result_overrange;
     }
 
-    if (parm->plp_constellation > dvbt2_plp_constellation_max || parm->plp_constellation < dvbt2_plp_constellation_min)
+    if (parm->plp_constellation > dvbt2_plp_constellation_max /*|| parm->plp_constellation < dvbt2_plp_constellation_min*/)
     {
         MOD_ERR("dvbt2 plp_constellation overrange");
         return vatek_result_overrange;
     }
 
-    if (parm->fft > dvbt2_fft_max || parm->fft < dvbt2_fft_min)
+    if (parm->fft > dvbt2_fft_max /*|| parm->fft < dvbt2_fft_min*/)
     {
         MOD_ERR("dvbt2 fft overrange");
         return vatek_result_overrange;
     }
 
-    if (parm->coderate > dvbt2_coderate_max || parm->coderate < dvbt2_coderate_min)
+    if (parm->coderate > dvbt2_coderate_max /*|| parm->coderate < dvbt2_coderate_min*/)
     {
         MOD_ERR("dvbt2 coderate overrange");
         return vatek_result_overrange;
     }
     
-    if (parm->guardinterval > dvbt2_guardinterval_max || parm->guardinterval < dvbt2_guardinterval_min)
+    if (parm->guardinterval > dvbt2_guardinterval_max /*|| parm->guardinterval < dvbt2_guardinterval_min*/)
     {
         MOD_ERR("dvbt2 guardinterval overrange");
         return vatek_result_overrange;
     }
     
-    if (parm->pilotpattern > dvbt2_pilotpattern_max || parm->pilotpattern < dvbt2_pilotpattern_min)
+    if (parm->pilotpattern > dvbt2_pilotpattern_max /*|| parm->pilotpattern < dvbt2_pilotpattern_min*/)
     {
         MOD_ERR("dvbt2 pilotpattern overrange");
         return vatek_result_overrange;
     }
     
-    if (parm->fec > dvbt2_fec_max || parm->fec < dvbt2_fec_min)
+    if (parm->fec > dvbt2_fec_max /*|| parm->fec < dvbt2_fec_min*/)
     {
         MOD_ERR("dvbt2 fec overrange");
         return vatek_result_overrange;
@@ -901,12 +901,8 @@ static vatek_result modulator_dvbt2_setparm(Phms_handle handle, Pmodulator_dvbt2
             value = T2_FFT_16K;
             break;
         
-        case dvbt2_fft_32k:
-            value = T2_FFT_32K;
-            break;
-        
         default:
-            value = T2_FFT_32K;
+            value = T2_FFT_16K;
             break;
     }
     if ((result = vatek_hms_write_hal(handle, HALREG_DVB_T2_FFT, value)) != vatek_result_success)

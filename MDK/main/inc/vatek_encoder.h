@@ -1,4 +1,4 @@
-
+#include <stdint.h>
 #ifndef _VATEK_ENCODER_
 #define _VATEK_ENCODER_
 
@@ -12,7 +12,7 @@
     vatek_result vatek_encoder_setmuxparm(Phms_handle handle, encoder_mux_parm parm);
     vatek_result vatek_encoder_setqualityparm(Phms_handle handle, encoder_quality_parm parm);
 
-
+	extern uint8_t frame_mode;
     #define ENCODER_ERR(fmt,...)    VATEK_ERR(encoder,fmt,##__VA_ARGS__)
     #define ENCODER_LOG(fmt,...)    VATEK_LOG(encoder,fmt,##__VA_ARGS__)
 

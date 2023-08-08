@@ -3,10 +3,10 @@
 #define _LOG_TABLE_
 
 #include "stdint.h"
-#include "hal/hal_register/halreg_stream.h"
-#include "hal/hal_register/halreg_output.h"
-#include "hal/hal_register/halreg_mux.h"
-#include "hal/hal_common_define.h"
+#include "hal_backup/hal_register/halreg_stream.h"
+#include "hal_backup/hal_register/halreg_output.h"
+#include "hal_backup/hal_register/halreg_mux.h"
+#include "hal_backup/hal_common_define.h"
 
 #define CONVERT_LOG(type, val) table_lookup(type, val)
 

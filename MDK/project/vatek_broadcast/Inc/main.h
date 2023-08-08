@@ -67,10 +67,6 @@ void Error_Handler(void);
 #define EP_INT_GPIO_Port GPIOE
 #define EP_RST_Pin GPIO_PIN_5
 #define EP_RST_GPIO_Port GPIOE
-#define SX_INT_Pin GPIO_PIN_4
-#define SX_INT_GPIO_Port GPIOE
-#define SX_RST_Pin GPIO_PIN_5
-#define SX_RST_GPIO_Port GPIOE
 #define RF_RST_Pin GPIO_PIN_11
 #define RF_RST_GPIO_Port GPIOE
 #define RF_CS_Pin GPIO_PIN_12
@@ -86,7 +82,10 @@ void Error_Handler(void);
 #define AV_RST_Pin GPIO_PIN_8
 #define AV_RST_GPIO_Port GPIOB
 /* USER CODE BEGIN Private defines */
-
+#define H1_INT_Pin GPIO_PIN_4
+#define H1_INT_GPIO_Port GPIOE
+#define H1_RST_Pin GPIO_PIN_5
+#define H1_RST_GPIO_Port GPIOE
 /* USER CODE END Private defines */
 
 #ifdef __cplusplus

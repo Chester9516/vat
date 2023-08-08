@@ -1,0 +1,10 @@
+vatek_broadcast\vatek_sample_broadcast_via_h1_vatek.o: ..\..\..\sample\src\vatek_sample_broadcast_via_h1_vatek.c
+vatek_broadcast\vatek_sample_broadcast_via_h1_vatek.o: D:\Keil_C\ARM_Pack\ARM\ARMCC\Bin\..\include\stdio.h
+vatek_broadcast\vatek_sample_broadcast_via_h1_vatek.o: D:\Keil_C\ARM_Pack\ARM\ARMCC\Bin\..\include\stdlib.h
+vatek_broadcast\vatek_sample_broadcast_via_h1_vatek.o: D:\Keil_C\ARM_Pack\ARM\ARMCC\Bin\..\include\string.h
+vatek_broadcast\vatek_sample_broadcast_via_h1_vatek.o: ..\..\..\sample\inc\vatek_sample_broadcast_via_h1.h
+vatek_broadcast\vatek_sample_broadcast_via_h1_vatek.o: ..\..\..\inc\vatek_broadcast_api.h
+vatek_broadcast\vatek_sample_broadcast_via_h1_vatek.o: ..\..\..\inc\vatek_define.h
+vatek_broadcast\vatek_sample_broadcast_via_h1_vatek.o: D:\Keil_C\ARM_Pack\ARM\ARMCC\Bin\..\include\stdint.h
+vatek_broadcast\vatek_sample_broadcast_via_h1_vatek.o: ..\..\..\inc\vatek_define_periphral.h
+vatek_broadcast\vatek_sample_broadcast_via_h1_vatek.o: ..\..\..\inc\vatek_api.h

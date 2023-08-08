@@ -179,7 +179,6 @@
     #define T2_FFT_4K                   0x00000002
     #define T2_FFT_8K                   0x00000003
     #define T2_FFT_16K                  0x00000004
-    #define T2_FFT_32K                  0x00000005
 
 #define HALREG_DVB_T2_CODERATE          0x697
     #define T2_CODERATE_1_2             0x00000000

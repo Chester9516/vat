@@ -265,8 +265,17 @@ vatek_result vatek_hms_issystemidle(Phms_handle handle)
 
     if ((result = vatek_hms_read_hal(handle, HALREG_SYS_STATUS_0, &val)) == vatek_result_success)
     {
-        if (val != SYS_STATUS_IDLE)
+        if (val != SYS_STATUS_IDLE){
+#if 1 //for test
+			
+			result = vatek_hms_read_hal(handle, 0x3200, &val);
+			result = vatek_hms_read_hal(handle, 0x2201, &val);
+			result = vatek_hms_read_hal(handle, 0x320b, &val);
+				
+#endif
+			//return vatek_result_success;
             return vatek_result_busy;
+        }
 
         if ((result = vatek_hms_read_hal(handle, HALREG_BROADCAST_CNTL, &val)) == vatek_result_success)
         {

@@ -1,0 +1,12 @@
+vatek_broadcast\vatek_system.o: ..\..\..\system\src\vatek_system.c
+vatek_broadcast\vatek_system.o: ..\..\..\system\inc\vatek_system.h
+vatek_broadcast\vatek_system.o: D:\Keil_C\ARM_Pack\ARM\ARMCC\Bin\..\include\stdio.h
+vatek_broadcast\vatek_system.o: D:\Keil_C\ARM_Pack\ARM\ARMCC\Bin\..\include\stdlib.h
+vatek_broadcast\vatek_system.o: D:\Keil_C\ARM_Pack\ARM\ARMCC\Bin\..\include\string.h
+vatek_broadcast\vatek_system.o: ..\..\..\inc\vatek_define.h
+vatek_broadcast\vatek_system.o: D:\Keil_C\ARM_Pack\ARM\ARMCC\Bin\..\include\stdint.h
+vatek_broadcast\vatek_system.o: ..\..\..\inc\vatek_define_periphral.h
+vatek_broadcast\vatek_system.o: ..\..\..\system\inc\vatek_porting_system.h
+vatek_broadcast\vatek_system.o: ..\..\..\system\inc\vatek_porting_i2c.h
+vatek_broadcast\vatek_system.o: ..\..\..\system\inc\vatek_porting_gpio.h
+vatek_broadcast\vatek_system.o: ..\..\..\system\inc\vatek_porting_uart.h

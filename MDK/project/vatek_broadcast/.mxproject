@@ -1,7 +1,7 @@
 [PreviousGenFiles]
-HeaderPath=C:/Users/Liszt/Desktop/vateksdk/vatek_sdk_for_mcu/project/vatek_broadcast/Inc
+HeaderPath=C:/Users/Liszt/Desktop/vateksdk/MDK/v1.3/mdk/project/vatek_broadcast/Inc
 HeaderFiles=gpio.h;i2c.h;rtc.h;spi.h;usart.h;usb_device.h;usbd_conf.h;usbd_desc.h;usbd_custom_hid_if.h;stm32f4xx_it.h;stm32f4xx_hal_conf.h;main.h;
-SourcePath=C:/Users/Liszt/Desktop/vateksdk/vatek_sdk_for_mcu/project/vatek_broadcast/Src
+SourcePath=C:/Users/Liszt/Desktop/vateksdk/MDK/v1.3/mdk/project/vatek_broadcast/Src
 SourceFiles=gpio.c;i2c.c;rtc.c;spi.c;usart.c;usb_device.c;usbd_conf.c;usbd_desc.c;usbd_custom_hid_if.c;stm32f4xx_it.c;stm32f4xx_hal_msp.c;main.c;
 
 [PreviousLibFiles]

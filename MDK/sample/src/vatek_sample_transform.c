@@ -8,7 +8,8 @@
 #define J83B            1
 #define DVBT            2
 #define ISDBT           3
-#define MOD_TYPE        DVBT 
+#define J83A						4
+#define MOD_TYPE        J83A 
 
 //unit KHz
 #define LOCK_FREQ       473000 
@@ -21,6 +22,8 @@
 #define PSIBYPASS       3
 #define PSI_TYPE        PSIDEF
 
+#define CMDLINE         1
+
 
 static Phtuner tuner_handle = NULL;
 static Phdemod demod_handle = NULL;
@@ -29,6 +32,51 @@ static Phrf rf_handle = NULL;
 
 uint8_t g_serial = 0;
 uint8_t g_clk_inverse = 0;
+
+#if (CMDLINE == 1)
+#include "uart_cmdline.h"
+// for cmdline use start
+static vatek_result _cmdline_help(void);
+static vatek_result _sample_tf_play_allprogram(uint32_t rf_freq);
+static vatek_result _sample_tf_play_program(uint32_t rf_freq, uint8_t program_num);
+static vatek_result _sample_tf_lockfreq(uint32_t freq_khz, uint32_t bandwidth_khz);
+vatek_result sample_tf_stop(void);
+vatek_result sample_tf_statusmsg(void);
+static cmdline_table cmdtable[] =
+{
+    {"tfhelp", (void *)_cmdline_help, 0},
+    {"tfstop", (void *)sample_tf_stop, 0},
+    {"tfplay", (void *)_sample_tf_play_program, 2},
+    {"tfplayall", (void *)_sample_tf_play_allprogram, 1},
+    {"tflock", (void *)_sample_tf_lockfreq, 2},
+    {"tfmsg", (void *)sample_tf_statusmsg, 0},
+};
+static vatek_result _cmdline_help(void)
+{
+    SAMPLE_LOG("- tfstop");
+    SAMPLE_LOG("\t stop transform");
+    SAMPLE_LOG("\t example: tfstop");
+    SAMPLE_LOG("");
+    SAMPLE_LOG("- tfplay rf_freq_khz program_num");
+    SAMPLE_LOG("\t start transform for specific program");
+    SAMPLE_LOG("\t example: tfplay 473000 0");
+    SAMPLE_LOG("");
+    SAMPLE_LOG("- tfplayall rf_freq_khz");
+    SAMPLE_LOG("\t start transform");
+    SAMPLE_LOG("\t example: tfplayall 473000");
+    SAMPLE_LOG("");
+    SAMPLE_LOG("- tflock freq_khz symbol_khz");
+    SAMPLE_LOG("\t lock tuner");
+    SAMPLE_LOG("\t example: tflock 473000 6000");
+    SAMPLE_LOG("");
+    SAMPLE_LOG("- tfmsg");
+    SAMPLE_LOG("\t print broadcast and chipset status");
+    SAMPLE_LOG("\t example: tfmsg");
+    SAMPLE_LOG("");
+    return vatek_result_success;
+}
+// for cmdline use end
+#endif
 
 static vatek_result _sample_setmodulator_parm(void)
 {
@@ -102,15 +150,79 @@ static vatek_result _sample_setmodulator_parm(void)
         SAMPLE_ERR("vatek_transform_modulator_setparm fail: %d", result);
         return result;
     }
+		
+		#elif (MOD_TYPE == J83A) //J83A
+		modulator_base_parm mod_base_parm = {0};
+		mod_base_parm.bw_sb = 5720;
+		mod_base_parm.dacgain = 0;
+		mod_base_parm.iffreq = 0;
+		mod_base_parm.ifmode = m_ifmode_disable;
+		mod_base_parm.type = m_type_j83a;
+		modulator_j83a_parm j83a_parm = {0};
+		j83a_parm.constellation = j83a_constellation_qam256;
+		result = vatek_transform_modulator_setparm(tf_handle, mod_base_parm, (Pmodulator_j83a_parm)&j83a_parm);
+		if(result != vatek_result_success)
+		{
+			SAMPLE_ERR("vatek_transform_modulator_setparm j83a fail: %d", result);
+      return result;
+		}
     #endif
 
     return result;
 }
 
+static vatek_result _sample_tf_enum(Penum_list *list)
+{
+    vatek_result result = vatek_result_success;
+
+    /* step-1 : set tsp input parm (from ts) */
+    ts_input_parm ti_parm = {0};
+    ti_parm.serial = g_serial;
+    ti_parm.clk_inverse = g_clk_inverse;
+    result = vatek_transform_tsp_setinputparm_ts(tf_handle, ti_parm);
+    if (result != vatek_result_success)
+    {
+        SAMPLE_ERR("vatek_transform_tsp_setinputparm_ts fail: %d", result);
+        return result;
+    }
+
+    /* step-2 : enum list */
+    result = vatek_transform_enum_getlist(tf_handle, list);
+    if (result != vatek_result_success)
+    {
+        SAMPLE_ERR("vatek_transform_enum_getlist fail: %d", result);
+        return result;
+    }
+    
+
+    /* dump enum list */
+    uint16_t idx = 0, jdx = 0;
+    SAMPLE_LOG("========= ENUM LIST =========");
+    SAMPLE_LOG("enum_list.program_num = %ld",(*list)->program_num);
+    for (idx = 0; idx < (*list)->program_num; idx++)
+    {
+         SAMPLE_LOG("\tprogram[%d] pcr_pid = %lX", idx, (*list)->program[idx].pcr_pid);
+         SAMPLE_LOG("\tprogram[%d] pmt_pid = %lX", idx, (*list)->program[idx].pmt_pid);
+         SAMPLE_LOG("\tprogram[%d] stream_num = %ld", idx, (*list)->program[idx].stream_num);
+
+         for (jdx = 0; jdx < (*list)->program[idx].stream_num; jdx++)
+         {
+             SAMPLE_LOG("\t\tstream[%d] type = %X", jdx, (*list)->program[idx].stream[jdx].type);
+             SAMPLE_LOG("\t\tstream[%d] encode_type = %lX", jdx, (*list)->program[idx].stream[jdx].encode_type);
+             SAMPLE_LOG("\t\tstream[%d] stream_pid = %lX", jdx, (*list)->program[idx].stream[jdx].stream_pid);
+             SAMPLE_LOG("\t\tstream[%d] stream_type = %lX", jdx, (*list)->program[idx].stream[jdx].stream_type);
+             SAMPLE_LOG("\t\tstream[%d] esinfo_len = %lX", jdx, (*list)->program[idx].stream[jdx].esinfo_len);
+         }
+    }
+
+    return result;
+}
+
+
 static vatek_result _sample_tf_lockfreq(uint32_t freq_khz, uint32_t bandwidth_khz)
 {
     vatek_result result = vatek_result_unknown;
-    uint32_t timeout = 2000;
+    uint32_t timeout = 15000;
     uint32_t tick = 0;
     
     tuner_lockparm freqparm;
@@ -263,8 +375,8 @@ static vatek_result _smaple_tf_default_psitable(void)
     
     //Add program parameter.
     psispec_default_program_tr prog;
-    prog.pcr_pid = 0x100;
-    prog.pmt_pid = 0x1000;
+    prog.pcr_pid = 0x111;
+    prog.pmt_pid = 0x300;
     prog._prog.iso_prog.program_number = 0x10;
     if((result = vatek_transform_psispec_default_program_add(&prog)) == vatek_result_success)
     {
@@ -276,7 +388,7 @@ static vatek_result _smaple_tf_default_psitable(void)
         //Add stream parameter.
         psispec_default_stream_tr v_stream;
         v_stream.type = psi_def_stream_type_video;
-        v_stream.stream_pid = 0x1002;
+        v_stream.stream_pid = 0x301;
         v_stream.es_type = 0x02;
         v_stream.es_len = 10;
         v_stream._stream.video_param = &vparam;
@@ -288,15 +400,15 @@ static vatek_result _smaple_tf_default_psitable(void)
         }
     
         audio_param aparam;
-        aparam.type = ae_type_ac_3;
+        aparam.type = ae_type_mp1_l2;
         aparam.channel = ae_channel_stereo;
         aparam.samplerate = ai_samplerate_48K;
         
         //Add stream parameter.
         psispec_default_stream_tr a_stream;
         a_stream.type = psi_def_stream_type_audio;
-        a_stream.stream_pid = 0x1003;
-        a_stream.es_type = 0x06;
+        a_stream.stream_pid = 0x311;
+        a_stream.es_type = 0x03;
         a_stream.es_len = 10;
         a_stream._stream.audio_param = &aparam;
         a_stream.es = NULL;
@@ -325,6 +437,210 @@ static vatek_result _smaple_tf_default_psitable(void)
     return result;
 }
 #endif
+
+static vatek_result _sample_tf_capture(void)
+{
+    vatek_result result = vatek_result_unknown;
+    
+    /* step-1 : set tsp input parm (from ts) */
+    ts_input_parm ti_parm = {0};
+    ti_parm.serial = g_serial;
+    ti_parm.clk_inverse = g_clk_inverse;
+    result = vatek_transform_tsp_setinputparm_ts(tf_handle, ti_parm);
+    if (result != vatek_result_success)
+    {
+        SAMPLE_ERR("vatek_transform_tsp_setinputparm_ts fail: %d", result);
+        return result;
+    }
+
+    /* step-2 : capture table (from ts) */
+    Ppsitable_parm table = NULL;
+    capture_param capture = {0};
+    capture.pid = 0x60;
+    capture.table_id = 0x40;
+    capture.section_num = 1;
+    result = vatek_transform_capture(tf_handle, &table, &capture);
+    if (result != vatek_result_success)
+    {
+        SAMPLE_ERR("vatek_transform_capture fail: %d", result);
+        return result;
+    }
+    
+    // print table.
+    printf("PMT table = %c",table->tspackets[0]);
+    return result;
+}
+
+static vatek_result _sample_tf_play_program(uint32_t rf_freq, uint8_t program_num)
+{
+    vatek_result result = vatek_result_unknown;
+
+    /* step-2 : enum all program list */
+    Penum_list list = NULL;
+//    result = _sample_tf_enum(&list);
+//    if (result != vatek_result_success)
+//    {
+//        SAMPLE_ERR("_sample_tf_enum fail: %d", result);
+//        return result;
+//    }
+
+    /* step-3.1 : set program filter from enum */
+    /* only pass the program_num's video pid / audio pid / pcr pid */
+    tsp_filter_parm filter_parm = {0};
+    uint16_t idx = 0;
+    filter_parm.filter_num = 0;
+		filter_parm.filter[filter_parm.filter_num++].pid = 0x301;
+		filter_parm.filter[filter_parm.filter_num++].pid = 0x311;
+//    filter_parm.filter[filter_parm.filter_num++].pid = list->program[program_num].pcr_pid;  //pcr pid
+//    for (idx = 0; idx < list->program[program_num].stream_num; idx++)
+//    {
+//        
+//        if (list->program[program_num].stream[idx].type == stream_type_video || 
+//            list->program[program_num].stream[idx].type == stream_type_audio)
+//        {
+//            /* use original stream pid */
+//            filter_parm.filter[filter_parm.filter_num++].pid = list->program[program_num].stream[idx].stream_pid; //audio & video pid
+//        }
+//        else
+//        {
+//            /* drop other stream type */
+//            ;
+//        }
+//    } 
+    result = vatek_transform_tsp_setfilterparm(tf_handle, filter_parm);
+    if (result != vatek_result_success)
+    {
+        SAMPLE_ERR("vatek_transform_tsp_setfilterparm fail: %d", result);
+        return result;
+    }
+
+#if (PSI_TYPE==PSIPURE)
+		/* set tsmux parm */
+    result = vatek_transform_tsmux_setparm(tf_handle, tsmux_type_pure);
+    if (result != vatek_result_success)
+    {
+        SAMPLE_ERR("vatek_transform_tsmux_setparm fail: %d", result);
+        return result;
+    }
+    
+    /* register pure mode of the psi table */
+    result = _sample_tf_pure_psitable();
+    if (result != vatek_result_success)
+    {
+        SAMPLE_ERR("vatek_broadcast_psitable_register fail: %d", result);
+        return result;
+    }else SAMPLE_LOG("PURE PSI Table OK");
+//    /* step-3.2 : re-gen PAT & PMT, set PSITABLE parameter*/
+//    static uint8_t PAT[188] = {
+//			0x47,0x40,0x00,0x11,0x00,0x00,0xB0,0x0D,0x00,0x02, //10 per line
+//			0xC3,0x00,0x00,0x00,0x01,0xE0,0x11,0x00,0x7C,0xEC,
+//			0x1A,0xFF
+//		};
+//		static uint8_t PMT[188] = {
+//			0x47,0x40,0x11,0x1C,0x00,0x02,0xB0,0x17,0x00,0x01,
+//			0xC3,0x00,0x00,0xE1,0x00,0xF0,0x00,0x02,0xF0,0x02,
+//			0xF0,0x00,0x81,0xF0,0x03,0xF0,0x00,0x33,0xAC,0x4E,
+//			0x7C,0xFF
+//		};
+//    _sample_gen_pat(PAT, program_num+1, list->program[program_num].pmt_pid);
+//    _sample_gen_pmt(PMT, program_num+1, &list->program[program_num]);
+//    psitablelist_parm psi_parm = {0};
+//    psi_parm.table_num = 2;
+//    psi_parm.table[0].interval_ms = 500;
+//    psi_parm.table[0].tspacket_num = 1;
+//    psi_parm.table[0].tspackets = PAT;
+//    psi_parm.table[1].interval_ms = 500;
+//    psi_parm.table[1].tspacket_num = 1;
+//    psi_parm.table[1].tspackets = PMT;
+//    result = vatek_transform_psitable_register(tf_handle, &psi_parm);
+//    if (result != vatek_result_success)
+//    {
+//        SAMPLE_ERR("vatek_transform_psitable_register fail: %d", result);
+//        return result;
+//    }
+
+//    /* set tsmux parm */
+//    tsmux_pure_parm pure_parm = {0};
+//    pure_parm.padding_pid = 0x1FFF;
+//    result = vatek_transform_tsmux_setparm(tf_handle, tsmux_type_pure);
+//    if (result != vatek_result_success)
+//    {
+//        SAMPLE_ERR("vatek_transform_tsmux_setparm fail: %d", result);
+//        return result;
+//    }
+#elif (PSI_TYPE==PSIDEF)
+		result = vatek_transform_tsmux_setparm(tf_handle, tsmux_type_default);
+    if (result != vatek_result_success)
+    {
+        SAMPLE_ERR("vatek_transform_tsmux_setparm fail: %d", result);
+        return result;
+    } 
+    
+    /* register default mode of the psi table */
+    result = _smaple_tf_default_psitable();
+    if(result != vatek_result_success)
+    {
+        SAMPLE_ERR("vatek_transform_default_psi fail: %d", result);
+        return result;
+    }else SAMPLE_LOG("DEFAULT PSI Table OK");
+
+#endif
+
+    /* step-4 : set tranform setting */
+    /* set tsp input parm (from ts) */
+    ts_input_parm ti_parm = {0};
+    ti_parm.serial = g_serial;
+    ti_parm.clk_inverse = g_clk_inverse;
+		ti_parm.pcr_mode = pcr_retagv2;
+    result = vatek_transform_tsp_setinputparm_ts(tf_handle, ti_parm);
+    if (result != vatek_result_success)
+    {
+        SAMPLE_ERR("vatek_transform_tsin_setparm fail: %d", result);
+        return result;
+    }
+
+    /* set modulator parm */
+    result = _sample_setmodulator_parm();
+    if (result != vatek_result_success)
+    {
+        SAMPLE_ERR("_sample_setmodulator_parm fail: %d", result);
+        return result;
+    }
+
+    /* step-5 : start rf */
+    result = vatek_rf_start(rf_handle, rf_freq);
+    if (result != vatek_result_success)
+    {
+        SAMPLE_ERR("vatek_rf_start fail: %d", result);
+        return result;
+    }
+
+    /* step-6 : start transform */
+    result = vatek_transform_start(tf_handle);
+    if (result != vatek_result_success)
+    {
+        SAMPLE_ERR("vatek_transform_start fail: %d", result);
+        return result;
+    }
+		broadcast_status a3_s = bc_status_unknown;
+		while(a3_s != bc_status_wait_source){
+			vatek_transform_bcstatus(tf_handle, &a3_s);
+		}
+		uint32_t a_tick = vatek_system_gettick();
+		while(vatek_system_gettick() - a_tick < 10000){
+			printf("count down 10 second.\r\n");
+		}
+		result = _sample_tf_lockfreq(LOCK_FREQ, LOCK_SYMBOL);
+    if (result != vatek_result_success)
+    {
+        SAMPLE_ERR("sample_tf_lockfreq fail: %d", result);
+        return result;
+    }
+
+    SAMPLE_LOG("========= START TRANSFORM (program[%d]) =========",program_num);
+
+    return result;
+}
 
 static vatek_result _sample_tf_play_allprogram(uint32_t rf_freq)
 {
@@ -409,6 +725,36 @@ static vatek_result _sample_tf_play_allprogram(uint32_t rf_freq)
     return result;
 }
 
+vatek_result sample_tf_capture(void)
+{
+    vatek_result result = vatek_result_unknown;
+
+    /* step-1 : lock tuner & demod signal */
+    result = _sample_tf_lockfreq(LOCK_FREQ, LOCK_SYMBOL);
+    if (result != vatek_result_success)
+    {
+        SAMPLE_ERR("sample_tf_lockfreq fail: %d", result);
+        return result;
+    }
+    
+    return _sample_tf_capture();
+}
+
+vatek_result sample_tf_play_program(uint8_t program_num)
+{
+    vatek_result result = vatek_result_unknown;
+
+    /* step-1 : lock tuner & demod signal */
+//    result = _sample_tf_lockfreq(LOCK_FREQ, LOCK_SYMBOL);
+//    if (result != vatek_result_success)
+//    {
+//        SAMPLE_ERR("sample_tf_lockfreq fail: %d", result);
+//        return result;
+//    }
+
+    return _sample_tf_play_program(RF_FREQ, program_num);
+}
+
 vatek_result sample_tf_play_allprogram(void)
 {
     vatek_result result = vatek_result_unknown;
@@ -462,6 +808,11 @@ vatek_result sample_tf_stop(void)
 vatek_result sample_tf_init(Phtransform bh_main, Pboard_handle bh_demod, Pboard_handle bh_tuner, Pboard_handle bh_rf)
 {
     vatek_result result = vatek_result_unknown;
+    
+    #if (CMDLINE == 1)
+    // for cmdline use
+    uart_cmdline_init(cmdtable, sizeof(cmdtable)/sizeof(cmdline_table));
+    #endif
 
     /* init VATEK transform */
     result = vatek_transform_create(bh_main, &tf_handle);
@@ -500,4 +851,39 @@ vatek_result sample_tf_init(Phtransform bh_main, Pboard_handle bh_demod, Pboard_
     }
 
     return result;
+}
+
+vatek_result sample_tf_statusmsg(void)
+{
+    vatek_result result = vatek_result_unknown;
+    chip_status s_chip = chip_status_unknown;
+    broadcast_status s_bc = bc_status_unknown;
+
+    result = vatek_transform_chipstatus(tf_handle, &s_chip);
+    if (result != vatek_result_success)
+    {
+        SAMPLE_ERR("vatek_transform_chipstatus fail : %d", result);
+        return result;
+    }
+    SAMPLE_LOG("chip status : %d", s_chip);
+    
+    result = vatek_transform_bcstatus(tf_handle, &s_bc);
+    if (result != vatek_result_success)
+    {
+        SAMPLE_ERR("vatek_transform_chipstatus fail : %d", result);
+        return result;
+    }
+    SAMPLE_LOG("broadcast status : %d", s_bc);
+
+    return result;
+}
+
+vatek_result sample_tf_polling(void)
+{
+    #if (CMDLINE == 1)
+    // for cmdline use
+    uart_cmdline_polling();
+    #endif
+    
+    return vatek_result_success;
 }
