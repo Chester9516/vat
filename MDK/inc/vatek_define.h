@@ -63,6 +63,9 @@
         bc_infotype_peripheral_en       = 5,
         bc_infotype_insupport           = 6,
         bc_infotype_outsupport          = 7,
+				bc_phy_external									= 8,
+				bc_reg_600											= 9,
+				h1_set_0x11											= 10,
         bc_infotype_min                 = bc_infotype_unknown,
         bc_infotype_max                 = bc_infotype_outsupport,
     }broadcast_infotype;
@@ -95,6 +98,18 @@
     /**
     * @brief video output type of logo mode.
     */
+    typedef enum _encoder_input
+    {
+        input_mode_unknown              = 0,     ///< unknow logo type.
+        input_mode_external							= 0x00000002,
+				input_mode_internal							= 0x00000003,
+        input_mode_min                  = input_mode_external,
+        input_mode_max                  = input_mode_internal,
+    }encoder_input;
+		
+		/**
+    * @brief video output type of logo mode.
+    */
     typedef enum _logo_type
     {
         logo_type_unknown              = 0,     ///< unknow logo type.
@@ -103,8 +118,6 @@
         logo_type_min                  = logo_type_unknown,
         logo_type_max                  = logo_type_bootlogo,
     }logo_type;
-
-    
     
     /**
     * @brief video input resolution.
@@ -116,25 +129,26 @@
         vi_resolution_1080p59_94       = 2,     ///< resolution 1080P, fps 59.94Hz.
         vi_resolution_1080p50          = 3,     ///< resolution 1080P, fps 50Hz.
         vi_resolution_1080p30          = 4,     ///< resolution 1080P, fps 30Hz.
-        vi_resolution_1080p25          = 5,     ///< resolution 1080P, fps 20Hz.
-        vi_resolution_1080p24          = 6,     ///< resolution 1080P, fps 24Hz.
-        vi_resolution_1080p23_97       = 7,     ///< resolution 1080P, fps 23.97Hz.
-        vi_resolution_1080i60          = 8,     ///< resolution 1080i, fps 60Hz.
-        vi_resolution_1080i59_94       = 9,     ///< resolution 1080i, fps 50.94Hz.
-        vi_resolution_1080i50          = 10,    ///< resolution 1080i, fps 50Hz.
-        vi_resolution_720p60           = 11,    ///< resolution 720P, fps 60Hz.
-        vi_resolution_720p59_94        = 12,    ///< resolution 720P, fps 59.94Hz.
-        vi_resolution_720p50           = 13,    ///< resolution 720P, fps 50Hz.
-        vi_resolution_576p50           = 14,    ///< resolution 576P, fps 50Hz.
-        vi_resolution_480p60           = 15,    ///< resolution 480P, fps 60Hz.
-        vi_resolution_480p59_94        = 16,    ///< resolution 480P, fps 59.94Hz.
-        vi_resolution_576i50           = 17,    ///< resolution 576i, fps 50Hz.
-        vi_resolution_576p25           = 18,    ///< resolution 576P, fps 25Hz.
-        vi_resolution_480i60           = 19,    ///< resolution 480i, fps 60Hz.
-        vi_resolution_480i59_94        = 20,    ///< resolution 480i, fps 59.94Hz.
-        vi_resolution_480p30           = 21,    ///< resolution 480P, fps 30Hz.
-        vi_resolution_480p29_97        = 22,    ///< resolution 480P, fps 29.97Hz.
-        vi_resolution_bus8_min         = vi_resolution_576i50,    
+				vi_resolution_1080p29_97			 = 5,
+        vi_resolution_1080p25          = 6,     ///< resolution 1080P, fps 20Hz.
+        vi_resolution_1080p24          = 7,     ///< resolution 1080P, fps 24Hz.
+        vi_resolution_1080p23_97       = 8,     ///< resolution 1080P, fps 23.97Hz.
+        vi_resolution_1080i60          = 9,     ///< resolution 1080i, fps 60Hz.
+        vi_resolution_1080i59_94       = 10,     ///< resolution 1080i, fps 50.94Hz.
+        vi_resolution_1080i50          = 11,    ///< resolution 1080i, fps 50Hz.
+        vi_resolution_720p60           = 12,    ///< resolution 720P, fps 60Hz.
+        vi_resolution_720p59_94        = 13,    ///< resolution 720P, fps 59.94Hz.
+        vi_resolution_720p50           = 14,    ///< resolution 720P, fps 50Hz.
+        vi_resolution_576p50           = 15,    ///< resolution 576P, fps 50Hz.
+        vi_resolution_480p60           = 16,    ///< resolution 480P, fps 60Hz.
+        vi_resolution_480p59_94        = 17,    ///< resolution 480P, fps 59.94Hz.
+        vi_resolution_576i50           = 18,    ///< resolution 576i, fps 50Hz.
+        vi_resolution_576p25           = 19,    ///< resolution 576P, fps 25Hz.
+        vi_resolution_480i60           = 20,    ///< resolution 480i, fps 60Hz.
+        vi_resolution_480i59_94        = 21,    ///< resolution 480i, fps 59.94Hz.
+        vi_resolution_480p30           = 22,    ///< resolution 480P, fps 30Hz.
+        vi_resolution_480p29_97        = 23,    ///< resolution 480P, fps 29.97Hz.
+        vi_resolution_bus8_min         = vi_resolution_576p50,   //vi_resolution_576i50 
         vi_resolution_bus8_max         = vi_resolution_480p29_97,
         vi_resolution_min              = vi_resolution_unknown,
         vi_resolution_max              = vi_resolution_480p29_97,
@@ -152,6 +166,17 @@
         vi_aspectrate_max              = vi_aspectrate_4_3,
     }video_input_aspectrate;
 
+		/**
+    * @brief logo output index of logo type of logo mode.
+    */
+    typedef struct _logo_input_parm
+    {
+        logo_type type;      ///< see logo_type
+        uint32_t logoidx;    ///< logo index. logo images is stored in the flash.
+				video_input_resolution resolution;
+				video_input_aspectrate aspectrate;
+    }logo_input_parm, *Plogo_input_parm;
+		
     /**
     * @brief video input parameter in chip. input parameter must be as same as phy output parameter.
     */
@@ -168,6 +193,7 @@
         uint8_t vsync_inverse;                  ///< phy to chip vsync pin. vsync signal inverse bool.
         uint8_t field_inverse;                  ///< phy to chip FID pin. FID signal inverse bool.
         uint8_t ext_half_fps;                   ///< output fps half. output fps = input fps/2.
+				encoder_input input_mode;
     }video_input_parm, *Pvideo_input_parm;
 
     /**
@@ -183,18 +209,6 @@
         ai_samplerate_max              = ai_samplerate_32K,
     }audio_input_samplerate;
 
-		/**
-    * @brief logo output index of logo type of logo mode.
-    */
-    typedef struct _logo_input_parm
-    {
-        logo_type type;      ///< see logo_type
-        uint32_t logoidx;    ///< logo index. logo images is stored in the flash.
-				video_input_resolution resolution;
-				video_input_aspectrate aspectrate;
-				audio_input_samplerate samplerate;
-    }logo_input_parm, *Plogo_input_parm;
-		
     /**
     * @brief audio input parameter in chip. input parameter must be as same as phy output parameter. 
     */
@@ -226,10 +240,21 @@
         uint8_t fixed_rc_threshold;              ///< stop the latency of the encode parm affect the q(quantization).
         uint8_t en_interlaced;                   ///< enable interlaced via b3+.
         uint8_t en_sw_clk;
-				uint8_t en_h264_fullrun;
-				uint8_t en_drop_frame;
-				uint8_t en_qcost;
+				uint32_t en_h264_fullrun;
+				uint32_t en_drop_frame;
+				uint32_t en_qcost;
+				uint32_t mux_bitrate;
     }video_encode_parm, *Pvideo_encode_parm;
+		
+		//V1 encoder flag
+		typedef struct _video_encoder_v1_parm
+    {
+        video_encode_type type;                  ///< video encoder type.
+//        uint8_t progressive_2_i;                 ///< video progressive change to interlace.
+//				uint8_t en_interlaced;                   
+				uint32_t output_bitrate;
+
+    }video_encode_v1_parm, *Pvideo_encode_v1_parm;
 
     /**
     * @brief audio encoder type.
@@ -377,7 +402,6 @@
         uint32_t pmt_pid;                         ///< PMT table pid.
         uint32_t padding_pid;                     ///< padding pid.
         uint32_t en_function;                     ///< option function.
-				uint32_t mux_bitrate;
     }tsmux_default_parm, *Ptsmux_default_parm;
 
 
@@ -828,8 +852,9 @@
         dvbt2_fft_4k                    = 3,
         dvbt2_fft_8k                    = 4,
         dvbt2_fft_16k                   = 5,
+        dvbt2_fft_32k                   = 6,
         dvbt2_fft_min                   = dvbt2_fft_unknown,
-        dvbt2_fft_max                   = dvbt2_fft_16k,
+        dvbt2_fft_max                   = dvbt2_fft_32k,
     }dvbt2_fft;
 
     typedef enum _dvbt2_coderate
@@ -923,8 +948,17 @@
         pcr_disable     = 0,        ///< no modify ts stream.
         pcr_adjust      = 1,        ///< insert null packet to align pcr tick.
         pcr_retag       = 2,        ///< remux ts stream to align modulator.
+				pcr_retagv2			= 3,
     }tsp_pcr_mode;
     
+		typedef enum _tsp_stream_mode
+		{
+			tsin_bypass = 0,
+			tsin_smooth = 1,
+			tsin_remux = 2,
+			tsin_passthrough,
+		}tsp_stream_mode, Ptsp_stream_mode;
+		
     typedef struct _ts_input_parm
     {
         uint8_t     serial;
@@ -932,6 +966,7 @@
         uint8_t     valid_inverse;
         uint8_t     sync_inverse;
         tsp_pcr_mode    pcr_mode;
+				tsp_stream_mode tsin_mode;
     }ts_input_parm, *Pts_input_parm;
 
     typedef struct _tsp_filter
@@ -985,7 +1020,14 @@
         uint32_t program_num;
         Penum_program program;
     }enum_list, *Penum_list;
-
+    
+    /*------------------------ capture (transform only) ------------------------*/
+    typedef struct _capture_param
+    {
+        uint16_t pid;			    /*!< capture pid */
+        uint16_t table_id;          /*!< capture table_id */
+        uint16_t section_num;
+    }capture_param, *Pcapture_param;
 
 
     /*------------------------ psispec_rule (both) ------------------------*/

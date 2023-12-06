@@ -52,3 +52,17 @@ vatek_broadcast\main.o: ..\..\..\sample\inc\vatek_sample_broadcast.h
 vatek_broadcast\main.o: ..\..\..\inc\vatek_api.h
 vatek_broadcast\main.o: ..\..\..\inc\vatek_define.h
 vatek_broadcast\main.o: ..\..\..\inc\vatek_define_periphral.h
+vatek_broadcast\main.o: ..\..\..\tool\inc\vatek_sample_keypad_stm32f401.h
+vatek_broadcast\main.o: ..\..\..\tool\inc\uart_cmdline.h
+vatek_broadcast\main.o: ..\..\..\main\inc\vatek_hms.h
+vatek_broadcast\main.o: ..\..\..\system\inc\vatek_system.h
+vatek_broadcast\main.o: ..\..\..\main\inc\hal/halservice_base.h
+vatek_broadcast\main.o: ..\..\..\main\inc\hal/halreg_define.h
+vatek_broadcast\main.o: ..\..\..\main\inc\hal/halreg_stream.h
+vatek_broadcast\main.o: ..\..\..\main\inc\hal/halreg_output.h
+vatek_broadcast\main.o: ..\..\..\main\inc\hal/halservice_broadcast.h
+vatek_broadcast\main.o: ..\..\..\main\inc\hal/halreg_mux.h
+vatek_broadcast\main.o: ..\..\..\main\inc\hal/halservice_rescure.h
+vatek_broadcast\main.o: ..\..\..\main\inc\hal/halreg_rfmixer.h
+vatek_broadcast\main.o: ..\..\..\main\inc\hal/halservice_transform.h
+vatek_broadcast\main.o: ..\..\..\main\inc\hal/halreg_playload.h

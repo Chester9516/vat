@@ -7,6 +7,7 @@
 #endif
 
     vatek_result vatek_tsmux_setparm(Phms_handle handle, tsmux_type type, Ptsmux_parm parm);
+		vatek_result vatek_tsmux_setparm_v1(Phms_handle handle, tsmux_type type, Ptsmux_parm parm);
 
     #define TSMUX_ERR(fmt,...)    VATEK_ERR(tsmux,fmt,##__VA_ARGS__)
     #define TSMUX_LOG(fmt,...)    VATEK_LOG(tsmux,fmt,##__VA_ARGS__)

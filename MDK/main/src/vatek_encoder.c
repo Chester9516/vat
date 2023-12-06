@@ -14,11 +14,11 @@ static vatek_result encoder_vi_setparm(Phms_handle handle, video_input_parm vpar
 
     if (vparm.buswidth_16 == 0)
     {
-        if (vparm.resolution > vi_resolution_bus8_max || vparm.resolution < vi_resolution_bus8_min)
-        {
-            ENCODER_ERR("vi resolution overrange");
-            return vatek_result_overrange;
-        }
+//        if (vparm.resolution > vi_resolution_bus8_max || vparm.resolution < vi_resolution_bus8_min)
+//        {
+//            ENCODER_ERR("vi resolution overrange");
+//            return vatek_result_overrange;
+//        }
     }
     else
     {
@@ -352,6 +352,12 @@ static vatek_result encoder_logo_setparm(Phms_handle handle, logo_input_parm par
             framerate = FRAMERATE_30;
             clk = 74250;
             break;
+				
+				case vi_resolution_1080p29_97:
+						resolution = RESOLUTION_1080P;	
+						framerate = FRAMERATE_29_97;
+						clk = 74125;
+						break;
             
         case vi_resolution_1080p25:
             resolution = RESOLUTION_1080P;
@@ -496,23 +502,23 @@ static vatek_result encoder_logo_setparm(Phms_handle handle, logo_input_parm par
     if ((result = vatek_hms_write_hal(handle, HALREG_VIDEO_ASPECTRATE, value)) != vatek_result_success)
         return result;
 
-		uint32_t samplerate = 0;
-		switch (parm.samplerate)
-		{
-			case ai_samplerate_48K:
-				samplerate = SAMPLERATE_48KHZ;
-			
-			case ai_samplerate_44_1K:
-				samplerate = SAMPLERATE_44_1KHZ;
-			
-			case ai_samplerate_32K:
-				samplerate = SAMPLERATE_32KHZ;
-			
-			case ai_samplerate_unknown:
-				samplerate = SAMPLERATE_48KHZ;
-		}
-		if((result = vatek_hms_write_hal(handle, HALREG_AUDIO_SAMPLERATE, samplerate))!= vatek_result_success)
-			return result;
+//		uint32_t samplerate = 0;
+//		switch (parm.samplerate)
+//		{
+//			case ai_samplerate_48K:
+//				samplerate = SAMPLERATE_48KHZ;
+//			
+//			case ai_samplerate_44_1K:
+//				samplerate = SAMPLERATE_44_1KHZ;
+//			
+//			case ai_samplerate_32K:
+//				samplerate = SAMPLERATE_32KHZ;
+//			
+//			case ai_samplerate_unknown:
+//				samplerate = SAMPLERATE_48KHZ;
+//		}
+//		if((result = vatek_hms_write_hal(handle, HALREG_AUDIO_SAMPLERATE, samplerate))!= vatek_result_success)
+//			return result;
 		
     if ((result = vatek_hms_write_hal(handle, HALREG_BROADCAST_STREAM, STREAM_ENCODER)) != vatek_result_success)
             return result;
@@ -584,6 +590,9 @@ static vatek_result encoder_ve_setparm(Phms_handle handle, video_encode_parm vpa
 				value |= ENC_EN_Q_COST;
 
     if ((result = vatek_hms_write_hal(handle, HALREG_ENCODER_FLAGS, value)) != vatek_result_success)
+        return result;
+		
+		if ((result = vatek_hms_write_hal(handle, HALREG_MUX_BITRATE, vparm.mux_bitrate)) != vatek_result_success)
         return result;
 
     return result;

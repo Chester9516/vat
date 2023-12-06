@@ -108,8 +108,8 @@ int main(void)
   /* USER CODE END 2 */
   
   /* Input data rate should be less than output data rate. */
- sample_tf_play_program(1);
-//    sample_tf_play_allprogram();
+// sample_tf_play_program(1);
+    sample_tf_play_allprogram();
 //  sample_tf_capture();
     
   

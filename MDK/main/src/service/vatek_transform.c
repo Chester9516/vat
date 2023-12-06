@@ -161,8 +161,8 @@ vatek_result vatek_transform_create(Pboard_handle hboard, Phtransform *handle)
     hms_handle->type = hms_type_transform;
     *handle = hms_handle;
 
-    if ((result = transform_reset(*handle)) != vatek_result_success)
-        return result;
+//    if ((result = transform_reset(*handle)) != vatek_result_success) //try not repeat V1 in V1 process 20231128
+//        return result;
     
     return result;
 }
@@ -294,7 +294,7 @@ vatek_result vatek_transform_chipstatus(Phtransform handle, chip_status *status)
     return result;
 }
 
-#if 0
+#if 1
 //Remove this function
 vatek_result vatek_transform_enum_getlist(Phtransform handle, Penum_list *list)
 {

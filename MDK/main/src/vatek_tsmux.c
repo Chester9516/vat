@@ -219,8 +219,8 @@ static vatek_result tsmux_default_setparm(Phms_handle handle, Ptsmux_default_par
     if ((result = vatek_hms_write_hal(handle, HALREG_MUX_PADDING_PID, parm->padding_pid)) != vatek_result_success)
         return result;
 		
-		if ((result = vatek_hms_write_hal(handle, HALREG_MUX_BITRATE, parm->mux_bitrate)) != vatek_result_success)
-        return result;
+//		if ((result = vatek_hms_write_hal(handle, HALREG_MUX_BITRATE, parm->mux_bitrate)) != vatek_result_success)
+//        return result;
     
     if ((result = vatek_hms_read_hal(handle, HALREG_MUX_FLAGS, &en_function)) == vatek_result_success)
     {

@@ -1,0 +1,9 @@
+vatek_encoder\vatek_phy.o: ..\..\..\peripheral\src\phy\vatek_phy.c
+vatek_encoder\vatek_phy.o: ..\..\..\system\inc\vatek_system.h
+vatek_encoder\vatek_phy.o: D:\Keil_C\ARM_Pack\ARM\ARMCC\Bin\..\include\stdio.h
+vatek_encoder\vatek_phy.o: D:\Keil_C\ARM_Pack\ARM\ARMCC\Bin\..\include\stdlib.h
+vatek_encoder\vatek_phy.o: D:\Keil_C\ARM_Pack\ARM\ARMCC\Bin\..\include\string.h
+vatek_encoder\vatek_phy.o: ..\..\..\inc\vatek_define.h
+vatek_encoder\vatek_phy.o: D:\Keil_C\ARM_Pack\ARM\ARMCC\Bin\..\include\stdint.h
+vatek_encoder\vatek_phy.o: ..\..\..\inc\vatek_define_periphral.h
+vatek_encoder\vatek_phy.o: ..\..\..\peripheral\inc\phy/phy_h1.h

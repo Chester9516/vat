@@ -4,6 +4,8 @@
 #include <string.h>
 #include "vatek_sample_transform.h"
 
+#define NIM 0
+
 #define ATSC            0
 #define J83B            1
 #define DVBT            2
@@ -20,7 +22,7 @@
 #define PSIPURE         1
 #define PSIDEF          2
 #define PSIBYPASS       3
-#define PSI_TYPE        PSIDEF
+#define PSI_TYPE        PSIPURE
 
 #define CMDLINE         1
 
@@ -187,12 +189,14 @@ static vatek_result _sample_tf_enum(Penum_list *list)
     }
 
     /* step-2 : enum list */
+#if 0
     result = vatek_transform_enum_getlist(tf_handle, list);
     if (result != vatek_result_success)
     {
         SAMPLE_ERR("vatek_transform_enum_getlist fail: %d", result);
         return result;
     }
+
     
 
     /* dump enum list */
@@ -214,6 +218,7 @@ static vatek_result _sample_tf_enum(Penum_list *list)
              SAMPLE_LOG("\t\tstream[%d] esinfo_len = %lX", jdx, (*list)->program[idx].stream[jdx].esinfo_len);
          }
     }
+#endif
 
     return result;
 }
@@ -452,7 +457,7 @@ static vatek_result _sample_tf_capture(void)
         SAMPLE_ERR("vatek_transform_tsp_setinputparm_ts fail: %d", result);
         return result;
     }
-
+#if 0
     /* step-2 : capture table (from ts) */
     Ppsitable_parm table = NULL;
     capture_param capture = {0};
@@ -465,9 +470,10 @@ static vatek_result _sample_tf_capture(void)
         SAMPLE_ERR("vatek_transform_capture fail: %d", result);
         return result;
     }
+#endif
     
     // print table.
-    printf("PMT table = %c",table->tspackets[0]);
+//    printf("PMT table = %c",table->tspackets[0]);
     return result;
 }
 
@@ -477,36 +483,36 @@ static vatek_result _sample_tf_play_program(uint32_t rf_freq, uint8_t program_nu
 
     /* step-2 : enum all program list */
     Penum_list list = NULL;
-//    result = _sample_tf_enum(&list);
-//    if (result != vatek_result_success)
-//    {
-//        SAMPLE_ERR("_sample_tf_enum fail: %d", result);
-//        return result;
-//    }
+    result = _sample_tf_enum(&list);
+    if (result != vatek_result_success)
+    {
+        SAMPLE_ERR("_sample_tf_enum fail: %d", result);
+        return result;
+    }
 
     /* step-3.1 : set program filter from enum */
     /* only pass the program_num's video pid / audio pid / pcr pid */
     tsp_filter_parm filter_parm = {0};
     uint16_t idx = 0;
     filter_parm.filter_num = 0;
-		filter_parm.filter[filter_parm.filter_num++].pid = 0x301;
-		filter_parm.filter[filter_parm.filter_num++].pid = 0x311;
-//    filter_parm.filter[filter_parm.filter_num++].pid = list->program[program_num].pcr_pid;  //pcr pid
-//    for (idx = 0; idx < list->program[program_num].stream_num; idx++)
-//    {
-//        
-//        if (list->program[program_num].stream[idx].type == stream_type_video || 
-//            list->program[program_num].stream[idx].type == stream_type_audio)
-//        {
-//            /* use original stream pid */
-//            filter_parm.filter[filter_parm.filter_num++].pid = list->program[program_num].stream[idx].stream_pid; //audio & video pid
-//        }
-//        else
-//        {
-//            /* drop other stream type */
-//            ;
-//        }
-//    } 
+//		filter_parm.filter[filter_parm.filter_num++].pid = 0x301;
+//		filter_parm.filter[filter_parm.filter_num++].pid = 0x311;
+    filter_parm.filter[filter_parm.filter_num++].pid = list->program[program_num].pcr_pid;  //pcr pid
+    for (idx = 0; idx < list->program[program_num].stream_num; idx++)
+    {
+        
+        if (list->program[program_num].stream[idx].type == stream_type_video || 
+            list->program[program_num].stream[idx].type == stream_type_audio)
+        {
+            /* use original stream pid */
+            filter_parm.filter[filter_parm.filter_num++].pid = list->program[program_num].stream[idx].stream_pid; //audio & video pid
+        }
+        else
+        {
+            /* drop other stream type */
+            ;
+        }
+    } 
     result = vatek_transform_tsp_setfilterparm(tf_handle, filter_parm);
     if (result != vatek_result_success)
     {
@@ -591,7 +597,7 @@ static vatek_result _sample_tf_play_program(uint32_t rf_freq, uint8_t program_nu
     ts_input_parm ti_parm = {0};
     ti_parm.serial = g_serial;
     ti_parm.clk_inverse = g_clk_inverse;
-		ti_parm.pcr_mode = pcr_retagv2;
+		ti_parm.pcr_mode = pcr_retag;
     result = vatek_transform_tsp_setinputparm_ts(tf_handle, ti_parm);
     if (result != vatek_result_success)
     {
@@ -758,7 +764,7 @@ vatek_result sample_tf_play_program(uint8_t program_num)
 vatek_result sample_tf_play_allprogram(void)
 {
     vatek_result result = vatek_result_unknown;
-
+#if NIM
     /* step-1 : lock tuner & demod signal */
     result = _sample_tf_lockfreq(LOCK_FREQ, LOCK_SYMBOL);
     if (result != vatek_result_success)
@@ -766,7 +772,7 @@ vatek_result sample_tf_play_allprogram(void)
         SAMPLE_ERR("sample_tf_lockfreq fail: %d", result);
         return result;
     }
-
+#endif
     return _sample_tf_play_allprogram(RF_FREQ);
 }
 
@@ -821,7 +827,7 @@ vatek_result sample_tf_init(Phtransform bh_main, Pboard_handle bh_demod, Pboard_
         SAMPLE_ERR("vatek_transform_create fail : %d", result);
         return result;
     }
-
+#if NIM
     /* init demod : avl68xx */
     result = vatek_demod_create(bh_demod, demod_type_avl68xx, &demod_handle);  
     if (result != vatek_result_success)
@@ -841,7 +847,7 @@ vatek_result sample_tf_init(Phtransform bh_main, Pboard_handle bh_demod, Pboard_
         SAMPLE_ERR("tuner create fail : %d", result);
         return result;
     }
-
+#endif
     /* init RF : r2_via_vatek */
     result = vatek_rf_create(bh_rf, rf_type_r2_via_vatek, &rf_handle);  
     if (result != vatek_result_success)

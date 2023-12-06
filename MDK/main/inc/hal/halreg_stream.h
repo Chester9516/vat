@@ -73,6 +73,7 @@
 	#define ENCMOD_COLORBAR             0x00000000
 	#define ENCMOD_BOOTLOGO             0x00000001
 	#define ENCMOD_VI_0                 0x00000002
+	#define ENOCDER_INTERNAL_VI_0				0x00000003
 
 #define HALREG_ENCODER_FLAGS            0x641
     #define ENC_EN_INTERLACED           0x00000001

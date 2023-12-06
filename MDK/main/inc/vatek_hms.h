@@ -40,11 +40,22 @@
     vatek_result vatek_hms_write_halbuf(Phms_handle handle, uint32_t addr, uint8_t* pbuf, uint32_t len);
     vatek_result vatek_hms_issystemidle(Phms_handle handle);
     vatek_result vatek_hms_issystemrun(Phms_handle handle);
+		
+		/*v1 control address i2c*/
+		vatek_result vatek_hms_read_hal_v1(Phms_handle handle, uint32_t addr, uint32_t *val);
+		vatek_result vatek_hms_write_hal_v1(Phms_handle handle, uint32_t addr, uint32_t val);
+		vatek_result vatek_hms_read_halbuf_v1(Phms_handle handle, uint32_t addr, uint8_t* pbuf, uint32_t len);
+		vatek_result vatek_hms_write_halbuf_v1(Phms_handle handle, uint32_t addr, uint8_t* pbuf, uint32_t len);
+		vatek_result vatek_hms_issystemidle_v1(Phms_handle handle);
+		vatek_result vatek_hms_issystemrun_v1(Phms_handle handle);
     
 		
 #if	defined(DEBUG)
     vatek_result vatek_hms_read_reg(Phms_handle handle, uint32_t addr, uint32_t *val);
     vatek_result vatek_hms_write_reg(Phms_handle handle, uint32_t addr, uint32_t val);
+		
+		vatek_result vatek_hms_read_reg_v1(Phms_handle handle, uint32_t addr, uint32_t *val);
+    vatek_result vatek_hms_write_reg_v1(Phms_handle handle, uint32_t addr, uint32_t val);
 #endif		
 
 #ifdef __cplusplus

@@ -867,7 +867,7 @@
     vatek_result vatek_rf_getstatus(Phrf handle, rf_status *status);
     /** @} */
     
-#if 0    
+#if 1    
     /**
     * @brief calibrate parameter for back-end rf system.
     *
@@ -882,8 +882,26 @@
     * @{
     */
     vatek_result vatek_rf_setcalibrate(Phrf handle, Prf_calibrate parm);
+		
+		vatek_result vatek_rf_savecalibrate(Phrf handle, Prf_calibrate parm);
     /** @} */
-#endif    
+#endif
+/*V1 API temperate save place*/
+vatek_result vatek_broadcast_create_v1(Pboard_handle hboard, Phbroadcast *handle);
+vatek_result vatek_broadcast_destroy_v1(Phbroadcast handle);
+vatek_result vatek_broadcast_start_v1(Phbroadcast handle);
+vatek_result vatek_broadcast_stop_v1(Phbroadcast handle);
+vatek_result vatek_broadcast_reset_v1(Phbroadcast handle);
+vatek_result vatek_broadcast_bcstatus_v1(Phbroadcast handle, broadcast_status *status);
+vatek_result vatek_broadcast_chipstatus_v1(Pboard_handle hboard, chip_status *status);
+vatek_result vatek_broadcast_getinfo_v1(Phbroadcast handle, broadcast_infotype type, uint32_t *value);
+vatek_result vatek_broadcast_encoder_setinputparm_phy_v1(Phbroadcast handle, video_input_parm vparm, audio_input_parm aparm);
+vatek_result vatek_broadcast_encoder_setinputparm_logo_v1(Phbroadcast handle, logo_input_parm parm);
+vatek_result vatek_broadcast_encoder_setencodeparm_v1(Phbroadcast handle, video_encode_parm vparm, audio_encode_parm aparm);
+vatek_result vatek_broadcast_encoder_setmuxparm_v1(Phbroadcast handle, encoder_mux_parm parm);
+vatek_result vatek_broadcast_encoder_setqualityparm_v1(Phbroadcast handle, encoder_quality_parm parm);
+vatek_result vatek_broadcast_tsmux_setparm_v1(Phbroadcast handle, tsmux_type type, Ptsmux_parm parm);
+/*V1 API end*/
 
     
 #ifdef __cplusplus

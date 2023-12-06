@@ -21,23 +21,24 @@ Target DLL:      STLink\ST-LINKIII-KEIL_SWO.dll V3.0.9.0
 Dialog DLL:      TCM.DLL V1.53.0.0
  
 <h2>Project:</h2>
-D:\DeskTop\MDK\mdk0826\project\vatek_broadcast\MDK-ARM\vatek_broadcast.uvprojx
-Project File Date:  07/13/2023
+D:\DeskTop\MDK\mdk20231117_backup\mdk20231024\project\vatek_broadcast\MDK-ARM\vatek_broadcast.uvprojx
+Project File Date:  11/28/2023
 
 <h2>Output:</h2>
 *** Using Compiler 'V5.06 update 7 (build 960)', folder: 'D:\Keil_C\ARM_Pack\ARM\ARMCC\Bin'
 Build target 'vatek_broadcast'
-compiling vatek_broadcast.c...
 compiling phy_h1.c...
-..\..\..\peripheral\src\phy\phy_h1.c(565): warning:  #177-D: variable "audio_reg_val"  was declared but never referenced
+..\..\..\peripheral\src\phy\phy_h1.c(638): warning:  #177-D: variable "audio_reg_val"  was declared but never referenced
   	uint8_t audio_reg_val = 0;
-..\..\..\peripheral\src\phy\phy_h1.c(1058): warning:  #1-D: last line of file ends without a newline
+..\..\..\peripheral\src\phy\phy_h1.c(807): warning:  #940-D: missing return statement at end of non-void function "h1_dump_reg" 
   }
-..\..\..\peripheral\src\phy\phy_h1.c: 2 warnings, 0 errors
+..\..\..\peripheral\src\phy\phy_h1.c(813): warning:  #177-D: variable "tick"  was declared but never referenced
+  	static uint32_t tick = 0;
+..\..\..\peripheral\src\phy\phy_h1.c: 3 warnings, 0 errors
 linking...
-Program Size: Code=50720 RO-data=3740 RW-data=1428 ZI-data=20684  
+Program Size: Code=55308 RO-data=3904 RW-data=1940 ZI-data=20684  
 FromELF: creating hex file...
-"vatek_broadcast\vatek_broadcast.axf" - 0 Error(s), 2 Warning(s).
+"vatek_broadcast\vatek_broadcast.axf" - 0 Error(s), 3 Warning(s).
 
 <h2>Software Packages used:</h2>
 

@@ -30,6 +30,8 @@
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
 #include "vatek_sample_broadcast.h"
+#include "vatek_sample_keypad_stm32f401.h"
+#include "uart_cmdline.h"
 
 /* USER CODE END Includes */
 
@@ -101,6 +103,16 @@ int main(void)
   MX_USB_DEVICE_Init();
   /* USER CODE BEGIN 2 */
   sample_bc_init(&hi2c1, &hi2c1, &hi2c1);
+	
+//	cmdline_table cmd_table = {0};
+//	uart_cmdline_init(&cmd_table, 0);
+	
+//	vatek_key_press_test();
+//uint32_t num_val;
+//printf("input a number:\r\n");
+//scanf("%d",&num_val);
+
+//printf("the number you input is %d\r\n",num_val);
 
   /* USER CODE END 2 */
 
@@ -111,7 +123,12 @@ int main(void)
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
+//		if(vatek_check_stop() == 1)
+//			break;
+		
+//		uart_cmdline_polling();
     sample_bc_polling();
+//		sample_bc_polling_cc();?
   }
   /* USER CODE END 3 */
 }

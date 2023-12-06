@@ -554,6 +554,10 @@
     * @brief    API for registering psi table with psispec_default in transform service.
     * @ingroup  transform
     * 
+    * @defgroup A_capture_table capture_table
+    * @brief    API for getting ts table in transform service.   
+    * @ingroup  transform
+    *
     * @defgroup A_enum_list enum_list
     * @brief    API for getting ts list in transform service.   
     * @ingroup  transform
@@ -889,7 +893,27 @@
     */
     vatek_result vatek_transform_psispec_rule_addprogram_psip(Phtransform handle, Penum_program program, Ppsip_props props);
     /** @} */
-#if 0    
+
+    /* capture */
+    /**
+    * @brief capture input ts.
+    *
+    * @ingroup  A_capture_table
+    *
+    * @param[in] handle     transform service handler.
+    * @param[in] param      caputre param.
+    * @param[out] raw_table capture pid context. refer to the psitable_parm struct.
+    * 
+    *
+    * @retval vatek_result_success 
+    * @retval vatek_result_invalidparm 
+    * @retval vatek_result_overrange
+    * @retval vatek_result_i2cfail 
+    * @{
+    */
+    vatek_result vatek_transform_capture(Phtransform handle, Ppsitable_parm *raw_table, Pcapture_param param);
+    /** @} */
+    
     /* enum */
     /**
     * @brief emumerate input ts.
@@ -908,8 +932,6 @@
     */
     vatek_result vatek_transform_enum_getlist(Phtransform handle, Penum_list *list);
     /** @} */
-    
-#endif    
     
     /* psispec_default */
     /**
@@ -1124,7 +1146,6 @@
     * @{
     */
     vatek_result vatek_phy_enable(Phphy handle, uint8_t enable);
-		
     /** @} */
     
     /**
@@ -1251,10 +1272,6 @@
     * @{
     */
     vatek_result vatek_phy_setbaseclk(Phphy handle, phy_output_baseclock clk);
-		
-		vatek_result vatek_phy_get_h1_info(Phphy handle);
-		vatek_result vatek_phy_dump_h1(Phphy handle);
-		vatek_result vatek_phy_polling_check(Phphy handle);
     /** @} */
 
     /* rfmixer */
@@ -1381,7 +1398,6 @@
     * @{
     */
     vatek_result vatek_rf_savecalibrate(Phrf handle);
-	
     /** @} */
 
     /* demod */
@@ -1564,7 +1580,23 @@
     vatek_result vatek_tuner_getrfstrength(Phtuner handle, int32_t *power);
     /** @} */
     
-	vatek_result vatek_device_r2_apply(Phrf handle, int r2_power);
+/*V1 API temperate save place*/
+
+		vatek_result vatek_encoder_v1_create(Pboard_handle hboard, Phbroadcast *handle);
+		vatek_result vatek_encoder_v1_destroy(Phbroadcast handle);
+		vatek_result vatek_encoder_v1_start(Phbroadcast handle);
+		vatek_result vatek_encoder_v1_stop(Phbroadcast handle);
+		vatek_result vatek_encoder_v1_reset(Phbroadcast handle);
+		vatek_result vatek_encoder_v1_bcstatus(Phbroadcast handle, broadcast_status *status);
+		vatek_result vatek_encoder_v1_chipstatus(Pboard_handle hboard, chip_status *status);
+		vatek_result vatek_encoder_v1_getinfo(Phbroadcast handle, broadcast_infotype type, uint32_t *value);
+		vatek_result vatek_encoder_v1_setinputparm_phy(Phbroadcast handle, video_input_parm vparm, audio_input_parm aparm);
+		vatek_result vatek_encoder_v1_setinputparm_logo(Phbroadcast handle, logo_input_parm parm);
+		vatek_result vatek_encoder_v1_setencodeparm(Phbroadcast handle, video_encode_v1_parm vparm, audio_encode_parm aparm);
+		vatek_result vatek_encoder_v1_setmuxparm(Phbroadcast handle, encoder_mux_parm parm);
+		vatek_result vatek_encoder_v1_setqualityparm(Phbroadcast handle, encoder_quality_parm parm);
+		vatek_result vatek_encoder_v1_tsmux_setparm(Phbroadcast handle, tsmux_type type, Ptsmux_parm parm);
+/*V1 API end*/
     
 #ifdef __cplusplus
     }

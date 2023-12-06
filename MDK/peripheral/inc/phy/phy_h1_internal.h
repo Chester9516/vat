@@ -130,8 +130,9 @@
         h1_output_bypass        = 0,
         h1_output_interlace     = 1,
         h1_output_progressive   = 2,
+				h1_output_scale_720P					= 3,
         h1_output_min           = h1_output_bypass,
-        h1_output_max           = h1_output_progressive,
+        h1_output_max           = h1_output_scale_720P, //h1_output_progressive,
     }h1_output_mode;
 
     typedef struct _h1_handle
@@ -152,25 +153,28 @@
     /*!< use before fw_rev 1101 */
     const h1_reg h1_init_cmd_0[] = 
     {
-        { H1_OUT_CNTL   , 0xD0},        /** SPDIF, I2S, VOUT disable */
-        { H1_INT_EN     , 0x00},        /** INT disable */
-        { H1_INT_CNTL   , 0x02},        /** VSYNC low pulse */
-        { H1_HDMI_FLAG  , 0x00},        /** Vout Progressive, Scalar, Baseclk_1001 */
-        { H1_OUT_FMT    , 0xA0},        /** YUV422, BT709*/
-        { H1_AOUT_CFG   , 0x03},        /** Audio 512 sampling */
-        { H1_VOUT_CFG   , 0x40},        /** 202 Vout Y/Cb/Y/Cr */
+        { H1_OUT_CNTL   , 0xD0},        /**300 SPDIF, I2S, VOUT disable */
+        { H1_INT_EN     , 0x00},        /**101 INT disable */
+        { H1_INT_CNTL   , 0x02},        /**102 VSYNC low pulse */
+        { H1_HDMI_FLAG  , 0x00},        /**104 Vout Progressive, Scalar, Baseclk_1001 */
+        { H1_OUT_FMT    , 0xA0},        /**201 YUV422, BT709*/
+        { H1_AOUT_CFG   , 0x03},        /**301 Audio 512 sampling */
+        { H1_VOUT_CFG   , 0x40},        /**202 Vout Y/Cb/Y/Cr */
     };
     
     /*!< use after fw_rev 1101 */
     const h1_reg h1_init_cmd_1[] = 
     {
-        { H1_OUT_CNTL   , 0x10},        /*!< Audio select I2S, then AOUT/VOUT disable */
-        { H1_INT_EN     , 0x00},        /** INT disable */
-        { H1_INT_CNTL   , 0x02},        /** VSYNC low pulse */
-        { H1_HDMI_FLAG  , 0x00},        /** Vout Progressive, Scalar, Baseclk_1001 */
-        { H1_OUT_FMT    , 0xA0},        /** YUV422, BT709*/
-        { H1_AOUT_CFG   , 0x03},        /** Audio 512 sampling */
-        { H1_VOUT_CFG   , 0x41},        /** Vout Y/Cb/Y/Cr, Field no inverse */
+        { H1_OUT_CNTL   , 0x10},        /*!300 < Audio select I2S, then AOUT/VOUT disable */
+        { H1_INT_EN     , 0x00},        /**101 INT disable */
+        { H1_INT_CNTL   , 0x02},        /**103 VSYNC low pulse 0x02*/ 
+        { H1_HDMI_FLAG  , 0x00},        /**104 Vout Progressive, Scalar, Baseclk_1001 */
+        { H1_OUT_FMT    , 0xA0},        /**201 YUV422, BT709*/
+        { H1_AOUT_CFG   , 0x13},        /**301 Audio 512 sampling */
+        { H1_VOUT_CFG   , 0xa1},        /**202 0x41 Vout Y/Cb/Y/Cr, Field no inverse */
+//				{ 0x30b8				, 0x22},
+//				{ 0x3080				, 0x1},
+
     };
     
     #define IS_NEW_REV(x) (x>=0x110100)

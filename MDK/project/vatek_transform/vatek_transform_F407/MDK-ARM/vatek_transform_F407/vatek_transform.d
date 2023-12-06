@@ -19,7 +19,6 @@ vatek_transform_f407\vatek_transform.o: ..\..\..\..\main\inc\hal/halservice_tran
 vatek_transform_f407\vatek_transform.o: ..\..\..\..\main\inc\hal/halreg_playload.h
 vatek_transform_f407\vatek_transform.o: ..\..\..\..\main\inc\vatek_tsp.h
 vatek_transform_f407\vatek_transform.o: ..\..\..\..\main\inc\vatek_enum.h
-vatek_transform_f407\vatek_transform.o: ..\..\..\..\main\inc\vatek_capture.h
 vatek_transform_f407\vatek_transform.o: ..\..\..\..\main\inc\vatek_tsmux.h
 vatek_transform_f407\vatek_transform.o: ..\..\..\..\main\inc\vatek_modulator.h
 vatek_transform_f407\vatek_transform.o: ..\..\..\..\main\inc\vatek_psitable.h

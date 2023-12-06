@@ -29,10 +29,10 @@ vatek_result vatek_tsp_setinputparm_ts(Phms_handle handle, ts_input_parm parm)
     if ((result = vatek_hms_write_hal(handle, HALREG_TSIN_FLAGS, val)) != vatek_result_success)
         return result;
 
-    if ((result = vatek_hms_write_hal(handle, HALREG_TSIN_MODE, STREAM_MODE_REMUX)) != vatek_result_success)
+    if ((result = vatek_hms_write_hal(handle, HALREG_TSIN_MODE, parm.tsin_mode)) != vatek_result_success)//STREAM_MODE_REMUX
         return result;
 
-    if ((result = vatek_hms_write_hal(handle, HALREG_TRANSFORM_INPUT, STREAM_TSIN)) != vatek_result_success)
+    if ((result = vatek_hms_write_hal(handle, HALREG_TRANSFORM_INPUT, STREAM_TSIN)) != vatek_result_success)//STREAM_TSIN
         return result;
     
     val = 0;

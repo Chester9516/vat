@@ -1,0 +1,9 @@
+vatek_encoder\vatek_rf.o: ..\..\..\peripheral\src\rf\vatek_rf.c
+vatek_encoder\vatek_rf.o: ..\..\..\system\inc\vatek_system.h
+vatek_encoder\vatek_rf.o: D:\Keil_C\ARM_Pack\ARM\ARMCC\Bin\..\include\stdio.h
+vatek_encoder\vatek_rf.o: D:\Keil_C\ARM_Pack\ARM\ARMCC\Bin\..\include\stdlib.h
+vatek_encoder\vatek_rf.o: D:\Keil_C\ARM_Pack\ARM\ARMCC\Bin\..\include\string.h
+vatek_encoder\vatek_rf.o: ..\..\..\inc\vatek_define.h
+vatek_encoder\vatek_rf.o: D:\Keil_C\ARM_Pack\ARM\ARMCC\Bin\..\include\stdint.h
+vatek_encoder\vatek_rf.o: ..\..\..\inc\vatek_define_periphral.h
+vatek_encoder\vatek_rf.o: ..\..\..\peripheral\inc\rf/rf_r2_via_vatek.h

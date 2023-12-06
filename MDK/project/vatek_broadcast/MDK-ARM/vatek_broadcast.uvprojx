@@ -339,7 +339,7 @@
               <MiscControls></MiscControls>
               <Define>USE_HAL_DRIVER,STM32F401xC,VATEK_B3,PHY_H1,RF_R2_VIA_VATEK,SERVICE_BROADCAST,PHY_EP9555E,DEBUG</Define>
               <Undefine></Undefine>
-              <IncludePath>../Inc; ../Drivers/STM32F4xx_HAL_Driver/Inc; ../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy; ../Middlewares/ST/STM32_USB_Device_Library/Core/Inc; ../Middlewares/ST/STM32_USB_Device_Library/Class/CustomHID/Inc; ../Drivers/CMSIS/Device/ST/STM32F4xx/Include; ../Drivers/CMSIS/Include; ..\..\..\inc; ..\..\..\main\inc; ..\..\..\peripheral\inc; ..\..\..\sample\inc; ..\..\..\system\inc</IncludePath>
+              <IncludePath>../Inc;../Drivers/STM32F4xx_HAL_Driver/Inc;../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy;../Middlewares/ST/STM32_USB_Device_Library/Core/Inc;../Middlewares/ST/STM32_USB_Device_Library/Class/CustomHID/Inc;../Drivers/CMSIS/Device/ST/STM32F4xx/Include;../Drivers/CMSIS/Include;..\..\..\inc;..\..\..\main\inc;..\..\..\peripheral\inc;..\..\..\sample\inc;..\..\..\system\inc;..\..\..\tool\inc</IncludePath>
             </VariousControls>
           </Cads>
           <Aads>
@@ -433,6 +433,11 @@
               <FileType>1</FileType>
               <FilePath>..\..\..\main\src\vatek_userdata.c</FilePath>
             </File>
+            <File>
+              <FileName>uart_cmdline.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\..\..\..\mdk0826\tool\src\uart_cmdline.c</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>
@@ -509,9 +514,9 @@
               <FilePath>..\..\..\sample\src\vatek_sample_broadcast_via_h1.c</FilePath>
             </File>
             <File>
-              <FileName>vatek_sample_broadcast_via_h1_vatek.c</FileName>
+              <FileName>vatek_sample_keypad_stm32f401.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\..\..\sample\src\vatek_sample_broadcast_via_h1_vatek.c</FilePath>
+              <FilePath>..\..\..\tool\src\vatek_sample_keypad_stm32f401.c</FilePath>
             </File>
           </Files>
         </Group>
