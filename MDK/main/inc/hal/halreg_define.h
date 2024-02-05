@@ -67,4 +67,7 @@
 #define HALREG_RANGE_APP_1_START		0x800
 #define HALREG_RANGE_APP_1_END			0x4000
 
+#define HALREG_HDMI_VIN_VIC					0x1040
+#define VIC_MASK										0xFFFF
+
 #endif

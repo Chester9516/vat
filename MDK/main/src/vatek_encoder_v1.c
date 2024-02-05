@@ -2,6 +2,7 @@
 #include "vatek_system.h"
 #include "vatek_hms.h"
 #include "vatek_encoder.h"
+#include "phy/tool_hdmi.h"
 
 #define MAX_PID 0x1FFF
 #define MIN_PID 0
@@ -11,7 +12,7 @@
 static vatek_result encoder_vi_setparm_v1(Phms_handle handle, video_input_parm vparm)
 {
     vatek_result result = vatek_result_unknown;
-
+		printf("into external set parameter v1\r\n");
     if (vparm.buswidth_16 == 0)
     {
         if (vparm.resolution > vi_resolution_bus8_max)
@@ -238,6 +239,9 @@ static vatek_result encoder_vi_setparm_v1(Phms_handle handle, video_input_parm v
 
     if (vparm.ext_half_fps)
         value |= VI_EXT_HALF_FPS;
+		
+		if (vparm.down_scale)
+				value |= VI_DOWN_SCALER;
 
     if ((result = vatek_hms_write_hal_v1(handle, HALREG_VI_0_FLAGS, value)) != vatek_result_success)
         return result;
@@ -248,6 +252,49 @@ static vatek_result encoder_vi_setparm_v1(Phms_handle handle, video_input_parm v
     
     value = vparm.offset_y;
     if ((result = vatek_hms_write_hal_v1(handle, HALREG_VI_0_OFFSET_Y, value)) != vatek_result_success)
+        return result;
+
+    return result;
+}
+
+static vatek_result encoder_vi_setparm_internal_v1(Phms_handle handle, video_input_parm vparm)
+{
+    vatek_result result = vatek_result_unknown;
+		printf("into internal set parameter v1\r\n");
+
+    if ((result = vatek_hms_write_hal_v1(handle, HALREG_BROADCAST_STREAM, STREAM_ENCODER)) != vatek_result_success)
+        return result;
+
+    if ((result = vatek_hms_write_hal_v1(handle, HALREG_ENCODER_MODE, vparm.input_mode)) != vatek_result_success)//vparm.input_mode, ENCMOD_VI_0
+        return result;
+
+    uint32_t value = 0;
+		value = 0;
+    if (vparm.buswidth_16)
+        value |= VI_BUSWIDTH_16;
+
+    if (vparm.separated_sync)
+        value |= VI_SEPARATED_SYNC;
+
+    if (vparm.clk_inverse)
+        value |= VI_CLK_INVERSE;
+
+    if (vparm.hsync_inverse)
+        value |= VI_HSYNC_INVERSE;
+
+    if (vparm.vsync_inverse)
+        value |= VI_VSYNC_INVERSE;
+
+    if (vparm.field_inverse)
+        value |= VI_FIELD_INVERSE;
+
+    if (vparm.ext_half_fps)
+        value |= VI_EXT_HALF_FPS;
+		
+		if (vparm.down_scale)
+				value |= VI_DOWN_SCALER;
+
+    if ((result = vatek_hms_write_hal_v1(handle, HALREG_VI_0_FLAGS, value)) != vatek_result_success)
         return result;
 
     return result;
@@ -366,11 +413,11 @@ static vatek_result encoder_ve_setparm_v1(Phms_handle handle, video_encode_v1_pa
     if ((result = vatek_hms_read_hal_v1(handle, HALREG_ENCODER_FLAGS, &value)) != vatek_result_success)
         return result;
     
-    if (0)//vparm.en_interlaced
+    if (vparm.en_interlaced)//vparm.en_interlaced
         value |= ENC_EN_INTERLACED;
 
-//    if (vparm.progressive_2_i)
-//        value |= ENC_EN_PROGRESSIVE_2_I;
+    if (vparm.progressive_2_i)
+        value |= ENC_EN_PROGRESSIVE_2_I;
     
 //    if (vparm.fixed_rc_threshold)
 //        value |= ENC_EN_FIXED_RC_THR;
@@ -546,18 +593,28 @@ vatek_result vatek_encoder_setinputparm_phy_v1(Phms_handle handle, video_input_p
     
     if ((result = vatek_hms_issystemidle_v1(handle)) != vatek_result_success)
         return result;
-
-    if ((result = encoder_vi_setparm_v1(handle, vparm)) != vatek_result_success)
-    {
-        ENCODER_ERR("vi setparm fail");
-        return result;
-    }
-
-    if ((result = encoder_ai_setparm_v1(handle, aparm)) != vatek_result_success)
-    {
-        ENCODER_ERR("ai setparm fail");
-        return result;
-    }
+		
+		if(vparm.input_mode == input_mode_external){
+			if ((result = encoder_vi_setparm_v1(handle, vparm)) != vatek_result_success)
+			{
+					ENCODER_ERR("vi setparm fail");
+					return result;
+			}
+			
+		}else if(vparm.input_mode == input_mode_internal){
+			if((result = encoder_vi_setparm_internal_v1(handle, vparm)) != vatek_result_success)
+				{
+					ENCODER_ERR("vi setparm fail");
+					return result;
+				}
+		}
+		
+		if ((result = encoder_ai_setparm_v1(handle, aparm)) != vatek_result_success)
+			{
+					ENCODER_ERR("ai setparm fail");
+					return result;
+			}
+		
 
     return result;
 }
@@ -668,4 +725,22 @@ vatek_result vatek_encoder_setqualityparm_v1(Phms_handle handle, encoder_quality
     return result;
 }
 
-
+vatek_result vatek_encoder_getvideoinfo_v1(Phms_handle handle, Pvideo_info_parm v_info_parm)
+{
+	vatek_result result = vatek_result_unknown;
+	uint32_t vic_val = 0;
+	hdmi_video_timing hdmi_v_timing = {0};
+	if((result = vatek_hms_read_hal_v1(handle, HALREG_HDMI_VIN_VIC, &vic_val)) != vatek_result_success){
+		ENCODER_ERR("get vic val error");
+		return result;
+	}
+	printf("vic = 0x%x\r\n",vic_val);
+	if((result = tool_hdmi_get_videoinfo(vic_val, &hdmi_v_timing)) != vatek_result_success){
+		ENCODER_ERR("get video info error");
+		return result;
+	}
+	v_info_parm->resolution = hdmi_v_timing.resolution;
+	v_info_parm->aspectrate = hdmi_v_timing.aspectrate;
+	
+	return result;
+}

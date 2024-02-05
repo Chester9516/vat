@@ -18,6 +18,7 @@
     vatek_result vatek_encoder_setencodeparm_v1(Phms_handle handle, video_encode_v1_parm vparm, audio_encode_parm aparm);
     vatek_result vatek_encoder_setmuxparm_v1(Phms_handle handle, encoder_mux_parm parm);
     vatek_result vatek_encoder_setqualityparm_v1(Phms_handle handle, encoder_quality_parm parm);
+		vatek_result vatek_encoder_getvideoinfo_v1(Phms_handle handle, Pvideo_info_parm v_info_parm);
 
     #define ENCODER_ERR(fmt,...)    VATEK_ERR(encoder,fmt,##__VA_ARGS__)
     #define ENCODER_LOG(fmt,...)    VATEK_LOG(encoder,fmt,##__VA_ARGS__)

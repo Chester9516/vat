@@ -11,18 +11,18 @@
 #define DVBT            2
 #define ISDBT           3
 #define J83A						4
-#define MOD_TYPE        J83A 
+#define MOD_TYPE        DVBT 
 
 //unit KHz
 #define LOCK_FREQ       473000 
 #define LOCK_SYMBOL     6000
-#define RF_FREQ         473000
+#define RF_FREQ         474000
 
 
 #define PSIPURE         1
 #define PSIDEF          2
 #define PSIBYPASS       3
-#define PSI_TYPE        PSIPURE
+#define PSI_TYPE        PSIDEF
 
 #define CMDLINE         1
 
@@ -122,7 +122,7 @@ static vatek_result _sample_setmodulator_parm(void)
     mod_base_parm.ifmode = m_ifmode_disable;
     mod_base_parm.iffreq = 0;
     mod_base_parm.dacgain = 0;
-    mod_base_parm.bw_sb = 6;
+    mod_base_parm.bw_sb = 8;
     mod_dvbt_parm.constellation = dvbt_constellation_qam64;
     mod_dvbt_parm.fft = dvbt_fft_8k;
     mod_dvbt_parm.guardinterval = dvbt_guardinterval_1_16;
@@ -189,7 +189,7 @@ static vatek_result _sample_tf_enum(Penum_list *list)
     }
 
     /* step-2 : enum list */
-#if 0
+#if 1
     result = vatek_transform_enum_getlist(tf_handle, list);
     if (result != vatek_result_success)
     {
@@ -457,7 +457,7 @@ static vatek_result _sample_tf_capture(void)
         SAMPLE_ERR("vatek_transform_tsp_setinputparm_ts fail: %d", result);
         return result;
     }
-#if 0
+#if 1
     /* step-2 : capture table (from ts) */
     Ppsitable_parm table = NULL;
     capture_param capture = {0};
@@ -495,8 +495,8 @@ static vatek_result _sample_tf_play_program(uint32_t rf_freq, uint8_t program_nu
     tsp_filter_parm filter_parm = {0};
     uint16_t idx = 0;
     filter_parm.filter_num = 0;
-//		filter_parm.filter[filter_parm.filter_num++].pid = 0x301;
-//		filter_parm.filter[filter_parm.filter_num++].pid = 0x311;
+//		filter_parm.filter[filter_parm.filter_num++].pid = 0x301; //test
+//		filter_parm.filter[filter_parm.filter_num++].pid = 0x311; //test
     filter_parm.filter[filter_parm.filter_num++].pid = list->program[program_num].pcr_pid;  //pcr pid
     for (idx = 0; idx < list->program[program_num].stream_num; idx++)
     {
@@ -735,6 +735,7 @@ vatek_result sample_tf_capture(void)
 {
     vatek_result result = vatek_result_unknown;
 
+#if NIM
     /* step-1 : lock tuner & demod signal */
     result = _sample_tf_lockfreq(LOCK_FREQ, LOCK_SYMBOL);
     if (result != vatek_result_success)
@@ -742,7 +743,8 @@ vatek_result sample_tf_capture(void)
         SAMPLE_ERR("sample_tf_lockfreq fail: %d", result);
         return result;
     }
-    
+#endif
+	
     return _sample_tf_capture();
 }
 
@@ -750,14 +752,16 @@ vatek_result sample_tf_play_program(uint8_t program_num)
 {
     vatek_result result = vatek_result_unknown;
 
+#if NIM
     /* step-1 : lock tuner & demod signal */
-//    result = _sample_tf_lockfreq(LOCK_FREQ, LOCK_SYMBOL);
-//    if (result != vatek_result_success)
-//    {
-//        SAMPLE_ERR("sample_tf_lockfreq fail: %d", result);
-//        return result;
-//    }
-
+    result = _sample_tf_lockfreq(LOCK_FREQ, LOCK_SYMBOL);
+    if (result != vatek_result_success)
+    {
+        SAMPLE_ERR("sample_tf_lockfreq fail: %d", result);
+        return result;
+    }
+#endif
+	
     return _sample_tf_play_program(RF_FREQ, program_num);
 }
 

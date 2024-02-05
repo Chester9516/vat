@@ -27,7 +27,7 @@
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
-#include "vatek_sample_keypad_stm32f401.h"
+#include "KeypadAddLCD.h"
 #include "vatek_sample_encoder_via_h1.h"
 /* USER CODE END Includes */
 
@@ -100,8 +100,7 @@ int main(void)
   MX_USB_DEVICE_Init();
   /* USER CODE BEGIN 2 */
 	vatek_sample_encoder_start(&hi2c1);
-	
-//	vatek_key_press_test();
+
 //	vatek_lcd_init();
 
   /* USER CODE END 2 */
@@ -113,6 +112,7 @@ int main(void)
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
+//		vatek_key_press_detect();
 		vatek_encoder_v1_polling();
   }
   /* USER CODE END 3 */

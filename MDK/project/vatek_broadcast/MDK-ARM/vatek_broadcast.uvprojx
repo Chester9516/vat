@@ -436,7 +436,7 @@
             <File>
               <FileName>uart_cmdline.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\..\..\..\..\mdk0826\tool\src\uart_cmdline.c</FilePath>
+              <FilePath>..\..\..\..\mdk0826\tool\src\uart_cmdline.c</FilePath>
             </File>
           </Files>
         </Group>

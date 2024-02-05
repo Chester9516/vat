@@ -52,6 +52,15 @@
         chip_status_badfw               = 5,
     }chip_status;
         
+		typedef enum _internal_hdmi_status
+		{
+				internal_hdmi_unknown						= 0,
+				internal_hdmi_lock							= 1,
+				internal_hdmi_noconnect					= 2,
+				internal_hdmi_nohpd_en					= 3,
+				internal_hdmi_node_vld					= 4,
+		}internal_hdmi_status;
+		
     /* infomation type*/
     typedef enum
     {
@@ -63,9 +72,9 @@
         bc_infotype_peripheral_en       = 5,
         bc_infotype_insupport           = 6,
         bc_infotype_outsupport          = 7,
-				bc_phy_external									= 8,
-				bc_reg_600											= 9,
-				h1_set_0x11											= 10,
+				v1_internal_hdmi_set						= 8,
+				v1_internal_h1_enable						= 9,
+				v1_internal_900_11							= 10,
         bc_infotype_min                 = bc_infotype_unknown,
         bc_infotype_max                 = bc_infotype_outsupport,
     }broadcast_infotype;
@@ -148,11 +157,22 @@
         vi_resolution_480i59_94        = 21,    ///< resolution 480i, fps 59.94Hz.
         vi_resolution_480p30           = 22,    ///< resolution 480P, fps 30Hz.
         vi_resolution_480p29_97        = 23,    ///< resolution 480P, fps 29.97Hz.
-        vi_resolution_bus8_min         = vi_resolution_576p50,   //vi_resolution_576i50 
+        vi_resolution_bus8_min         = vi_resolution_1080i60,//vi_resolution_576p50, vi_resolution_576i50 
         vi_resolution_bus8_max         = vi_resolution_480p29_97,
         vi_resolution_min              = vi_resolution_unknown,
         vi_resolution_max              = vi_resolution_480p29_97,
     }video_input_resolution;
+		
+		typedef enum _video_scale_resolution
+		{
+				scale_resolution_480i = 0,
+				scale_resolution_480p = 1,
+				scale_resolution_576i = 2,
+				scale_resolution_576p = 3,
+				scale_resolution_720p = 4,
+				scale_resolution_1080i = 5,
+				scale_resolution_1080p = 6,
+		}video_scale_resolution;
         
     /**
     * @brief video input aspectrate.
@@ -193,9 +213,19 @@
         uint8_t vsync_inverse;                  ///< phy to chip vsync pin. vsync signal inverse bool.
         uint8_t field_inverse;                  ///< phy to chip FID pin. FID signal inverse bool.
         uint8_t ext_half_fps;                   ///< output fps half. output fps = input fps/2.
+				uint8_t down_scale;
 				encoder_input input_mode;
     }video_input_parm, *Pvideo_input_parm;
-
+		
+		/**
+		* save video information from read VIC
+		*/
+		typedef struct _video_info_parm
+		{
+			video_input_resolution resolution;
+			video_input_aspectrate aspectrate;
+		}video_info_parm, *Pvideo_info_parm;
+		
     /**
     * @brief audio input sample rate.
     */
@@ -250,8 +280,8 @@
 		typedef struct _video_encoder_v1_parm
     {
         video_encode_type type;                  ///< video encoder type.
-//        uint8_t progressive_2_i;                 ///< video progressive change to interlace.
-//				uint8_t en_interlaced;                   
+        uint8_t progressive_2_i;                 ///< video progressive change to interlace.
+				uint8_t en_interlaced;                   
 				uint32_t output_bitrate;
 
     }video_encode_v1_parm, *Pvideo_encode_v1_parm;

@@ -337,7 +337,7 @@
             <v6Rtti>0</v6Rtti>
             <VariousControls>
               <MiscControls></MiscControls>
-              <Define>USE_HAL_DRIVER,STM32F401xC,VATEK_V1,PHY_H1,VATEK_A3,RF_R2_VIA_VATEK,SERVICE_TRANSFORM,DEBUG</Define>
+              <Define>USE_HAL_DRIVER,STM32F401xC,VATEK_V1,PHY_H1,VATEK_A3,RF_R2_VIA_VATEK,SERVICE_TRANSFORM,SERVICE_ENCODER,DEBUG</Define>
               <Undefine></Undefine>
               <IncludePath>../Inc;../Drivers/STM32F4xx_HAL_Driver/Inc;../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy;../Middlewares/ST/STM32_USB_Device_Library/Core/Inc;../Middlewares/ST/STM32_USB_Device_Library/Class/CustomHID/Inc;../Drivers/CMSIS/Device/ST/STM32F4xx/Include;../Drivers/CMSIS/Include;..\..\..\inc;..\..\..\main\inc;..\..\..\peripheral\inc;..\..\..\sample\inc;..\..\..\system\inc;..\..\..\tool\inc</IncludePath>
             </VariousControls>
@@ -659,11 +659,6 @@
               <FilePath>..\..\..\main\src\vatek_modulator.c</FilePath>
             </File>
             <File>
-              <FileName>vatek_psispec_default.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\..\..\main\src\vatek_psispec_default.c</FilePath>
-            </File>
-            <File>
               <FileName>vatek_psitable.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\..\..\main\src\vatek_psitable.c</FilePath>
@@ -697,6 +692,11 @@
               <FileName>vatek_psispec_rule.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\..\..\main\src\vatek_psispec_rule.c</FilePath>
+            </File>
+            <File>
+              <FileName>vatek_psispec_default.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\..\main\src\vatek_psispec_default.c</FilePath>
             </File>
           </Files>
         </Group>
@@ -758,16 +758,6 @@
               <FileType>1</FileType>
               <FilePath>..\..\..\peripheral\src\rf\vatek_rf.c</FilePath>
             </File>
-            <File>
-              <FileName>vatek_sample_lcd1602.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\..\..\tool\src\vatek_sample_lcd1602.c</FilePath>
-            </File>
-            <File>
-              <FileName>vatek_sample_keypad_stm32f401.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\..\..\tool\src\vatek_sample_keypad_stm32f401.c</FilePath>
-            </File>
           </Files>
         </Group>
         <Group>
@@ -782,11 +772,6 @@
               <FileName>vatek_sample_modulator.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\..\..\sample\src\vatek_sample_modulator.c</FilePath>
-            </File>
-            <File>
-              <FileName>uart_cmdline.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\..\..\tool\src\uart_cmdline.c</FilePath>
             </File>
           </Files>
         </Group>

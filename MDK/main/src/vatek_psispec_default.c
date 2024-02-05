@@ -812,3 +812,70 @@ vatek_result vatek_psispec_default_start_tr(void)
     return vatek_hms_write_hal( ph_handle, table_position, DEFSPEC_V2_EN_END);
 }
 
+/** for encoder service */
+#if defined(VATEK_V1)
+vatek_result vatek_psispec_default_init_v1(Phms_handle handle, psispec_default_type type, psispec_country_code country)
+{
+    vatek_result result = vatek_result_unknown;
+    
+    if(handle)
+        ph_handle = handle;
+    else return vatek_result_invalidparm;
+    
+    if(ptable==NULL)
+    {
+        ptable = (Ppsispec_default_table)malloc(sizeof(psispec_default_table));
+        ptable->psi_buf = (Ppsispec_default_buf)malloc(sizeof(psispec_default_buf));
+        ptable->psi_buf->buf = (uint8_t*)malloc(100);
+        if(ptable==NULL || ptable->psi_buf==NULL || ptable->psi_buf->buf==NULL)
+        {
+            free(ptable);
+            free(ptable->psi_buf);
+            free(ptable->psi_buf->buf);
+            return vatek_result_memfail;
+        }
+    }
+     
+    table_position = HALRANGE_PLAYLOAD_START;
+    result = vatek_hms_write_hal_v1( ph_handle, table_position++, LICENSED_DEFSPEC_V1_EN_START);
+    if(is_success(result)) result = vatek_hms_write_hal_v1( ph_handle, table_position++, type);
+    if(is_success(result)) result = vatek_hms_write_hal_v1( ph_handle, table_position++, country);
+    if(is_success(result))
+    {
+        ptable->type    = type;
+        ptable->country = country;
+    }
+    
+    return vatek_result_success;
+}
+
+vatek_result vatek_psispec_default_config_v1( Ppsispec_default_channel chan, Ppsispec_default_program prog)
+{
+    vatek_result result = vatek_result_unknown;
+    
+    if(chan==NULL || prog==NULL) return vatek_result_invalidparm;
+
+    result = psi_format(data_type_chan, chan, ptable->psi_buf);
+    if(is_success(result)) result = vatek_hms_write_hal_v1( ph_handle, table_position++, ptable->psi_buf->buf_len);
+    if(is_success(result))
+    {
+        result = vatek_hms_write_halbuf_v1(ph_handle, table_position, ptable->psi_buf->buf, ptable->psi_buf->buf_len);
+        table_position += WLEN(ptable->psi_buf->buf_len);
+    }
+    
+    if(is_success(result)) result = psi_format(data_type_prog, prog, ptable->psi_buf);
+    if(is_success(result)) result = vatek_hms_write_hal_v1( ph_handle, table_position++, ptable->psi_buf->buf_len);
+    if(is_success(result))
+    {
+        result = vatek_hms_write_halbuf_v1(ph_handle, table_position, ptable->psi_buf->buf, ptable->psi_buf->buf_len);
+        table_position += WLEN(ptable->psi_buf->buf_len);
+    }
+
+    return result;
+}
+
+vatek_result vatek_psispec_default_start_v1(void)
+{
+    return vatek_hms_write_hal_v1(ph_handle, table_position, LICENSED_DEFSPEC_EN_END);
+}
+#endif

@@ -15,10 +15,11 @@
 #define DVBT        2
 #define ISDBT       3
 #define J83A        4
-#define MOD_TYPE    DVBT
+#define MOD_TYPE    ATSC
 
 extern vatek_result vatek_phy_dump_reg(Phphy phy_handle);
 extern vatek_result vatek_phy_0x30ce(Phphy phy_handle);
+extern vatek_result vatek_h1_change_clk(Phphy phy_handle);
 
 static Phbroadcast bc_handle = NULL;
 static Phphy hdmi_handle = NULL;
@@ -358,7 +359,7 @@ vatek_result sample_bc_broadcast_from_logo(void)
     }
 #endif
     /* start RF */
-    result = vatek_rf_start(rf_handle, 473000);//473000
+    result = vatek_rf_start(rf_handle, 474000);//473000
     if (!is_success(result))
     {
         SAMPLE_ERR("vatek_rf_start fail: %d", result);
@@ -416,7 +417,7 @@ vatek_result sample_bc_broadcast_from_phy(void)
         return result;
     }
     SAMPLE_LOG("samplerate = %d", phy_ai.samplerate);
-		vatek_phy_dump_reg(phy_active_handle);
+		
     /* set ENCODER input parameter from PHY*/
     video_input_parm vi_parm = {0};
     audio_input_parm ai_parm = {0};
@@ -426,6 +427,7 @@ vatek_result sample_bc_broadcast_from_phy(void)
     vi_parm.separated_sync = temp_phy_vi.separated_sync;
 		vi_parm.ext_half_fps = 0;
 		vi_parm.clk_inverse = 0;
+		vi_parm.vsync_inverse = 0;
     ai_parm.samplerate = phy_ai.samplerate;
     result = vatek_broadcast_encoder_setinputparm_phy(bc_handle, vi_parm, ai_parm);
     if (!is_success(result))
@@ -443,7 +445,7 @@ vatek_result sample_bc_broadcast_from_phy(void)
 		ve_parm.en_drop_frame = 0;
 		ve_parm.en_interlaced = 0;
     ae_parm.type = ae_type_mp1_l2;//ae_type_mp1_l2, ae_type_ac_3
-    ae_parm.channel = ae_channel_stereo;
+    ae_parm.channel = ae_channel_mono_r;//ae_channel_stereo, ae_channel_mono_l, ae_channel_mono_r
     result = vatek_broadcast_encoder_setencodeparm(bc_handle, ve_parm, ae_parm);
     if (!is_success(result))
     {
@@ -477,18 +479,18 @@ vatek_result sample_bc_broadcast_from_phy(void)
         return result;
     }
     
-		psitablelist_parm psi_p = {0};
-		psi_p.table_num = 3;
-		psi_p.table[0].interval_ms = 90;
-		psi_p.table[0].tspackets = &PAT[0];
-		psi_p.table[0].tspacket_num = 1;
-		psi_p.table[1].interval_ms = 90;
-		psi_p.table[1].tspackets = &PMT[0];
-		psi_p.table[1].tspacket_num = 1;
-		psi_p.table[2].interval_ms = 120;
-		psi_p.table[2].tspackets = &MGT[0];
-		psi_p.table[2].tspacket_num = 2;
-		result = vatek_broadcast_psitable_register(bc_handle,&psi_p);
+//		psitablelist_parm psi_p = {0};
+//		psi_p.table_num = 3;
+//		psi_p.table[0].interval_ms = 90;
+//		psi_p.table[0].tspackets = &PAT[0];
+//		psi_p.table[0].tspacket_num = 1;
+//		psi_p.table[1].interval_ms = 90;
+//		psi_p.table[1].tspackets = &PMT[0];
+//		psi_p.table[1].tspacket_num = 1;
+//		psi_p.table[2].interval_ms = 120;
+//		psi_p.table[2].tspackets = &MGT[0];
+//		psi_p.table[2].tspacket_num = 2;
+//		result = vatek_broadcast_psitable_register(bc_handle,&psi_p);
 		
     /* set TSMUX parameter */
     tsmux_default_parm default_parm = {0};
@@ -672,7 +674,7 @@ vatek_result sample_bc_broadcast_from_phy(void)
     }
 
     /* start RF */
-    result = vatek_rf_start(rf_handle, 474000);//473000
+    result = vatek_rf_start(rf_handle, 474000);//473000, 474000
     if (!is_success(result))
     {
         SAMPLE_ERR("vatek_rf_start fail: %d", result);
@@ -680,10 +682,13 @@ vatek_result sample_bc_broadcast_from_phy(void)
     }
     
     SAMPLE_LOG("broadcast VI");
+		vatek_h1_change_clk(phy_active_handle);
 
     /* copy phy infomation to global variable when success broadcast */
     memcpy(&g_phy_vi, &phy_vi, sizeof(phy_video_info));
     memcpy(&g_phy_ai, &phy_ai, sizeof(phy_audio_info));
+		
+		vatek_phy_dump_reg(phy_active_handle);
 		
     return result;
 }
@@ -944,7 +949,7 @@ vatek_result sample_bc_init(Pboard_handle bh_main, Pboard_handle bh_phy, Pboard_
         }
     }
     phy_active_handle = hdmi_handle;
-    
+
     /* init RF : r2_via_vatek */
     result = vatek_rf_create(bh_rf, rf_type_r2_via_vatek, &rf_handle);  
     if (!is_success(result))

@@ -139,14 +139,14 @@ vatek_result vatek_capture_create(Phms_handle handle, Pcapture_param param)
     if ((result = vatek_hms_write_hal(handle, HALREG_TRCAPTURE_PID, param->pid)) != vatek_result_success)
         return result;
     
-//    if ((result = vatek_hms_write_hal(handle, HALREG_TRCAPTURE_TABLEID, param->table_id)) != vatek_result_success)
-//        return result;
+    if ((result = vatek_hms_write_hal(handle, HALREG_TRCAPTURE_TABLEID, param->table_id)) != vatek_result_success)
+        return result;
     
     if ((result = vatek_hms_write_hal(handle, HALREG_TRCAPTURE_TIMEOUT, 10000)) != vatek_result_success)
         return result;
     
-//    if ((result = vatek_hms_write_hal(handle, HALREG_TRCAPTURE_SECTION_NUM, param->section_num)) != vatek_result_success)
-//        return result;
+    if ((result = vatek_hms_write_hal(handle, HALREG_TRCAPTURE_SECTION_NUM, param->section_num)) != vatek_result_success)
+        return result;
     
     if ((result = vatek_hms_write_hal(handle, HALREG_TRCAPTURE_PACKET_NUMS, 16)) != vatek_result_success)
         return result;

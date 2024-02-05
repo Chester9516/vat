@@ -1,9 +1,0 @@
-vatek_transform_f407\vatek_demod.o: ..\..\..\..\peripheral\src\demod\vatek_demod.c
-vatek_transform_f407\vatek_demod.o: ..\..\..\..\system\inc\vatek_system.h
-vatek_transform_f407\vatek_demod.o: D:\Keil_C\ARM_Pack\ARM\ARMCC\Bin\..\include\stdio.h
-vatek_transform_f407\vatek_demod.o: D:\Keil_C\ARM_Pack\ARM\ARMCC\Bin\..\include\stdlib.h
-vatek_transform_f407\vatek_demod.o: D:\Keil_C\ARM_Pack\ARM\ARMCC\Bin\..\include\string.h
-vatek_transform_f407\vatek_demod.o: ..\..\..\..\inc\vatek_define.h
-vatek_transform_f407\vatek_demod.o: D:\Keil_C\ARM_Pack\ARM\ARMCC\Bin\..\include\stdint.h
-vatek_transform_f407\vatek_demod.o: ..\..\..\..\inc\vatek_define_periphral.h
-vatek_transform_f407\vatek_demod.o: ..\..\..\..\peripheral\inc\demod/demod_AVL68XX.h

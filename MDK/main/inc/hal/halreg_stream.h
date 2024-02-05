@@ -72,7 +72,7 @@
 #define HALREG_ENCODER_MODE             0x640
 	#define ENCMOD_COLORBAR             0x00000000
 	#define ENCMOD_BOOTLOGO             0x00000001
-	#define ENCMOD_VI_0                 0x00000002
+	#define ENCODER_EXTERNAL_VI_0       0x00000002
 	#define ENOCDER_INTERNAL_VI_0				0x00000003
 
 #define HALREG_ENCODER_FLAGS            0x641
@@ -94,6 +94,16 @@
 	#define VIDEO_HEVC					0x00000002
 
 #define HALREG_VIDEO_RESOLUTION			0x643				/* defined in hal_common_define.h */
+	#define RESOLUTION_480I				0x00000000
+	#define RESOLUTION_480P				0x00000001
+	#define RESOLUTION_576I				0x00000002
+	#define RESOLUTION_576P				0x00000003
+	#define RESOLUTION_720P				0x00000004
+	#define RESOLUTION_1080I			0x00000005
+	#define RESOLUTION_1080P			0x00000006
+	#define RESOLUTION_UHD				0x00000007
+	
+#define HALREG_SCALER_RESOLUTION			0x64A				/* defined in hal_common_define.h */
 	#define RESOLUTION_480I				0x00000000
 	#define RESOLUTION_480P				0x00000001
 	#define RESOLUTION_576I				0x00000002
@@ -145,6 +155,7 @@
 	#define QUALITY_RC_VBR				0x00000001
 	#define QUALITY_FIXED_Q             0x00000002
 	#define QUALITY_AUTO				0x00000003
+	#define QUALITY_LB_RTVBR		0x00000004
 
 #define HALREG_QUALITY_GOP				0x651
 #define HALREG_QUALITY_MINQ				0x652
@@ -162,9 +173,10 @@
 	#define VI_CLK_INVERSE              0x00000200
 	#define VI_HSYNC_INVERSE            0x00000400
 	#define VI_VSYNC_INVERSE            0x00001000
+	#define VI_DOWN_SCALER							0x00010000 //add for V1
 	#define VI_FIELDID_SIGNAL           0x01000000
 	#define VI_EXT_HALF_FPS             0x10000000
-	#define VI_FIELD_INVERSE			0x20000000
+	#define VI_FIELD_INVERSE						0x20000000
 	#define VI_DISABLE_ERRCHK           0x40000000
 	#define VI_PCRCLK_ENC               0x80000000
 

@@ -13,4 +13,4 @@ void lcd_write_data(char data);
 void lcd_write_cmd(char cmd);
 char vatek_lcd_set_cursor(char row, char cal);
 char vatek_lcd_clear();
-char vatek_lcd_write_str(char *word);
+char vatek_lcd_write_str(char row, char cal, char *word);

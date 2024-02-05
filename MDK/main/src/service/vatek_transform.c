@@ -8,6 +8,7 @@
 #include "vatek_psitable.h"
 #include "vatek_psispec_rule.h"
 #include "vatek_psispec_default.h"
+#include "vatek_capture.h"
 
 
 #define TRANSFORM_ERR(fmt,...)    VATEK_ERR(tf,fmt,##__VA_ARGS__)
@@ -163,7 +164,7 @@ vatek_result vatek_transform_create(Pboard_handle hboard, Phtransform *handle)
 
 //    if ((result = transform_reset(*handle)) != vatek_result_success) //try not repeat V1 in V1 process 20231128
 //        return result;
-    
+
     return result;
 }
 
@@ -295,7 +296,6 @@ vatek_result vatek_transform_chipstatus(Phtransform handle, chip_status *status)
 }
 
 #if 1
-//Remove this function
 vatek_result vatek_transform_enum_getlist(Phtransform handle, Penum_list *list)
 {
     vatek_result result = vatek_result_unknown;
@@ -313,6 +313,28 @@ vatek_result vatek_transform_enum_getlist(Phtransform handle, Penum_list *list)
         return result;
     
     if((result = vatek_enum_destroy((Phms_handle)handle)) != vatek_result_success)
+        return result;
+
+    return result;
+}
+
+vatek_result vatek_transform_capture(Phtransform handle, Ppsitable_parm *raw_table, Pcapture_param param)
+{
+    vatek_result result = vatek_result_unknown;
+    
+    if (handle == NULL || raw_table == NULL || param == NULL)
+        return vatek_result_invalidparm;
+
+    if ((result = vatek_capture_reset((Phms_handle)handle)) != vatek_result_success)
+        return result;
+
+    if ((result = vatek_capture_create((Phms_handle)handle, param)) != vatek_result_success)
+        return result;
+        
+    if ((result = vatek_capture_gettable((Phms_handle)handle, raw_table)) != vatek_result_success)
+        return result;
+        
+    if((result = vatek_capture_destroy((Phms_handle)handle)) != vatek_result_success)
         return result;
 
     return result;

@@ -269,6 +269,12 @@ static vatek_result set_output_format( Ph1_handle hh1, Pphy_video_info info)
     if( hh1==NULL)
         return vatek_result_invalidparm;
     
+		if((result = H1_REG_RD( hh1->vi2c, H1_VOUT_CFG, &vinfo))!=vatek_result_success)
+        return result;
+		
+		if((vinfo & H1_VOUT_CFG_16BITS) && !(vinfo & H1_VOUT_CFG_EMBEDDED)) //if use Separate 8bits, need to enable H1_OUT_FMT_422_8BIT
+			vout_fmt |= H1_OUT_FMT_422_8BIT;
+		
     if((result = H1_REG_RD( hh1->vi2c, H1_VIN_FMT, &vinfo))!=vatek_result_success)
         return result;
     
@@ -315,32 +321,27 @@ static vatek_result output_bypass(Ph1_handle hh1)
 {
     vatek_result result = vatek_result_unknown;
     uint8_t v_interlaced = 0;
-		uint8_t v_interlaced_change = 0;
     uint8_t flag = H1_HDMI_FLAG_BYPASS_MODE;
 
     if(hh1==NULL)
         return vatek_result_invalidparm;
     
-		if(vic_change != vic_save){
+		if(vic_change != vic_save){ //check wether VIC change, if change, reset and check interlace or not
 			printf("VIC change 0x%x to 0x%x----\r\n",vic_save,vic_change);
 			 /** check video input interlaced */
 			if((result = H1_REG_RD( hh1->vi2c, H1_VIN_VPLUSE, &v_interlaced))!=vatek_result_success)
 					return result;
 			
-			if(v_interlaced == v_interlaced_change){
-				if(v_interlaced&H1_VIN_VPLUSE_INT) flag |= H1_HDMI_FLAG_OUT_INTERLACED;
-				v_interlaced_change = v_interlaced;
-			}
+			if(v_interlaced&H1_VIN_VPLUSE_INT) flag |= H1_HDMI_FLAG_OUT_INTERLACED; //setting output format from input(i or p)
+			else flag &= 0x7f;
+
 			vic_save = vic_change;
 		}
-    
     
     if((result = H1_REG_WR( hh1->vi2c, H1_HDMI_FLAG, flag))!=vatek_result_success)
         return result;
 		
-		if((result = H1_REG_RD( hh1->vi2c, H1_HDMI_FLAG, &flag))!=vatek_result_success)
-        return result;
-//    printf("0x104 = 0x%x",flag);
+
 		
     return result;
 }
@@ -454,11 +455,11 @@ static vatek_result set_videoinfo( Ph1_handle hh1, Pphy_video_info info)
 static vatek_result enable_vout(Ph1_handle hh1, uint8_t enable)
 {
     vatek_result result = vatek_result_unknown;
-    
+    uint8_t hal_val = 0;
     if (IS_NEW_REV(h1_rev))
     {
         if(enable){
-            result = H1_REG_WR( hh1->vi2c, H1_OUT_CNTL, H1_OUT_CNTL_EN_AOUT);
+            result = H1_REG_WR( hh1->vi2c, H1_OUT_CNTL, H1_OUT_CNTL_EN_AOUT);//H1_OUT_CNTL_EN_AOUT
 				}
         else result = H1_REG_WR( hh1->vi2c, H1_OUT_CNTL, H1_OUT_CNTL_DIS_VOUT);
     }else
@@ -569,12 +570,13 @@ vatek_result h1_get_videoinfo(Ph1_handle hh1, Pphy_video_info info)
     
     if( hh1==NULL || info==NULL)
         return vatek_result_invalidparm;
-    
-    if((result = check_source( hh1, &status))==vatek_result_success)
-    {
-        if( status!=h1_active && status!=h1_active_protect)
-            return vatek_result_badstatus;
-    }else return result;
+
+		if((result = check_source( hh1, &status))==vatek_result_success)
+		{
+				if( status!=h1_active && status!=h1_active_protect)
+						return vatek_result_badstatus;
+		}else return result;
+		
 
     result = H1_REG_RD( hh1->vi2c, H1_VIN_VIC, &vic_change);
     if(IS_SUCCESS(result)) result = H1_REG_RD( hh1->vi2c, H1_HDMI_FLAG, &pclk);
@@ -790,6 +792,7 @@ vatek_result h1_read_reg(Ph1_handle hh1, uint32_t addr, uint8_t* val)
 
 vatek_result h1_dump_reg(Ph1_handle hh1)
 {
+	vatek_result result = vatek_result_unknown;
 	uint32_t i = 0x3000, n = 0x3000;
 	uint32_t x=0,y=0;
 	uint8_t reg_val = 0;
@@ -806,6 +809,12 @@ vatek_result h1_dump_reg(Ph1_handle hh1)
 		printf("\r\n");
 	}
 	printf("---------------------H1 End-----------------------\r\n");
+	if((result = H1_REG_RD( hh1->vi2c, H1_HDMI_FLAG, &reg_val))!=vatek_result_success)
+    return result;
+  printf("H1_HDMI_FLAG(0x104) = 0x%x\r\n",reg_val);
+	if((result = H1_REG_RD( hh1->vi2c, 0x0201, &reg_val))!=vatek_result_success)
+    return result;
+  printf("0x0201 = 0x%x\r\n",reg_val);
 	printf("\r\n");
 }
 
@@ -818,16 +827,34 @@ vatek_result h1_change_clk(Ph1_handle hh1)
 //		return vatek_result_success;
 //	tick = vatek_system_gettick();
 	
-//	H1_REG_WR(hh1->vi2c, 0x3080, 0x81);
+
 //	H1_REG_WR(hh1->vi2c, 0x309d, 0x3);
 
 //	H1_REG_WR(hh1->vi2c, 0x30c0, 0x1);
 //	H1_REG_WR(hh1->vi2c, 0x30c1, 0x0);
-//	H1_REG_WR(hh1->vi2c, 0x30c2, 0x1);
+//		H1_REG_WR(hh1->vi2c, 0x30c2, 0x3);
 //	H1_REG_WR(hh1->vi2c, 0x30c3, 0x0);
 //	H1_REG_WR(hh1->vi2c, 0x30c4, 0x1);
 //	H1_REG_WR(hh1->vi2c, 0x30bb, 0x10);
 //30bb let S8 become E8 to make sure xiaoping IC can ourput S8, check YCrCb process.
+//		H1_REG_WR(hh1->vi2c, 0x3080, 0x81);
+	
+//	H1_REG_RD(hh1->vi2c, H1_OUT_CNTL, &reg_val);
+//	printf("H1_OUT_CNTL(0x0300) = 0x%x\r\n",reg_val);
+//	H1_REG_RD(hh1->vi2c, H1_INT_EN, &reg_val);
+//	printf("H1_INT_EN(0x0101) = 0x%x\r\n",reg_val);
+//	H1_REG_RD(hh1->vi2c, H1_INT_CNTL, &reg_val);
+//	printf("H1_INT_CNTL(0x0103) = 0x%x\r\n",reg_val);
+//	H1_REG_RD(hh1->vi2c, H1_HDMI_FLAG, &reg_val);
+//	printf("H1_HDMI_FLAG(0x0104) = 0x%x\r\n",reg_val);
+//	H1_REG_RD(hh1->vi2c, H1_OUT_FMT, &reg_val);
+//	printf("H1_OUT_FMT(0x0201) = 0x%x\r\n",reg_val);
+//	H1_REG_RD(hh1->vi2c, H1_AOUT_CFG, &reg_val);
+//	printf("H1_AOUT_CFG(0x0301) = 0x%x\r\n",reg_val);
+//	H1_REG_RD(hh1->vi2c, H1_VOUT_CFG, &reg_val);
+//	printf("H1_VOUT_CFG(0x0202) = 0x%x\r\n",reg_val);
+//	H1_REG_RD(hh1->vi2c, H1_AIN_STATUS, &reg_val);
+//	printf("H1_AIN_STATUS(0x0302) = 0x%x\r\n",reg_val);
 	
 	
 	return result;

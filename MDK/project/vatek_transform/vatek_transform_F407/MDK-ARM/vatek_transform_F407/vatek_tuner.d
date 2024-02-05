@@ -1,9 +1,0 @@
-vatek_transform_f407\vatek_tuner.o: ..\..\..\..\peripheral\src\tuner\vatek_tuner.c
-vatek_transform_f407\vatek_tuner.o: ..\..\..\..\system\inc\vatek_system.h
-vatek_transform_f407\vatek_tuner.o: D:\Keil_C\ARM_Pack\ARM\ARMCC\Bin\..\include\stdio.h
-vatek_transform_f407\vatek_tuner.o: D:\Keil_C\ARM_Pack\ARM\ARMCC\Bin\..\include\stdlib.h
-vatek_transform_f407\vatek_tuner.o: D:\Keil_C\ARM_Pack\ARM\ARMCC\Bin\..\include\string.h
-vatek_transform_f407\vatek_tuner.o: ..\..\..\..\inc\vatek_define.h
-vatek_transform_f407\vatek_tuner.o: D:\Keil_C\ARM_Pack\ARM\ARMCC\Bin\..\include\stdint.h
-vatek_transform_f407\vatek_tuner.o: ..\..\..\..\inc\vatek_define_periphral.h
-vatek_transform_f407\vatek_tuner.o: ..\..\..\..\peripheral\inc\tuner/tuner_MxL608.h

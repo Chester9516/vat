@@ -81,8 +81,18 @@ char vatek_lcd_set_cursor(char row, char cal)
 	lcd_write_cmd(position | 0x80);
 }
 
-char vatek_lcd_write_str(char *word)
+char vatek_lcd_write_str(char row, char cal, char *word)
 {
+	char position;
+	
+	if(row == 0){
+		position = 0x00 | cal;
+	}
+	else
+		position = 0x40 | cal;
+	
+	lcd_write_cmd(position | 0x80);
+	
 	while(*word)
 		lcd_write_data(*word++);
 }
@@ -90,7 +100,7 @@ char vatek_lcd_write_str(char *word)
 char vatek_set_blank(char row, char cal, uint32_t blank_num)
 {
 //	vatek_lcd_set_cursor(row, cal);
-//	vatek_lcd_write();
+	vatek_lcd_write_str(0,1,"Hello World");
 }
 
 #endif

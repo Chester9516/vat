@@ -161,6 +161,8 @@
 	#define RESCUE_ERR_SPIFLASH         0x80000002
 	#define RESCUE_ERR_BADCNTL			0x80000003
 	#define RESCUE_ERR_BADSTATUS		0x80000004
+	
+
 
 #define HALREG_APP_DEBUG                0x3E
 #define HALREG_SYS_DEBUG                0x3F

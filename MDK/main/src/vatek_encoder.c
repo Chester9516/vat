@@ -14,11 +14,11 @@ static vatek_result encoder_vi_setparm(Phms_handle handle, video_input_parm vpar
 
     if (vparm.buswidth_16 == 0)
     {
-//        if (vparm.resolution > vi_resolution_bus8_max || vparm.resolution < vi_resolution_bus8_min)
-//        {
-//            ENCODER_ERR("vi resolution overrange");
-//            return vatek_result_overrange;
-//        }
+        if (vparm.resolution > vi_resolution_bus8_max || vparm.resolution < vi_resolution_bus8_min)
+        {
+            ENCODER_ERR("vi resolution overrange");
+            return vatek_result_overrange;
+        }
     }
     else
     {
@@ -190,7 +190,7 @@ static vatek_result encoder_vi_setparm(Phms_handle handle, video_input_parm vpar
     if ((result = vatek_hms_write_hal(handle, HALREG_BROADCAST_STREAM, STREAM_ENCODER)) != vatek_result_success)
         return result;
 
-    if ((result = vatek_hms_write_hal(handle, HALREG_ENCODER_MODE, ENCMOD_VI_0)) != vatek_result_success)
+    if ((result = vatek_hms_write_hal(handle, HALREG_ENCODER_MODE, ENCODER_EXTERNAL_VI_0)) != vatek_result_success)
         return result;
 
     if ((result = vatek_hms_write_hal(handle, HALREG_VIDEO_RESOLUTION, resolution)) != vatek_result_success)

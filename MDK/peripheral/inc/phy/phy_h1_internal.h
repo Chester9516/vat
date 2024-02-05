@@ -40,12 +40,13 @@
         
     #define H1_OUT_FMT                          0x0201
         #define H1_OUT_FMT_422                      0x80
+				#define H1_OUT_FMT_422_8BIT									0x40
         #define H1_OUT_FMT_YCC                      0x20
         #define H1_OUT_FMT_CS709                    0x04
         #define H1_OUT_FMT_PR2                      0x01
     #define H1_VOUT_CFG                         0x0202
-        #define H1_VOUT_CFG_16BITS                  0x80
-        #define H1_VOUT_CFG_EMBEDDED                0x20
+        #define H1_VOUT_CFG_16BITS                  0x80 //1 = 8
+        #define H1_VOUT_CFG_EMBEDDED                0x20 //1 = embbed
         #define H1_VOUT_CFG_FIELD_INV               0x01
     #define H1_VIN_FMT                          0x0203
         #define H1_VIN_FMT_YUV                      0x08
@@ -60,6 +61,8 @@
     #define H1_VOUT_H_WIDTH				        0x020b      /** 12-bits */
     #define H1_VOUT_V_DELAY				        0x020d
     #define H1_VOUT_V_WIDTH				        0x020e
+		
+		#define H1_VOUT_DDR									0x0210 //hal reg for EA ver.
 
     #define H1_OUT_CNTL                         0x0300
         #define H1_OUT_CNTL_AUD_SEL_SPDIF           0x80    /*!< use after fw_rev 1101 */
@@ -171,7 +174,7 @@
         { H1_HDMI_FLAG  , 0x00},        /**104 Vout Progressive, Scalar, Baseclk_1001 */
         { H1_OUT_FMT    , 0xA0},        /**201 YUV422, BT709*/
         { H1_AOUT_CFG   , 0x13},        /**301 Audio 512 sampling */
-        { H1_VOUT_CFG   , 0xa1},        /**202 0x41 Vout Y/Cb/Y/Cr, Field no inverse */
+        { H1_VOUT_CFG   , 0x41},        /**202 0x41 Vout Y/Cb/Y/Cr, Field no inverse a0=e8, 20=e16, 80=s8, 00=s16*/
 //				{ 0x30b8				, 0x22},
 //				{ 0x3080				, 0x1},
 

@@ -16,6 +16,11 @@
 #define I2CCHIP_WRADDR_V1 (I2CCHIP_ADDRESS_V1 << 1)
 #define I2CCHIP_RDADDR_V1 (I2CCHIP_WRADDR_V1 | 1)
 
+/* test */
+#define I2CTEST_ADDRESS		0x13
+#define I2CTEST_WRADDR		(I2CTEST_ADDRESS << 1)
+#define I2CTEST_RDADDR		(I2CTEST_WRADDR | 1)
+
 static uint8_t i2c_cmd[I2CCMD_BUF_LEN];
 
 static vatek_result hms_i2c_write(Pvatek_i2c vi2c, uint8_t* pbuf, uint32_t len)
@@ -482,7 +487,7 @@ vatek_result vatek_hms_write_halbuf_v1(Phms_handle handle, uint32_t addr, uint8_
     for (idx = 0; idx < len ; idx+=4)
     {
         val = pbuf[idx+3] + (pbuf[idx+2] << 8) + (pbuf[idx+1] << 16) + (pbuf[idx] << 24);
-        result = vatek_hms_write_hal(handle, addr, val);
+        result = vatek_hms_write_hal_v1(handle, addr, val);
         addr++;
     }
     

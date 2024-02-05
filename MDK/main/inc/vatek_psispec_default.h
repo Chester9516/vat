@@ -69,7 +69,12 @@
     vatek_result vatek_psispec_default_program_end(void);
     vatek_result vatek_psispec_default_stream_add(Ppsispec_default_stream_tr stream);    
     vatek_result vatek_psispec_default_start_tr(void);
-
+#endif
+		
+#if defined(SERVICE_ENCODER)
+		vatek_result vatek_psispec_default_init_v1(Phms_handle handle, psispec_default_type type, psispec_country_code country);
+    vatek_result vatek_psispec_default_config_v1( Ppsispec_default_channel chan, Ppsispec_default_program prog);
+    vatek_result vatek_psispec_default_start_v1(void);
 #endif
 
 	#define PSI_DEF_ERR(fmt, ...)	VATEK_ERR(psi, fmt, ##__VA_ARGS__)

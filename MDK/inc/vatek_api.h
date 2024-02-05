@@ -1596,6 +1596,10 @@
 		vatek_result vatek_encoder_v1_setmuxparm(Phbroadcast handle, encoder_mux_parm parm);
 		vatek_result vatek_encoder_v1_setqualityparm(Phbroadcast handle, encoder_quality_parm parm);
 		vatek_result vatek_encoder_v1_tsmux_setparm(Phbroadcast handle, tsmux_type type, Ptsmux_parm parm);
+		vatek_result vatek_encoder_v1_getvideoinfoparm(Phbroadcast handle, Pvideo_info_parm parm);
+		vatek_result vatek_encoder_psitable_register(Phbroadcast handle, Ppsitablelist_parm parm);
+		vatek_result vatek_encoder_v1_down_scale(Phbroadcast handle, video_input_parm v_parm, video_scale_resolution vi_res);
+		vatek_result vatek_encoder_v1_hdmichange(Pboard_handle handle);
 /*V1 API end*/
     
 #ifdef __cplusplus

@@ -32,7 +32,7 @@
 #include "vatek_sample_broadcast.h"
 #include "vatek_sample_keypad_stm32f401.h"
 #include "uart_cmdline.h"
-
+extern vatek_result vatek_porting_i2c_start(Pboard_handle hboard, uint8_t devaddr, uint32_t restart);
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -102,6 +102,7 @@ int main(void)
 //  MX_USART6_UART_Init();
   MX_USB_DEVICE_Init();
   /* USER CODE BEGIN 2 */
+//	vatek_porting_i2c_start(&hi2c1, 0x13, 1);
   sample_bc_init(&hi2c1, &hi2c1, &hi2c1);
 	
 //	cmdline_table cmd_table = {0};

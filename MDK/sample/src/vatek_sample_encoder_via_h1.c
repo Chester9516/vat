@@ -4,19 +4,12 @@
 #include "vatek_api.h"
 #include "vatek_sample_encoder_via_h1.h"
 #include "vatek_sample_modulator.h"
+#include "KeypadAddLCD.h"
 
-//#define PHY_EXTERNAL 1//external HDMI
+#define ISO_PSI 1
+
 #define V1_USE 1
-#define A3_USE 1
-
-#if defined(DEBUG)
-extern vatek_result vatek_phy_write(Phphy handle, uint32_t addr, uint8_t val);
-extern vatek_result vatek_phy_read(Phphy handle, uint32_t addr, uint8_t* val);
-extern vatek_result vatek_encoder_reg_write_v1(Phbroadcast handle, uint32_t addr, uint32_t val);
-extern vatek_result vatek_encoder_reg_read_v1(Phbroadcast handle, uint32_t addr, uint32_t* val);
-extern vatek_result vatek_encoder_hal_write_v1(Phbroadcast handle, uint32_t addr, uint32_t val);
-extern vatek_result vatek_encoder_hal_read_v1(Phbroadcast handle, uint32_t addr, uint32_t* val);
-#endif
+#define A3_USE 0//if user don't use A3 board, set value to 0
 
 static vatek_result init_process();
 static vatek_result v1_set_logo();
@@ -31,10 +24,10 @@ static Phrf rf_handle = NULL;
 static Phbroadcast enc_handle = NULL;
 static Phtransform tf_handle = NULL;
 
-static encoder_input enc_input_mode = input_mode_external;//decide internal or external HDMI
-static modulator_type a3_mod_type = m_type_dvb_t;//m_type_dvb_t, m_type_atsc
-static uint32_t a3_mod_bandwidth = 8; //6, 8
-static uint32_t rf_freq = 474000; //473000, 474000
+static encoder_input enc_input_mode = input_mode_internal;//decide internal or external HDMI, input_mode_internal, input_mode_external
+static modulator_type a3_mod_type = m_type_atsc;//m_type_dvb_t, m_type_atsc, A3 modulator output setting
+static uint32_t a3_mod_bandwidth = 6; //6, 8, A3 rf output setting
+static uint32_t rf_freq = 473000; //473000, 474000, A3 rf outputs setting
 
 static phy_audio_info phy_a_info;
 static phy_video_info phy_v_info;
@@ -49,9 +42,9 @@ vatek_result vatek_encoder_v1_polling()
 	broadcast_status encoder_status = bc_status_unknown;
 	chip_status v1_status = chip_status_unknown;
 	static uint32_t tick = 0;
-	
+
 	/*polling every 3 second*/
-	if(vatek_system_gettick() - tick < 2000)
+	if(vatek_system_gettick() - tick < 3000)
 		return vatek_result_success;
 	tick = vatek_system_gettick();
 
@@ -170,13 +163,17 @@ static vatek_result init_process(Pboard_handle handle){
 	
 #endif
 	
-if(enc_input_mode == input_mode_external){
-	result = vatek_phy_create(handle,phy_type_h1, &phy_handle);//phy_type_ep9555e, phy_type_h1
-	if(result != vatek_result_success){
-		errlog("peripheral PHY initail fail, %d",result);
-		return result;
+	if(enc_input_mode == input_mode_external){
+		result = vatek_phy_create(handle,phy_type_h1, &phy_handle);//phy_type_ep9555e, phy_type_h1
+		if(result != vatek_result_success){
+			errlog("peripheral PHY initail fail, %d",result);
+			return result;
+		}
+		if((result = vatek_phy_enable(phy_handle, 1)) != vatek_result_success){
+			printf("phy enable fail, %d\r\n",result);
+			return result;
+		}
 	}
-}
 
 #if A3_USE
 	if(tf_handle == NULL){
@@ -250,33 +247,36 @@ static vatek_result v1_set_phy()
 			return result;
 		}
 		
-		if(enc_input_mode == input_mode_external){
-			result = vatek_h1_change_clk(phy_handle);
-			
-			if((result = vatek_phy_enable(phy_handle, 1)) != vatek_result_success){
-				printf("phy enable fail, %d\r\n",result);
-				return result;
-			}
-		//	vatek_phy_dump_reg(phy_handle);
+		result = vatek_h1_change_clk(phy_handle);
+		
+		if((result = vatek_phy_enable(phy_handle, 1)) != vatek_result_success){
+			printf("phy enable fail, %d\r\n",result);
+			return result;
 		}
+		vatek_phy_dump_reg(phy_handle);
 		
 		memcpy(&phy_a_info, &phy_ai, sizeof(phy_audio_info));
 		memcpy(&phy_v_info, &phy_vi, sizeof(phy_video_info));
 		
 		vi_parm.clk_inverse = 0;
-		vi_parm.aspectrate = vi_aspectrate_16_9;//phy_vi.aspectrate;
+		vi_parm.aspectrate = phy_vi.aspectrate;//phy_vi.aspectrate;, vi_aspectrate_16_9
 		vi_parm.buswidth_16 = phy_vi.buswidth_16;//0;
 		vi_parm.separated_sync = phy_vi.separated_sync;//1;
 		vi_parm.resolution = phy_vi.resolution;
 		vi_parm.vsync_inverse = 0;
 		vi_parm.input_mode = enc_input_mode;
-
 		ai_parm.samplerate = phy_ai.samplerate;
-
 	}
-	
-	if(enc_input_mode == input_mode_internal){
-		vi_parm.input_mode = input_mode_internal;
+	else if(enc_input_mode == input_mode_internal){
+		vi_parm.buswidth_16 = 1;
+		vi_parm.separated_sync = 1;
+		vi_parm.input_mode = enc_input_mode;
+		vi_parm.down_scale = 0;
+		vi_parm.vsync_inverse = 1; //for separate
+		
+		result = vatek_encoder_hal_write_v1(enc_handle, 0x10, 0); //set separate/enbbeded and 8/16 bits
+		
+//		vatek_encoder_v1_down_scale(enc_handle, vi_parm, scale_resolution_480p);
 	}
 	
 	if((result = vatek_encoder_v1_setinputparm_phy(enc_handle, vi_parm, ai_parm)) != vatek_result_success){
@@ -297,10 +297,11 @@ static vatek_result v1_process()
 	audio_encode_parm ae_parm = {0};
 	
 	ve_parm.type = ve_type_mpeg2;//ve_type_mpeg2, ve_type_h264
-	ve_parm.output_bitrate = 9000000; //set pure encoder output (important value)
+	ve_parm.output_bitrate = 19000000; //set pure encoder output (important value)
+	ve_parm.en_interlaced = 0;
 	
-	ae_parm.type = ae_type_mp1_l2;//ae_type_mp1_l2, ae_type_ac_3
-	ae_parm.channel = ae_channel_stereo;
+	ae_parm.type = ae_type_ac_3;//ae_type_mp1_l2, ae_type_ac_3, ae_type_aac_lc_adts, ae_type_aac_lc_latm
+	ae_parm.channel = ae_channel_stereo;//ae_channel_stereo, ae_channel_mono_l, ae_channel_mono_r, ae_channel_stereo_mono_l, ae_channel_stereo_mono_r
 	result = vatek_encoder_v1_setencodeparm(enc_handle, ve_parm, ae_parm);
 	if(result != vatek_result_success){
 		log("set encode parameter fail, %d",result);
@@ -308,7 +309,7 @@ static vatek_result v1_process()
 	}
 	
 	encoder_quality_parm eq_parm = {0};
-	eq_parm.bitrate = 9000000;
+	eq_parm.bitrate = 19000000;
 	eq_parm.gop = 16;
 	eq_parm.latency = 500;
 	eq_parm.minq = 5;
@@ -324,8 +325,9 @@ static vatek_result v1_process()
 	if((result = vatek_encoder_v1_setmuxparm(enc_handle, em_p)) != vatek_result_success){
 		log("set encoder mux parameter fail, %d",result);
 		return result;
-	}
+	}	
 		
+#if ISO_PSI
 	tsmux_iso13818_parm iso_p = {0};
 	iso_p.padding_pid = 0x1FF0;
 	iso_p.pcr_pid = 0x100;
@@ -336,37 +338,36 @@ static vatek_result v1_process()
 		log("set tsmux parameter fail, %d",result);
 		return result;
 	}
-	
-	log("final H1 256 Bytes------------------------");
-	result = vatek_phy_dump_reg(phy_handle);
-	uint32_t hal_val = 0;
-	vatek_encoder_reg_read_v1(enc_handle, 0x60b, &hal_val);
-	log("reg 0x60b = 0x%x", hal_val);
-	vatek_encoder_reg_read_v1(enc_handle, 0x60c, &hal_val);
-	log("reg 0x60c = 0x%x", hal_val);
-	
+#endif
+	if(enc_input_mode == input_mode_external){
+		log("final H1 256 Bytes------------------------");
+		result = vatek_phy_dump_reg(phy_handle);
+	}
+
 	result = vatek_encoder_v1_start(enc_handle);
 	if(result != vatek_result_success){
 		log("encoder start fail, %d",result);
 		return result;
 	}
 	
-	if(enc_input_mode == input_mode_internal){
-		uint32_t v1_info_600 = 0;
-		broadcast_infotype h1_info = bc_reg_600;
-		h1_info = h1_set_0x11;
-		result = vatek_encoder_v1_getinfo(enc_handle, h1_set_0x11, &v1_info_600);
-		log("0x600 = 0x%x", v1_info_600);
-		if(result == vatek_result_success)
-			log("use external H1 success");
-	}
-	
-	while(enc_s != bc_status_broadcast){
+	while(enc_s != bc_status_broadcast){//bc_status_broadcast
 		if((result = vatek_encoder_v1_bcstatus(enc_handle, &enc_s)) != vatek_result_success){
 			errlog("get encoder status fail, %d",result);
 			return result;
 		}
 	}
+	
+	if(enc_input_mode == input_mode_internal){
+		video_info_parm v_info_p = {0};
+		if((result = vatek_encoder_v1_getvideoinfoparm(enc_handle, &v_info_p)) != vatek_result_success){
+			errlog("get video information error, %d",result);
+			return result;
+		}
+		log("input resolution = %d",v_info_p.resolution);
+		log("input aspectrate = %d",v_info_p.aspectrate);
+	}
+	
+	
 	
 	return result;
 }
@@ -377,11 +378,6 @@ static vatek_result a3_process(){
 	broadcast_status a3_bcstatus = bc_status_unknown;
 	phy_status ep_status = phy_status_unknown;
 	log("Start A3 process");
-
-	result = vatek_transform_chipstatus(tf_handle,&a3_status);
-		if(result == vatek_result_success)
-			if(a3_status == chip_status_running)//chip_status_running, chip_status_idle
-				return vatek_result_success;
 	
 	ts_input_parm a3_input = {0};	
 	a3_input.tsin_mode = tsin_smooth;

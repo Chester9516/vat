@@ -80,6 +80,8 @@ static vatek_result psitable_register_end(Phms_handle handle)
     return result;
 }
 
+
+
 static vatek_result psitable_insert_start(Phms_handle handle)
 {
     vatek_result result = vatek_result_unknown;
@@ -199,6 +201,96 @@ vatek_result vatek_psitable_register(Phms_handle handle, Ppsitablelist_parm parm
 
     return result;
 }
+
+#if defined(VATEK_V1)
+//v1 register PSI table
+static vatek_result psitable_register_put_v1(Phms_handle handle, Ppsitable_parm ptable)
+{
+    vatek_result result = vatek_result_unknown;
+    uint32_t poslen = 0;
+    uint8_t *pbuf = NULL;
+
+    if (handle == NULL || ptable == NULL)
+        return vatek_result_invalidparm;
+
+    if (ptable->tspacket_num == 0)
+        return vatek_result_invalidparm;
+
+    if (!is_mux_position_valid(mux_tables_pos))
+        return vatek_result_badstatus;
+
+    poslen = (PSI_TSPACKET_WLEN * ptable->tspacket_num) + 3;
+    
+    if ((mux_tables_pos + poslen) >= HALRANGE_PLAYLOAD_END)
+        return vatek_result_overrange;
+
+    if ((result = vatek_hms_write_hal_v1(handle, mux_tables_pos++, RAWPSI_EN_TAG)) != vatek_result_success)
+        return result;
+
+    if ((result = vatek_hms_write_hal_v1(handle, mux_tables_pos++, ptable->interval_ms)) != vatek_result_success)
+        return result;
+
+    if ((result = vatek_hms_write_hal_v1(handle, mux_tables_pos++, ptable->tspacket_num)) != vatek_result_success)
+        return result;
+
+    pbuf = ptable->tspackets;
+    poslen = ptable->tspacket_num;
+    
+    while (poslen)
+    {
+        if ((result = vatek_hms_write_halbuf_v1(handle, mux_tables_pos, pbuf, PSI_TSPACKET_LEN)) != vatek_result_success)
+            return result;
+        mux_tables_pos += PSI_TSPACKET_WLEN;
+        pbuf += PSI_TSPACKET_LEN;
+        poslen--;
+    }
+    
+    return result;
+}
+
+static vatek_result psitable_register_end_v1(Phms_handle handle)
+{
+    vatek_result result = vatek_result_unknown;
+    
+    if (handle == NULL)
+        return vatek_result_invalidparm;
+
+    if (!is_mux_position_valid(mux_tables_pos))
+        return vatek_result_badstatus;
+    
+    if ((result = vatek_hms_write_hal_v1(handle, mux_tables_pos, RAWPSI_EN_ENDTAG)) != vatek_result_success)
+        return result;
+
+    mux_tables_pos = 0;
+    return result;
+}
+
+vatek_result vatek_psitable_register_v1(Phms_handle handle, Ppsitablelist_parm parm)
+{
+    vatek_result result = vatek_result_unknown;
+    uint32_t idx = 0;
+
+    if (handle == NULL || parm == NULL || parm->table_num == 0)
+        return vatek_result_invalidparm;
+
+    if ((result = vatek_hms_issystemidle_v1(handle)) != vatek_result_success)
+        return result;
+
+    if ((result = psitable_register_start()) != vatek_result_success)
+        return result;
+
+    for (idx = 0; idx < parm->table_num; idx++)
+    {
+        if ((result = psitable_register_put_v1(handle, &parm->table[idx])) != vatek_result_success)
+            return result;
+    }
+
+    if ((result = psitable_register_end_v1(handle)) != vatek_result_success)
+        return result;
+
+    return result;
+}
+#endif
 
 vatek_result vatek_psitable_insert(Phms_handle handle, uint16_t tspacket_num, uint8_t *tspackets)
 {

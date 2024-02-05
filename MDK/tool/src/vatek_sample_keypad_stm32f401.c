@@ -91,7 +91,7 @@ static key_condi key[5] = {
 	{KEY_OFF, KEY_OFF, 0, 0}, //RIGHT
 };
 
-static uint8_t vatek_key_press(GPIO_TypeDef *GPIOx, uint16_t GPIO_Pin)
+uint8_t vatek_key_press(GPIO_TypeDef *GPIOx, uint16_t GPIO_Pin)
 {
 	key_condi *key_temp;
 	
