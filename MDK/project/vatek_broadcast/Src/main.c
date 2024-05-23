@@ -33,6 +33,8 @@
 #include "vatek_sample_keypad_stm32f401.h"
 #include "uart_cmdline.h"
 extern vatek_result vatek_porting_i2c_start(Pboard_handle hboard, uint8_t devaddr, uint32_t restart);
+extern vatek_result vatek_rtc_init(RTC_HandleTypeDef* rtc);
+extern void init_UTF2JIS();
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -52,7 +54,8 @@ extern vatek_result vatek_porting_i2c_start(Pboard_handle hboard, uint8_t devadd
 /* Private variables ---------------------------------------------------------*/
 
 /* USER CODE BEGIN PV */
-
+	RTC_DateTypeDef get_date;
+	RTC_TimeTypeDef get_time;
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -73,6 +76,7 @@ void SystemClock_Config(void);
 int main(void)
 {
   /* USER CODE BEGIN 1 */
+	
 
   /* USER CODE END 1 */
 
@@ -87,7 +91,7 @@ int main(void)
 
   /* Configure the system clock */
   SystemClock_Config();
-
+	
   /* USER CODE BEGIN SysInit */
 
   /* USER CODE END SysInit */
@@ -102,18 +106,9 @@ int main(void)
 //  MX_USART6_UART_Init();
   MX_USB_DEVICE_Init();
   /* USER CODE BEGIN 2 */
-//	vatek_porting_i2c_start(&hi2c1, 0x13, 1);
+	vatek_rtc_init(&hrtc);
+	init_UTF2JIS();
   sample_bc_init(&hi2c1, &hi2c1, &hi2c1);
-	
-//	cmdline_table cmd_table = {0};
-//	uart_cmdline_init(&cmd_table, 0);
-	
-//	vatek_key_press_test();
-//uint32_t num_val;
-//printf("input a number:\r\n");
-//scanf("%d",&num_val);
-
-//printf("the number you input is %d\r\n",num_val);
 
   /* USER CODE END 2 */
 
@@ -124,12 +119,17 @@ int main(void)
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
-//		if(vatek_check_stop() == 1)
-//			break;
-		
-//		uart_cmdline_polling();
+//		HAL_RTC_GetTime(&hrtc, &get_time, RTC_FORMAT_BIN);
+//		HAL_RTC_GetDate(&hrtc, &get_date, RTC_FORMAT_BIN);
+//		
+//		printf("%02d-%02d-%02d\r\n",2000+get_date.Year, get_date.Month, get_date.Date);
+//		printf("%02d:%02d:%02d\r\n", get_time.Hours, get_time.Minutes, get_time.Seconds);
+//		
+//		printf("\r\n");
+//		HAL_Delay(1000);
+
     sample_bc_polling();
-//		sample_bc_polling_cc();?
+
   }
   /* USER CODE END 3 */
 }

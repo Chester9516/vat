@@ -157,10 +157,14 @@
         vi_resolution_480i59_94        = 21,    ///< resolution 480i, fps 59.94Hz.
         vi_resolution_480p30           = 22,    ///< resolution 480P, fps 30Hz.
         vi_resolution_480p29_97        = 23,    ///< resolution 480P, fps 29.97Hz.
+				vi_resolution_1440p60					 = 24,		///< resolution 1440P,fps 60Hz for Japan format
+				vi_resolution_1440i60					 = 25,		///< resolution 1440I,fps 60Hz for Japan format
+				vi_resolution_1440p59_94			 = 26,		///< resolution 1440P,fps 59.94Hz for Japan format
+				vi_resolution_1440i59_94			 = 27,		///< resolution 1440I,fps 59.94Hz for Japan format
         vi_resolution_bus8_min         = vi_resolution_1080i60,//vi_resolution_576p50, vi_resolution_576i50 
         vi_resolution_bus8_max         = vi_resolution_480p29_97,
         vi_resolution_min              = vi_resolution_unknown,
-        vi_resolution_max              = vi_resolution_480p29_97,
+        vi_resolution_max              = vi_resolution_1440p59_94,//vi_resolution_480p29_97,
     }video_input_resolution;
 		
 		typedef enum _video_scale_resolution
@@ -281,7 +285,8 @@
     {
         video_encode_type type;                  ///< video encoder type.
         uint8_t progressive_2_i;                 ///< video progressive change to interlace.
-				uint8_t en_interlaced;                   
+				uint8_t en_interlaced;  
+				uint8_t en_drop_frame;
 				uint32_t output_bitrate;
 
     }video_encode_v1_parm, *Pvideo_encode_v1_parm;
@@ -1079,7 +1084,7 @@
         const licensed_table *rule_tables;
         const licensed_prop *channel_props;
         const licensed_prop *program_props;
-        const uint8_t *rule_block;
+        const uint8_t *vatek_rule_block;
         uint32_t len_rule_block;
         const uint8_t *program_block;
         uint32_t len_program_block;        
@@ -1094,6 +1099,12 @@
         uint8_t  channel_name[32];
         uint32_t mode;
     }psip_props, *Ppsip_props   ;
+		
+		typedef struct _halreg_table
+		{
+			uint32_t address;
+			uint32_t defval;
+		}halreg_table, *Phalreg_table;
 
 	/*------------------------ psispec_default (both) ------------------------*/
     typedef void* Ppsispec_default_channel;

@@ -5,21 +5,40 @@
 #include "vatek_sample_broadcast_via_h1.h"
 #include "vatek_api.h"
 #include "uart_cmdline.h"
+#include "vatek_epg.h"
+#include "vatek_rtcimpl.h"
 
-#define PHY_SCALE 0
+#define _AC(ch) (ch+0x80)
+#define PHY_SCALE_720P 0
 
 #define SECOND_PHY  0 // this sample case is CVBS output
 #define CVBS_CC     0 // this sample case is SECOND_PHY's closed caption
+
 #define ATSC        0
-#define J83B        1
-#define DVBT        2
-#define ISDBT       3
-#define J83A        4
+#define DVBT        1
+#define ISDBT       2 
+#define J83A        3
+#define J83B        4
 #define MOD_TYPE    ATSC
 
+#define PURE				0
+#define DEFAULT			1
+#define RULE				2
+#define ISO					3
+#define PSI_MODE		DEFAULT
+
+#if PSI_MODE == RULE
+	#define EPG_EN 1
+#else
+	#define EPG_EN 0
+#endif
+
 extern vatek_result vatek_phy_dump_reg(Phphy phy_handle);
-extern vatek_result vatek_phy_0x30ce(Phphy phy_handle);
 extern vatek_result vatek_h1_change_clk(Phphy phy_handle);
+extern int get_action_value();
+/*EPG test*/
+extern vatek_result xapp_polling_check_running(Phms_handle pi2c);
+extern vatek_result vatek_epg_set_schedule();
 
 static Phbroadcast bc_handle = NULL;
 static Phphy hdmi_handle = NULL;
@@ -109,10 +128,22 @@ uint8_t TVCT[188] =
 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF   
 };
 
+uint8_t NULL_PACKET[188] = 
+{
+0x47, 0x50, 0x50, 0x12, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF,
+0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF,
+0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF,
+0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF,
+0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF,
+0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF,
+0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF,
+0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF  
+};
+
 static vatek_result _sample_setmodulator_parm(void)
 {
     vatek_result result = vatek_result_unknown;
-    
+    int mod_val = get_action_value();
     /* set MODULATOR parameter */
     #if (MOD_TYPE == ATSC) // ATSC
     modulator_base_parm mod_base_parm = {0};
@@ -151,7 +182,7 @@ static vatek_result _sample_setmodulator_parm(void)
     mod_base_parm.ifmode = m_ifmode_disable;
     mod_base_parm.iffreq = 0;
     mod_base_parm.dacgain = 0;
-    mod_base_parm.bw_sb = 8;
+    mod_base_parm.bw_sb = 6;
     mod_dvbt_parm.constellation = dvbt_constellation_qam64;
     mod_dvbt_parm.fft = dvbt_fft_8k;
     mod_dvbt_parm.guardinterval = dvbt_guardinterval_1_16;
@@ -258,31 +289,39 @@ vatek_result sample_bc_broadcast_from_logo(void)
         SAMPLE_ERR("vatek_broadcast_encoder_setqualityparm fail: %d", result);
         return result;
     }
-    
-//		psitablelist_parm psi_p = {0};
-//		psi_p.table_num = 3;
-//		psi_p.table[0].interval_ms = 90;
-//		psi_p.table[0].tspackets = &PAT[0];
-//		psi_p.table[0].tspacket_num = 1;
-//		psi_p.table[1].interval_ms = 90;
-//		psi_p.table[1].tspackets = &PMT[0];
-//		psi_p.table[1].tspacket_num = 1;
-//		psi_p.table[2].interval_ms = 120;
-//		psi_p.table[2].tspackets = &MGT[0];
-//		psi_p.table[2].tspacket_num = 2;
-//		result = vatek_broadcast_psitable_register(bc_handle,&psi_p);
-    /* set TSMUX parameter */
-    tsmux_default_parm default_parm = {0};
-    default_parm.pcr_pid    = 50;
-    default_parm.pmt_pid    = 32;
-    default_parm.padding_pid = 0x1FFF;
-    result = vatek_broadcast_tsmux_setparm(bc_handle, tsmux_type_default, &default_parm);
-    if (!is_success(result))
-    {
-        SAMPLE_ERR("vatek_broadcast_tsmux_setparm fail: %d", result);
-        return result;
-    }
-   #if MOD_TYPE == DVBT
+
+/* set TSMUX parameter */		
+#if (PSI_MODE == RULE)
+		/* set EPG test */
+		tsmux_pure_parm pure_parm = {0};
+    pure_parm.pcr_pid = 0x50;
+		pure_parm.en_function = 0;
+		pure_parm.padding_pid = 0x1fff;
+		result = vatek_broadcast_tsmux_setparm(bc_handle, tsmux_type_pure, &pure_parm);//tsmux_type_rule, tsmux_type_pure
+		
+		PVAT_RTC_DATETIME time = VATRTCGetTime(RTC_TIMEFMT_BIN);
+		result = vatek_epg_sample(bc_handle);
+		if(is_success(result)){
+			result = xapp_polling_check_running(bc_handle);
+			if(is_success(result)){
+				printf("rtc set success\r\n");
+			}
+			else{
+				printf("rtc set fail\r\n");
+			}
+		}
+		else{
+			printf("epg set fail\r\n");
+			return result;
+		}
+#elif (PSI_MODE == DEFAULT)
+		tsmux_default_parm rule_parm = {0};
+    rule_parm.pcr_pid = 50;
+		rule_parm.en_function = 0;
+		rule_parm.padding_pid = 0x1fff;
+		rule_parm.pmt_pid = 0x1001;
+		result = vatek_broadcast_tsmux_setparm(bc_handle, tsmux_type_default, &rule_parm);//tsmux_type_rule, tsmux_type_pure
+	#if (MOD_TYPE == DVBT)
 		static uint8_t _dvb_service_name[] = "ASTek";//_DTV_RF_OUTPUT
 		static uint8_t _dvb_network_name[] = "ASTEK";
 		vatek_string service_name = {
@@ -320,33 +359,204 @@ vatek_result sample_bc_broadcast_from_logo(void)
 			printf("dvb default start fail %d\r\n",result);
 			return result;
 		}
-	#endif
+	#elif (MOD_TYPE == ISDBT)
+	#if 1
+	#if !EPG_EN
+		static const uint8_t _arib_network_name[] = {0x1b,0x7e,_AC('V'),_AC('A'),_AC('T'),_AC('E'),_AC('K')};
+		static const uint8_t _arib_service_name[] = {0x1b,0x7e,_AC('v'),_AC('a'),_AC('t'),_AC('e'),_AC('k')};
+		static const uint8_t _arib_ts_name[] = {0x1b,0x7e,_AC('J'),_AC('A'),_AC('P'),_AC('A'),_AC('N')};
 		
-    //Setting iso-13818-1 mode parmeter.
-//    psispec_default_iso13818_channel channel = 
-//    {
-//        .transport_stream_id = 1,
-//    };
-//    psispec_default_iso13818_program program = 
-//    {
-//        .program_number = 0x10,
-//    };
+		vatek_string network_name = {
+			.len = sizeof(_arib_network_name),
+			.text = (uint8_t *)_arib_network_name,
+		};
+		vatek_string service_name = {
+			.len = sizeof(_arib_service_name),
+			.text = (uint8_t *)_arib_service_name,
+		};
+		vatek_string ts_name = {
+			.len = sizeof(_arib_ts_name),
+			.text = (uint8_t *)_arib_ts_name,
+		};
+		psispec_default_arib_channel arib_ch = {
+			.region_id = 1,
+			.network_name = &network_name,
+			.broadcaster_id = 1,
+			.remote_control_key_id = 2,
+		};
+		psispec_default_arib_program arib_pr = {	
+			.service_no = 7,
+			.copy_flag = arib_abnt_free,
+			.ts_name = &ts_name,
+			.service_name = &service_name,
+			.main_lang.raw = { 'j','p','n','\0'},
+			.sub_lang.raw = {'e','n','g','\0'},
+		};
+		result = vatek_broadcast_psispec_default_init(bc_handle,psispec_default_arib,arib_japan);
+		if(result != vatek_result_success){
+			printf("abnt default init fail %d\r\n",result);
+			return result;
+		}
+		
+		result = vatek_broadcast_psispec_default_config(&arib_ch,&arib_pr);
+		if(result != vatek_result_success){
+			printf("abnt default config fail %d\r\n",result);
+			return result;
+		}
+		
+		result = vatek_broadcast_psispec_default_start();
+		if(result != vatek_result_success){
+			printf("abnt default start fail %d\r\n",result);
+			return result;
+		}
+	#endif
+	#else
+		static const uint8_t _abnt_network_name[] = {0x1b,0x7e,_AC('V'),_AC('A'),_AC('T'),_AC('E'),_AC('K')};
+		static const uint8_t _abnt_service_name[] = {0x1b,0x7e,_AC('v'),_AC('a'),_AC('t'),_AC('e'),_AC('k')};
+		static const uint8_t _abnt_ts_name[] = {0x1b,0x7e,_AC('J'),_AC('A'),_AC('P'),_AC('A'),_AC('N')};
 
-//    //Register PSI table.
-//    result = vatek_broadcast_psispec_default_init( bc_handle, psispec_default_iso, psispec_country_undefined);
-//    if(is_success(result)) result = vatek_broadcast_psispec_default_config( &channel, &program);
-//    if(is_success(result)) result = vatek_broadcast_psispec_default_start();
-//    if(!is_success(result))
-//    {
-//        SAMPLE_ERR("vatek_broadcast_psispec_default_start fail: %d", result);
-//        return result;
-//    }
+		vatek_string network_name = {
+			.len = sizeof(_abnt_network_name),
+			.text = (uint8_t *)_abnt_network_name,
+		};
+		vatek_string service_name = {
+			.len = sizeof(_abnt_service_name),
+			.text = (uint8_t *)_abnt_service_name,
+		};
+		vatek_string ts_name = {
+			.len = sizeof(_abnt_ts_name),
+			.text = (uint8_t *)_abnt_ts_name,
+		};
+		psispec_default_abnt_channel abnt_ch = {
+			.area_code = 1,
+			.network_name = &network_name,
+			.original_network_id = 1,
+			.remote_control_key_id = 2,
+		};
+		psispec_default_abnt_program abnt_pr = {	
+			.service_no = 7,
+			.copy_flag = arib_abnt_free,
+			.ts_name = &ts_name,
+			.service_name = &service_name,
+			.main_lang.raw = { 'j','p','n','\0'},
+			.sub_lang.raw = {'e','n','g','\0'},
+		};
+		result = vatek_broadcast_psispec_default_init(bc_handle,psispec_default_abnt,abnt_brazil);
+		if(result != vatek_result_success){
+			printf("abnt default init fail %d\r\n",result);
+			return result;
+		}
+		
+		result = vatek_broadcast_psispec_default_config(&abnt_ch,&abnt_pr);
+		if(result != vatek_result_success){
+			printf("abnt default config fail %d\r\n",result);
+			return result;
+		}
+		
+		result = vatek_broadcast_psispec_default_start();
+		if(result != vatek_result_success){
+			printf("abnt default start fail %d\r\n",result);
+			return result;
+		}
+	#endif
+	#elif (MOD_TYPE == ATSC)
+		static const uint8_t _psip_short_name[] = {0x00,'V',0x00,'A',0x00,'T',0x00,'E',0x00,'K',0x00,0x00,};
+		static const uint8_t _psip_long_name[] = {0x01,'e','n','g',0x01,0x00,0x00,0x04,'V','A','T','V',0x00,0x00,0x00,0x00};
+		vatek_string short_name = {
+			.len = sizeof(_psip_short_name),
+			.text = (uint8_t *)&_psip_short_name,
+		};
+		vatek_string long_name = {
+			.len = sizeof(_psip_long_name),
+			.text = (uint8_t *)&_psip_long_name,
+		};
+		
+		result = vatek_broadcast_psispec_default_init(bc_handle,psispec_default_psip,atsc_usa);
+		if(result != vatek_result_success){
+			printf("psip default init fail %d\r\n",result);
+			return result;
+		}
+		psispec_default_psip_channel ch = {0};
+		psispec_default_psip_program pr = {0};
+		ch.cc_mode = cc_mode_608;
+		ch.daylight_saving = 0;
+		ch.gps_utc_offset = 0;
+		ch.psip_flags = 0;
+		ch.transport_stream_id = 1;
+		ch.short_name = &short_name;
+
+		pr.channel_major = 31;
+		pr.channel_minor = 1;
+		pr.long_name = &long_name;
+		pr.program_number = 0x01;
+		pr.source_id = 2;
+		result = vatek_broadcast_psispec_default_config(&ch,&pr);
+		if(result != vatek_result_success){
+			printf("psip default config fail %d\r\n",result);
+			return result;
+		}
+		result = vatek_broadcast_psispec_default_start();
+		if(result != vatek_result_success){
+			printf("psip default start fail %d\r\n",result);
+			return result;
+		}
+	#endif
+#elif (PSI_MODE == PURE)
+		psitablelist_parm psi_p = {0};
+		psi_p.table_num = 3;
+		psi_p.table[0].interval_ms = 90;
+		psi_p.table[0].tspackets = &PAT[0];
+		psi_p.table[0].tspacket_num = 1;
+		psi_p.table[1].interval_ms = 90;
+		psi_p.table[1].tspackets = &PMT[0];
+		psi_p.table[1].tspacket_num = 1;
+		psi_p.table[2].interval_ms = 120;
+		psi_p.table[2].tspackets = &MGT[0];
+		psi_p.table[2].tspacket_num = 2;
+		result = vatek_broadcast_psitable_register(bc_handle,&psi_p);
+#elif (PSI_MODE == ISO)
+		/*Setting iso-13818-1 mode parmeter.*/
+    psispec_default_iso13818_channel channel = 
+    {
+        .transport_stream_id = 1,
+    };
+    psispec_default_iso13818_program program = 
+    {
+        .program_number = 0x10,
+    };
+
+    //Register PSI table.
+    result = vatek_broadcast_psispec_default_init( bc_handle, psispec_default_iso, psispec_country_undefined);
+    if(is_success(result)) result = vatek_broadcast_psispec_default_config( &channel, &program);
+    if(is_success(result)) result = vatek_broadcast_psispec_default_start();
+    if(!is_success(result))
+    {
+        SAMPLE_ERR("vatek_broadcast_psispec_default_start fail: %d", result);
+        return result;
+    }
+#endif
+
+    if (!is_success(result))
+    {
+        SAMPLE_ERR("vatek_broadcast_tsmux_setparm fail: %d", result);
+        return result;
+    }
+		
+
 
     /* set MODULATOR parameter */
     result = _sample_setmodulator_parm();
     if (!is_success(result))
     {
         SAMPLE_ERR("_sample_setmodulator_parm fail: %d", result);
+        return result;
+    }
+		
+		/* start RF */
+    result = vatek_rf_start(rf_handle, 473000);//473000
+    if (!is_success(result))
+    {
+        SAMPLE_ERR("vatek_rf_start fail: %d", result);
         return result;
     }
 
@@ -358,15 +568,7 @@ vatek_result sample_bc_broadcast_from_logo(void)
         return result;
     }
 #endif
-    /* start RF */
-    result = vatek_rf_start(rf_handle, 474000);//473000
-    if (!is_success(result))
-    {
-        SAMPLE_ERR("vatek_rf_start fail: %d", result);
-        return result;
-    }
 
-    
     SAMPLE_LOG("broadcast ColorBar");
 
     return result;
@@ -394,7 +596,7 @@ vatek_result sample_bc_broadcast_from_phy(void)
 		
 		memcpy(&temp_phy_vi, &phy_vi, sizeof(phy_video_info));
 		
-  #if PHY_SCALE
+  #if PHY_SCALE_720P
 		result = vatek_phy_setvideoinfo(phy_active_handle, &temp_phy_vi);
 		if(!is_success(result))
 		{
@@ -439,13 +641,14 @@ vatek_result sample_bc_broadcast_from_phy(void)
     /* set ENCODER encode parameter */
     video_encode_parm ve_parm = {0};
     audio_encode_parm ae_parm = {0};
-    ve_parm.type = ve_type_mpeg2;//ve_type_mpeg2, ve_type_h264
-		ve_parm.mux_bitrate = 19000000;
+    ve_parm.type = ve_type_h264;//ve_type_mpeg2, ve_type_h264
+		ve_parm.mux_bitrate = 0;//19000000;
 		ve_parm.en_qcost = 0;
 		ve_parm.en_drop_frame = 0;
 		ve_parm.en_interlaced = 0;
-    ae_parm.type = ae_type_mp1_l2;//ae_type_mp1_l2, ae_type_ac_3
-    ae_parm.channel = ae_channel_mono_r;//ae_channel_stereo, ae_channel_mono_l, ae_channel_mono_r
+		ve_parm.progressive_2_i = 0;
+    ae_parm.type = ae_type_mp1_l2;//ae_type_mp1_l2, ae_type_ac_3, ae_type_aac_lc_adts
+    ae_parm.channel = ae_channel_stereo;//ae_channel_stereo, ae_channel_mono_l, ae_channel_mono_r
     result = vatek_broadcast_encoder_setencodeparm(bc_handle, ve_parm, ae_parm);
     if (!is_success(result))
     {
@@ -466,11 +669,11 @@ vatek_result sample_bc_broadcast_from_phy(void)
 
     /* set ENCODER quality parameter */
     encoder_quality_parm q_parm = {0};
-    q_parm.rcmode = q_rcmode_vbr;
-    q_parm.minq = 5;
-    q_parm.maxq = 12;
+    q_parm.rcmode = q_rcmode_vbr;//q_rcmode_vbr, q_rcmode_unknown
+    q_parm.minq = 3;
+    q_parm.maxq = 10;
     q_parm.gop = 16;
-    q_parm.latency = 500;
+    q_parm.latency = 1000;
     q_parm.bitrate = 19000000;
     result = vatek_broadcast_encoder_setqualityparm(bc_handle, q_parm);
     if (!is_success(result))
@@ -479,32 +682,176 @@ vatek_result sample_bc_broadcast_from_phy(void)
         return result;
     }
     
-//		psitablelist_parm psi_p = {0};
-//		psi_p.table_num = 3;
-//		psi_p.table[0].interval_ms = 90;
-//		psi_p.table[0].tspackets = &PAT[0];
-//		psi_p.table[0].tspacket_num = 1;
-//		psi_p.table[1].interval_ms = 90;
-//		psi_p.table[1].tspackets = &PMT[0];
-//		psi_p.table[1].tspacket_num = 1;
-//		psi_p.table[2].interval_ms = 120;
-//		psi_p.table[2].tspackets = &MGT[0];
-//		psi_p.table[2].tspacket_num = 2;
-//		result = vatek_broadcast_psitable_register(bc_handle,&psi_p);
+/* set TSMUX parameter */		
+#if (PSI_MODE == RULE)
+		/* set EPG test */
+		tsmux_pure_parm pure_parm = {0};
+    pure_parm.pcr_pid    = 0x50;
+		pure_parm.en_function = 0;
+		pure_parm.padding_pid = 0x1fff;
 		
-    /* set TSMUX parameter */
-    tsmux_default_parm default_parm = {0};
-    default_parm.pcr_pid    = 50;
-    default_parm.pmt_pid    = 32;
-    default_parm.padding_pid = 0x1FFF;
-    result = vatek_broadcast_tsmux_setparm(bc_handle, tsmux_type_default, &default_parm);
-    if (!is_success(result))
-    {
-        SAMPLE_ERR("vatek_broadcast_tsmux_setparm fail: %d", result);
-        return result;
-    }
-		#if MOD_TYPE == ATSC
-	//default psi table
+		result = vatek_broadcast_tsmux_setparm(bc_handle, tsmux_type_pure, &pure_parm);
+		PVAT_RTC_DATETIME time = VATRTCGetTime(RTC_TIMEFMT_BIN);
+		result = vatek_epg_sample(bc_handle);
+		if(is_success(result)){
+			result = xapp_polling_check_running(bc_handle);
+			if(is_success(result)){
+				printf("rtc set success\r\n");
+			}
+			else{
+				printf("rtc set fail\r\n");
+			}
+		}
+		else{
+			printf("epg set fail\r\n");
+			return result;
+		}
+#elif (PSI_MODE == DEFAULT)
+		tsmux_default_parm rule_parm = {0};
+    rule_parm.pcr_pid    = 50;
+		rule_parm.en_function = 0;
+		rule_parm.padding_pid = 0x1fff;
+		rule_parm.pmt_pid = 0x1001;
+		result = vatek_broadcast_tsmux_setparm(bc_handle, tsmux_type_default, &rule_parm);//tsmux_type_rule, tsmux_type_pure
+	#if (MOD_TYPE == DVBT)
+		static uint8_t _dvb_service_name[] = "ASTek";//_DTV_RF_OUTPUT
+		static uint8_t _dvb_network_name[] = "ASTEK";
+		vatek_string service_name = {
+			.len = sizeof(_dvb_service_name),
+			.text = (uint8_t *)_dvb_service_name,
+		};
+		vatek_string network_name = {
+			.len = sizeof(_dvb_network_name),
+			.text = (uint8_t *)_dvb_network_name,
+		};
+		psispec_default_dvb_channel ch = {0};
+		psispec_default_dvb_program pr = {0};
+		ch.network_id = 1;
+		ch.network_name = &network_name;
+		ch.transport_stream_id = 2;
+		pr.channel_no = 1;
+		pr.original_network_id = 1;
+		pr.program_number = 0x20;
+		pr.service_name = &service_name;
+		uint32_t i = 0;
+
+		result = vatek_broadcast_psispec_default_init(bc_handle,psispec_default_dvb,dvb_taiwan);
+		if(result != vatek_result_success){
+			printf("dvb default init fail %d\r\n",result);
+			return result;
+		}
+		
+		result = vatek_broadcast_psispec_default_config(&ch,&pr);
+		if(result != vatek_result_success){
+			printf("dvb default config fail %d\r\n",result);
+			return result;
+		}
+		result = vatek_broadcast_psispec_default_start();
+		if(result != vatek_result_success){
+			printf("dvb default start fail %d\r\n",result);
+			return result;
+		}
+	#elif (MOD_TYPE == ISDBT)
+	#if 1
+	#if !EPG_EN
+		static const uint8_t _arib_network_name[] = {0x1b,0x7e,_AC('V'),_AC('A'),_AC('T'),_AC('E'),_AC('K')};
+		static const uint8_t _arib_service_name[] = {0x1b,0x7e,_AC('v'),_AC('a'),_AC('t'),_AC('e'),_AC('k')};
+		static const uint8_t _arib_ts_name[] = {0x1b,0x7e,_AC('J'),_AC('A'),_AC('P'),_AC('A'),_AC('N')};
+		
+		vatek_string network_name = {
+			.len = sizeof(_arib_network_name),
+			.text = (uint8_t *)_arib_network_name,
+		};
+		vatek_string service_name = {
+			.len = sizeof(_arib_service_name),
+			.text = (uint8_t *)_arib_service_name,
+		};
+		vatek_string ts_name = {
+			.len = sizeof(_arib_ts_name),
+			.text = (uint8_t *)_arib_ts_name,
+		};
+		psispec_default_arib_channel arib_ch = {
+			.region_id = 1,
+			.network_name = &network_name,
+			.broadcaster_id = 1,
+			.remote_control_key_id = 2,
+		};
+		psispec_default_arib_program arib_pr = {	
+			.service_no = 7,
+			.copy_flag = arib_abnt_free,
+			.ts_name = &ts_name,
+			.service_name = &service_name,
+			.main_lang.raw = { 'j','p','n','\0'},
+			.sub_lang.raw = {'e','n','g','\0'},
+		};
+		result = vatek_broadcast_psispec_default_init(bc_handle,psispec_default_arib,arib_japan);
+		if(result != vatek_result_success){
+			printf("abnt default init fail %d\r\n",result);
+			return result;
+		}
+		
+		result = vatek_broadcast_psispec_default_config(&arib_ch,&arib_pr);
+		if(result != vatek_result_success){
+			printf("abnt default config fail %d\r\n",result);
+			return result;
+		}
+		
+		result = vatek_broadcast_psispec_default_start();
+		if(result != vatek_result_success){
+			printf("abnt default start fail %d\r\n",result);
+			return result;
+		}
+	#endif
+	#else
+		static const uint8_t _abnt_network_name[] = {0x1b,0x7e,_AC('V'),_AC('A'),_AC('T'),_AC('E'),_AC('K')};
+		static const uint8_t _abnt_service_name[] = {0x1b,0x7e,_AC('v'),_AC('a'),_AC('t'),_AC('e'),_AC('k')};
+		static const uint8_t _abnt_ts_name[] = {0x1b,0x7e,_AC('J'),_AC('A'),_AC('P'),_AC('A'),_AC('N')};
+
+		vatek_string network_name = {
+			.len = sizeof(_abnt_network_name),
+			.text = (uint8_t *)_abnt_network_name,
+		};
+		vatek_string service_name = {
+			.len = sizeof(_abnt_service_name),
+			.text = (uint8_t *)_abnt_service_name,
+		};
+		vatek_string ts_name = {
+			.len = sizeof(_abnt_ts_name),
+			.text = (uint8_t *)_abnt_ts_name,
+		};
+		psispec_default_abnt_channel abnt_ch = {
+			.area_code = 1,
+			.network_name = &network_name,
+			.original_network_id = 1,
+			.remote_control_key_id = 2,
+		};
+		psispec_default_abnt_program abnt_pr = {	
+			.service_no = 7,
+			.copy_flag = arib_abnt_free,
+			.ts_name = &ts_name,
+			.service_name = &service_name,
+			.main_lang.raw = { 'j','p','n','\0'},
+			.sub_lang.raw = {'e','n','g','\0'},
+		};
+		result = vatek_broadcast_psispec_default_init(bc_handle,psispec_default_abnt,abnt_brazil);
+		if(result != vatek_result_success){
+			printf("abnt default init fail %d\r\n",result);
+			return result;
+		}
+		
+		result = vatek_broadcast_psispec_default_config(&abnt_ch,&abnt_pr);
+		if(result != vatek_result_success){
+			printf("abnt default config fail %d\r\n",result);
+			return result;
+		}
+		
+		result = vatek_broadcast_psispec_default_start();
+		if(result != vatek_result_success){
+			printf("abnt default start fail %d\r\n",result);
+			return result;
+		}
+	#endif
+	#elif (MOD_TYPE == ATSC)
 		static const uint8_t _psip_short_name[] = {0x00,'V',0x00,'A',0x00,'T',0x00,'E',0x00,'K',0x00,0x00,};
 		static const uint8_t _psip_long_name[] = {0x01,'e','n','g',0x01,0x00,0x00,0x04,'V','A','T','V',0x00,0x00,0x00,0x00};
 		vatek_string short_name = {
@@ -545,117 +892,50 @@ vatek_result sample_bc_broadcast_from_phy(void)
 			printf("psip default start fail %d\r\n",result);
 			return result;
 		}
-	 #endif
-   #if MOD_TYPE == DVBT
-		static uint8_t _dvb_service_name[] = "VATek";//_DTV_RF_OUTPUT
-		static uint8_t _dvb_network_name[] = "Taiwan";
-		vatek_string service_name = {
-			.len = sizeof(_dvb_service_name),
-			.text = (uint8_t *)_dvb_service_name,
-		};
-		vatek_string network_name = {
-			.len = sizeof(_dvb_network_name),
-			.text = (uint8_t *)_dvb_network_name,
-		};
-		psispec_default_dvb_channel ch = {0};
-		psispec_default_dvb_program pr = {0};
-		ch.network_id = 1;
-		ch.network_name = &network_name;
-		ch.transport_stream_id = 2;
-		pr.channel_no = 1;
-		pr.original_network_id = 1;
-		pr.program_number = 0x20;
-		pr.service_name = &service_name;
-		uint32_t i = 0;
-		
-		result = vatek_broadcast_psispec_default_init(bc_handle,psispec_default_dvb,dvb_taiwan);
-		if(result != vatek_result_success){
-			printf("dvb default init fail %d\r\n",result);
-			return result;
-		}
-		
-		result = vatek_broadcast_psispec_default_config(&ch,&pr);
-		if(result != vatek_result_success){
-			printf("dvb default config fail %d\r\n",result);
-			return result;
-		}
-		result = vatek_broadcast_psispec_default_start();
-		if(result != vatek_result_success){
-			printf("dvb default start fail %d\r\n",result);
-			return result;
-		}
 	#endif
-	#define _AC(ch) (ch+0x80)
+#elif (PSI_MODE == PURE)
+		psitablelist_parm psi_p = {0};
+		psi_p.table_num = 4;
+		psi_p.table[0].interval_ms = 90;
+		psi_p.table[0].tspackets = &PAT[0];
+		psi_p.table[0].tspacket_num = 1;
+		psi_p.table[1].interval_ms = 90;
+		psi_p.table[1].tspackets = &PMT[0];
+		psi_p.table[1].tspacket_num = 1;
+		psi_p.table[2].interval_ms = 120;
+		psi_p.table[2].tspackets = &MGT[0];
+		psi_p.table[2].tspacket_num = 2;
+		psi_p.table[3].interval_ms = 100;
+		psi_p.table[3].tspackets = &TVCT[0];
+		psi_p.table[3].tspacket_num = 2;
+		result = vatek_broadcast_psitable_register(bc_handle,&psi_p);
+#elif (PSI_MODE == ISO)
+		/*Setting iso-13818-1 mode parmeter.*/
+    psispec_default_iso13818_channel channel = 
+    {
+        .transport_stream_id = 1,
+    };
+    psispec_default_iso13818_program program = 
+    {
+        .program_number = 0x10,
+    };
 
-	#if MOD_TYPE == ISDBT
-			static const uint8_t _abnt_network_name[] = {0x1b,0x7e,_AC('V'),_AC('A'),_AC('T'),_AC('E'),_AC('K')};
-		static const uint8_t _abnt_service_name[] = {0x1b,0x7e,_AC('v'),_AC('a'),_AC('t'),_AC('e'),_AC('k')};
-		static const uint8_t _abnt_ts_name[] = {0x1b,0x7e,_AC('J'),_AC('A'),_AC('P'),_AC('A'),_AC('N')};
+    //Register PSI table.
+    result = vatek_broadcast_psispec_default_init( bc_handle, psispec_default_iso, psispec_country_undefined);
+    if(is_success(result)) result = vatek_broadcast_psispec_default_config( &channel, &program);
+    if(is_success(result)) result = vatek_broadcast_psispec_default_start();
+    if(!is_success(result))
+    {
+        SAMPLE_ERR("vatek_broadcast_psispec_default_start fail: %d", result);
+        return result;
+    }
+#endif
 
-		vatek_string network_name = {
-			.len = sizeof(_abnt_network_name),
-			.text = (uint8_t *)_abnt_network_name,
-		};
-		vatek_string service_name = {
-			.len = sizeof(_abnt_service_name),
-			.text = (uint8_t *)_abnt_service_name,
-		};
-		vatek_string ts_name = {
-			.len = sizeof(_abnt_ts_name),
-			.text = (uint8_t *)_abnt_ts_name,
-		};
-		psispec_default_abnt_channel abnt_ch = {
-			.area_code = 1,
-			.network_name = &network_name,
-			.original_network_id = 1,
-			.remote_control_key_id = 2,
-		};
-		psispec_default_abnt_program abnt_pr = {	
-			.service_no = 7,
-			.copy_flag = arib_abnt_free,
-			.ts_name = &ts_name,
-			.service_name = &service_name,
-			.main_lang.raw = { 'j','p','n','\0'},
-			.sub_lang.raw = {'e','n','g','\0'},
-		};
-			
-		result = vatek_broadcast_psispec_default_init(bc_handle,psispec_default_abnt,abnt_brazil);
-		if(result != vatek_result_success){
-			printf("abnt default init fail %d\r\n",result);
-			return result;
-		}
-		
-		result = vatek_broadcast_psispec_default_config(&abnt_ch,&abnt_pr);
-		if(result != vatek_result_success){
-			printf("abnt default config fail %d\r\n",result);
-			return result;
-		}
-		
-		result = vatek_broadcast_psispec_default_start();
-		if(result != vatek_result_success){
-			printf("abnt default start fail %d\r\n",result);
-			return result;
-		}
-	#endif
-
-    //setting iso-13818-1 mode parmeter with psi default mode.
-//    psispec_default_iso13818_channel channel = 
-//    {
-//        .transport_stream_id = 1,
-//    };
-//    psispec_default_iso13818_program program = 
-//    {
-//        .program_number = 0x10,
-//    };
-
-//    result = vatek_broadcast_psispec_default_init( bc_handle, psispec_default_iso, psispec_country_undefined);
-//    if(is_success(result)) result = vatek_broadcast_psispec_default_config( &channel, &program);
-//    if(is_success(result)) result = vatek_broadcast_psispec_default_start();
-//    if(!is_success(result))
-//    {
-//        SAMPLE_ERR("vatek_broadcast_psispec_default_start fail: %d", result);
-//        return result;
-//    }
+    if (!is_success(result))
+    {
+        SAMPLE_ERR("vatek_broadcast_tsmux_setparm fail: %d", result);
+        return result;
+    }
 
     /* set MODULATOR parameter */
     result = _sample_setmodulator_parm();
@@ -664,7 +944,14 @@ vatek_result sample_bc_broadcast_from_phy(void)
         SAMPLE_ERR("_sample_setmodulator_parm fail: %d", result);
         return result;
     }
-
+		
+		/* start RF */
+    result = vatek_rf_start(rf_handle, 473000);//473000, 474000
+    if (!is_success(result))
+    {
+        SAMPLE_ERR("vatek_rf_start fail: %d", result);
+        return result;
+    }
     /* start BROADCAST */
     result = vatek_broadcast_start(bc_handle);
     if (!is_success(result))
@@ -673,16 +960,10 @@ vatek_result sample_bc_broadcast_from_phy(void)
         return result;
     }
 
-    /* start RF */
-    result = vatek_rf_start(rf_handle, 474000);//473000, 474000
-    if (!is_success(result))
-    {
-        SAMPLE_ERR("vatek_rf_start fail: %d", result);
-        return result;
-    }
+    
     
     SAMPLE_LOG("broadcast VI");
-		vatek_h1_change_clk(phy_active_handle);
+		
 
     /* copy phy infomation to global variable when success broadcast */
     memcpy(&g_phy_vi, &phy_vi, sizeof(phy_video_info));
@@ -804,6 +1085,7 @@ vatek_result sample_bc_broadcast_signalischange(void)
         SAMPLE_ERR("vatek_phy_getaudioinfo fail: %d", result);
         return result;
     }
+		
 
     /* compare audio/video information */
     if (memcmp(&tmp_phy_vi, &g_phy_vi, sizeof(phy_video_info)) != 0 || memcmp(&tmp_phy_ai, &g_phy_ai, sizeof(phy_audio_info)) != 0)
@@ -817,6 +1099,9 @@ vatek_result sample_bc_broadcast_signalischange(void)
         SAMPLE_LOG("--- audio info ---");
         SAMPLE_LOG("samplerate     : %02d - %02d", tmp_phy_ai.samplerate, g_phy_ai.samplerate);
         result = vatek_result_success;
+				vatek_phy_dump_reg(phy_active_handle);
+				if(tmp_phy_vi.resolution == vi_resolution_1440p60 || tmp_phy_vi.resolution == vi_resolution_1440i60 || tmp_phy_vi.resolution == vi_resolution_1440p59_94 || tmp_phy_vi.resolution == vi_resolution_1440i59_94)
+					vatek_h1_change_clk(phy_active_handle);
     }
     else
         result = vatek_result_negative;
@@ -827,7 +1112,7 @@ vatek_result sample_bc_broadcast_signalischange(void)
 vatek_result sample_bc_broadcast(uint8_t fromlogo)
 {
     vatek_result result = vatek_result_unknown;
-    
+    uint8_t h1_val = 0;
     /* stop broadcast */
     result = sample_bc_broadcast_stop();
     if (!is_success(result))
@@ -855,6 +1140,7 @@ vatek_result sample_bc_broadcast(uint8_t fromlogo)
             SAMPLE_ERR("phy enable fail : %d", result);
             return result;
         }
+				
         /* start broadcast from phy */
         result = sample_bc_broadcast_from_phy();
         if (!is_success(result))
@@ -958,7 +1244,7 @@ vatek_result sample_bc_init(Pboard_handle bh_main, Pboard_handle bh_phy, Pboard_
         return result;
     }
 		
-		uart_cmdline_get_interface(bc_handle);
+//		uart_cmdline_get_interface(bc_handle);
     
     /* broadcast from logo */
     result = sample_bc_broadcast_from_logo();
@@ -992,21 +1278,51 @@ vatek_result sample_bc_polling(void)
     if ((vatek_system_gettick() - tick) <= 2000)
         return result;
     tick = vatek_system_gettick();
+		
+#if EPG_EN
+		xapp_polling_check_running(bc_handle);
+#endif
 
-
-//		if((result = vatek_phy_0x30ce(phy_active_handle)) != vatek_result_success){
-//			printf("get 0x30ce fail, %d\r\n",result);
-//			return result;
-//		}else{
-//			printf("check 0x30ce OK\r\n");
-//		}
     /* check chip status is active */
-    result = vatek_broadcast_chipstatus(bc_handle, &c_status);
+		#if 0 //astrometa bug test
+		if(c_status == bc_status_broadcast){
+			if((result = vatek_broadcast_psitable_insert(bc_handle, 1, NULL_PACKET)) != vatek_result_success){
+				printf("insert PSI table fail\r\n");
+			}
+		}
+		uint32_t hal_val = 0, reg_val = 0;
+		vatek_hms_read_hal(bc_handle, HALREG_SYS_STATUS_0, &hal_val);
+		printf("(0x%x)HALREG_SYS_STATUS_0(0x20) = 0x%08x\r\n",vatek_system_gettick(),hal_val);
+		vatek_hms_read_reg(bc_handle, 0x60a, &reg_val);
+		printf("(0x%x)0x60a = 0x%08x\r\n",vatek_system_gettick(),reg_val);
     if (!is_success(result))
     {
         SAMPLE_ERR("vatek_broadcast_chipstatus fail : %d", result);
         return result;
     }
+		if(hal_val != SYS_STATUS_IDLE){
+			if(hal_val != SYS_STATUS_RUN){
+				if(hal_val != SYS_STATUS_ERRTAG){
+					if(hal_val != SYS_STATUS_LOADER_FAIL){
+						if(hal_val != SYS_STATUS_SERVICE_FAIL){
+							if(hal_val != SYS_STATUS_EXCEPTION_FAIL){
+								if(hal_val != SYS_STATUS_BADSTATUS){
+									if(hal_val != SYS_STATUS_UNKNOWN_FAIL){
+										printf("I2C read HAL fail, status = 0x%x\r\n",hal_val);
+										printf("I2C read REG fail, REG val = 0x%x\r\n",reg_val);
+										printf("hal_val address = 0x%x\r\n",&hal_val);
+										printf("reg_val address = 0x%x\r\b",&reg_val);
+										return result;
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+#endif
+    result = vatek_broadcast_chipstatus(bc_handle, &c_status);
     if (!(c_status == chip_status_running || c_status == chip_status_wait_command))
     {
         SAMPLE_LOG("VATEK chip not running/waitcmd, c_status = %d",c_status);
@@ -1019,7 +1335,7 @@ vatek_result sample_bc_polling(void)
     if (result == vatek_result_success) /* signal change */
     {
         SAMPLE_LOG("signal change");
-				vatek_phy_dump_reg(phy_active_handle);
+//				vatek_phy_dump_reg(phy_active_handle);
         result = sample_bc_broadcast(0);
         if (!is_success(result))
         {
@@ -1034,7 +1350,7 @@ vatek_result sample_bc_polling(void)
             return result;
         
         SAMPLE_LOG("signal lost");
-				vatek_phy_dump_reg(phy_active_handle);
+//				vatek_phy_dump_reg(phy_active_handle);
         result = sample_bc_broadcast(1);
         if (!is_success(result))
         {
@@ -1059,7 +1375,7 @@ vatek_result sample_bc_polling(void)
         {
             /* re-broadcast */
             SAMPLE_LOG("something wrong, re-broadcast");
-						vatek_phy_dump_reg(phy_active_handle);
+//						vatek_phy_dump_reg(phy_active_handle);
             result = sample_bc_broadcast(signal_lost);
             if (!is_success(result))
             {
@@ -1070,6 +1386,11 @@ vatek_result sample_bc_polling(void)
     }
 
     return result;
+}
+
+vatek_result vatek_rtc_init(RTC_HandleTypeDef* rtc)
+{
+		VATRTCInit(rtc);
 }
 
 uint32_t vatek_check_stop()

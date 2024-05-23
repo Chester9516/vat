@@ -80,6 +80,9 @@ void Error_Handler(void);
 #define AV_RST_Pin GPIO_PIN_8
 #define AV_RST_GPIO_Port GPIOB
 
+#define IN_EX_SWITCH_Pin GPIO_PIN_0
+#define IN_EX_SWITCH_GPIO_Port GPIOD
+
 /*H1 define pin*/
 #define H1_RST_GPIO_Port EP_RST_GPIO_Port
 #define H1_RST_Pin EP_RST_Pin

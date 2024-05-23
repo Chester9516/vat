@@ -217,6 +217,15 @@ static vatek_result output_format( Ph1_handle hh1, Pphy_video_info in_info)
 			if(in_info->resolution == vi_resolution_1080p59_94 || in_info->resolution == vi_resolution_1080p60){
 				in_info->resolution = vi_resolution_720p60;
 			}
+		}else if(hh1->output_mode == h1_output_scale_1440p)
+		{
+			in_info->resolution = vi_resolution_1440p60;
+			in_info->aspectrate = vi_aspectrate_16_9;
+		}
+		else if(hh1->output_mode == h1_output_scale_1440i)
+		{
+			in_info->resolution = vi_resolution_1440i60;
+			in_info->aspectrate = vi_aspectrate_16_9;
 		}
     
     if( hh1->baseclk == h1_baseclk_1001)
@@ -254,6 +263,11 @@ static vatek_result output_format( Ph1_handle hh1, Pphy_video_info in_info)
             case vi_resolution_480p30:
                 in_info->resolution = vi_resolution_480p29_97;
                 break;
+						
+						case vi_resolution_1440p60:
+                in_info->resolution = vi_resolution_1440p59_94;
+                break;
+
         }
     }
         
@@ -310,6 +324,7 @@ vatek_result set_output_timing( Ph1_handle hh1, Phdmi_video_timing ptiming)
     if( IS_SUCCESS(result)) result = H1_WR_DREG( hh1->vi2c, H1_VOUT_H_WIDTH, ptiming->hpw);
     if( IS_SUCCESS(result)) result = H1_REG_WR( hh1->vi2c, H1_VOUT_V_DELAY, ptiming->vfp);
     if( IS_SUCCESS(result)) result = H1_REG_WR( hh1->vi2c, H1_VOUT_V_WIDTH, ptiming->vpw);
+		
     
     return result;    
 }
@@ -351,12 +366,17 @@ static vatek_result output_scale(Ph1_handle hh1, Pphy_video_info info)
 		vatek_result result = vatek_result_unknown;
     hdmi_video_timing vtable = {0};
     uint8_t vid = 0;
+		uint8_t h1_val = 0;
     
     if(hh1==NULL)
         return vatek_result_invalidparm;
     
-    if((result = H1_REG_WR( hh1->vi2c, H1_HDMI_FLAG, 0x00))!=vatek_result_success)
+		if((result = H1_REG_RD( hh1->vi2c, H1_HDMI_FLAG, &h1_val)) != vatek_result_success)
+				return result;
+		h1_val &= H1_HDMI_FLAG_PCLK_1001;
+    if((result = H1_REG_WR( hh1->vi2c, H1_HDMI_FLAG, h1_val))!=vatek_result_success)
         return result;
+		
     /*1080P to 720P (down scale)*/
 		if(info->resolution == vi_resolution_1080p59_94 || info->resolution == vi_resolution_1080p60){
 			info->resolution = vi_resolution_720p60;
@@ -377,7 +397,68 @@ static vatek_result output_scale(Ph1_handle hh1, Pphy_video_info info)
     return result;
 }
 
+static vatek_result output_scale_1440p(Ph1_handle hh1, Pphy_video_info info)
+{
+		vatek_result result = vatek_result_unknown;
+    hdmi_video_timing vtable = {0};
+    uint8_t vid = 0;
+		uint8_t h1_val = 0;
+    
+    if(hh1==NULL)
+        return vatek_result_invalidparm;
+    
+		if((result = H1_REG_RD( hh1->vi2c, H1_HDMI_FLAG, &h1_val)) != vatek_result_success)
+				return result;
+		h1_val &= H1_HDMI_FLAG_PCLK_1001;
+    if((result = H1_REG_WR( hh1->vi2c, H1_HDMI_FLAG, h1_val))!=vatek_result_success)
+        return result;
+		
+		/*any resolution to 1440P*/
+//		if(h1_val & H1_HDMI_FLAG_PCLK_1001)
+//			info->resolution = vi_resolution_1440p59_94;
+//		else
+//			info->resolution = vi_resolution_1440p60;
 
+    /* set video timing. */
+//    result = tool_hdmi_get_vid( info, &vid);
+//    if(IS_SUCCESS(result)) result = tool_hdmi_get_videoinfo( vid, &vtable);
+//    if(IS_SUCCESS(result)) result = set_output_timing( hh1, &vtable);
+    if(!IS_SUCCESS(result)) return result;
+    
+    return result;
+}
+
+static vatek_result output_scale_1440i(Ph1_handle hh1, Pphy_video_info info)
+{
+		vatek_result result = vatek_result_unknown;
+    hdmi_video_timing vtable = {0};
+    uint8_t vid = 0;
+		uint8_t h1_val = 0;
+    
+    if(hh1==NULL)
+        return vatek_result_invalidparm;
+    
+		if((result = H1_REG_RD( hh1->vi2c, H1_HDMI_FLAG, &h1_val)) != vatek_result_success)
+				return result;
+		h1_val &= H1_HDMI_FLAG_PCLK_1001;
+		h1_val |= H1_HDMI_FLAG_OUT_INTERLACED;
+    if((result = H1_REG_WR( hh1->vi2c, H1_HDMI_FLAG, h1_val))!=vatek_result_success)
+        return result;
+		
+		/*any resolution to 1440I*/
+//		if(h1_val & H1_HDMI_FLAG_PCLK_1001)
+//			info->resolution = vi_resolution_1440i59_94;
+//		else
+//			info->resolution = vi_resolution_1440i60;
+
+    /* set video timing. */
+//    result = tool_hdmi_get_vid( info, &vid);
+//    if(IS_SUCCESS(result)) result = tool_hdmi_get_videoinfo( vid, &vtable);
+//    if(IS_SUCCESS(result)) result = set_output_timing( hh1, &vtable);
+    if(!IS_SUCCESS(result)) return result;
+    
+    return result;
+}
 
 static vatek_result output_progressive(Ph1_handle hh1, Pphy_video_info info)
 {
@@ -445,6 +526,10 @@ static vatek_result set_videoinfo( Ph1_handle hh1, Pphy_video_info info)
         result = output_interlace(hh1, info);
 		else if(hh1->output_mode==h1_output_scale_720P)
 				result = output_scale(hh1, info);
+		else if(hh1->output_mode==h1_output_scale_1440p)
+				result = output_scale_1440p(hh1, info);
+		else if(hh1->output_mode==h1_output_scale_1440i)
+				result = output_scale_1440i(hh1, info);
     if(IS_SUCCESS(result)) result = set_output_format(hh1, info);
     if(IS_SUCCESS(result)) result = enable_vout( hh1, g_vout);//g_vout
     if(!IS_SUCCESS(result)) return result;
@@ -724,7 +809,7 @@ vatek_result h1_create(Pvatek_i2c vi2c, Ph1_handle *hh1)
 
     if (IS_NEW_REV(h1_rev))
     {
-		printf("enable 0x%x version\r\n",h1_rev);
+		printf("enable second 0x%x version\r\n",h1_rev);
         uint8_t i = 0;
         for( i=0; i< sizeof(h1_init_cmd_1)/sizeof(h1_reg); i++)
         {
@@ -733,7 +818,7 @@ vatek_result h1_create(Pvatek_i2c vi2c, Ph1_handle *hh1)
         }
     }else
     {
-		printf("enable 0x%x version\r\n",h1_rev);
+		printf("enable first 0x%x version\r\n",h1_rev);
         uint8_t i = 0;
         for( i=0; i< sizeof(h1_init_cmd_0)/sizeof(h1_reg); i++)
         {
@@ -746,7 +831,7 @@ vatek_result h1_create(Pvatek_i2c vi2c, Ph1_handle *hh1)
     if(newphy == NULL) return vatek_result_memfail;
 
     newphy->vi2c        = vi2c;
-    newphy->output_mode = h1_output_bypass;//h1_output_bypass, h1_output_scale_720P, h1_output_progressive
+    newphy->output_mode = h1_output_bypass;//h1_output_bypass, h1_output_scale_720P, h1_output_progressive, h1_output_scale_1440p, h1_output_scale_1440i
     newphy->baseclk     = h1_baseclk_1000;
     
     *hh1 = newphy;
@@ -796,6 +881,7 @@ vatek_result h1_dump_reg(Ph1_handle hh1)
 	uint32_t i = 0x3000, n = 0x3000;
 	uint32_t x=0,y=0;
 	uint8_t reg_val = 0;
+	
 	printf("---------------------H1 256B----------------------\r\n");
 	printf("0x0000 00 01 02 03 04 05 06 07 08 09 0a 0b 0c 0d 0e 0f\r\n");
 	for(x=0;x<16;x++){
@@ -809,52 +895,88 @@ vatek_result h1_dump_reg(Ph1_handle hh1)
 		printf("\r\n");
 	}
 	printf("---------------------H1 End-----------------------\r\n");
+	uint32_t h1_reg = 0xa0;
+	for(h1_reg=0xa0;h1_reg<0xa8;h1_reg++){
+		if((result = H1_REG_RD( hh1->vi2c, h1_reg, &reg_val))!=vatek_result_success){
+			return result;
+		}
+		printf("0x%x ",reg_val);
+	}
+	printf("\r\n");
 	if((result = H1_REG_RD( hh1->vi2c, H1_HDMI_FLAG, &reg_val))!=vatek_result_success)
     return result;
   printf("H1_HDMI_FLAG(0x104) = 0x%x\r\n",reg_val);
-	if((result = H1_REG_RD( hh1->vi2c, 0x0201, &reg_val))!=vatek_result_success)
+
+	if((result = H1_REG_RD( hh1->vi2c, H1_MUTE_CNTL, &reg_val))!=vatek_result_success)
     return result;
-  printf("0x0201 = 0x%x\r\n",reg_val);
+  printf("H1_MUTE_CNTL(0x107) = 0x%x\r\n",reg_val);
+
+	if((result = H1_REG_RD( hh1->vi2c, H1_OUT_FMT, &reg_val))!=vatek_result_success)
+    return result;
+  printf("H1_OUT_FMT(0x201) = 0x%x\r\n",reg_val);
+	
+	if((result = H1_REG_RD( hh1->vi2c, H1_VOUT_CFG, &reg_val))!=vatek_result_success)
+    return result;
+  printf("H1_VOUT_CFG(0x202) = 0x%x\r\n",reg_val);
+
+	if((result = H1_REG_RD( hh1->vi2c, H1_VIN_FMT, &reg_val))!=vatek_result_success)
+    return result;
+  printf("H1_VIN_FMT(0x203) = 0x%x\r\n",reg_val);
+
+	if((result = H1_REG_RD( hh1->vi2c, H1_OUT_CNTL, &reg_val))!=vatek_result_success)
+    return result;
+  printf("H1_OUT_CNTL(0x300) = 0x%x\r\n",reg_val);
+	
+	if((result = H1_REG_RD( hh1->vi2c, H1_AOUT_CFG, &reg_val))!=vatek_result_success)
+    return result;
+  printf("H1_AOUT_CFG(0x301) = 0x%x\r\n",reg_val);
+	
+	if((result = H1_REG_RD( hh1->vi2c, H1_AIN_STATUS, &reg_val))!=vatek_result_success)
+    return result;
+  printf("H1_AIN_STATUS(0x302) = 0x%x\r\n",reg_val);
+
+	for(uint32_t hal_addr = 0x205;hal_addr<=0x20e;hal_addr++){
+		if((result = H1_REG_RD( hh1->vi2c, hal_addr, &reg_val))!=vatek_result_success)
+			return result;
+		printf("0x%x ",reg_val);
+	}
 	printf("\r\n");
 }
 
-vatek_result h1_change_clk(Ph1_handle hh1)
+vatek_result h1_change_clk(Ph1_handle hh1) //for 1440ver, user need to write resolution format by self
 {
 	vatek_result result = vatek_result_success;
 	uint8_t reg_val = 0;
-//	static uint32_t tick = 0;
-//	if(vatek_system_gettick() - tick < 4000)
-//		return vatek_result_success;
-//	tick = vatek_system_gettick();
+	if(hh1->output_mode == h1_output_scale_1440i || hh1->output_mode == h1_output_scale_1440p){
+		H1_REG_WR(hh1->vi2c, H1_OUT_CNTL, H1_OUT_CNTL_DIS_ALL);
+		H1_REG_WR(hh1->vi2c, 0x30b0, 0x34);//hbp 0-7
+		H1_REG_WR(hh1->vi2c, 0x30b1, 0x1);//hbp 8-9
+		H1_REG_WR(hh1->vi2c, 0x30b2, 0xa0);//hactive 0-7
+		H1_REG_WR(hh1->vi2c, 0x30b3, 0x5);//hactive 8-9
+		H1_REG_WR(hh1->vi2c, 0x30ac, 0xf8);//hfp 0-7
+		H1_REG_WR(hh1->vi2c, 0x30ad, 0x0);//hfp 8-9
+		H1_REG_WR(hh1->vi2c, 0x30ae, 0xcc);//hpw 0-7
+		H1_REG_WR(hh1->vi2c, 0x30af, 0x0);//hpw 8-9
+	}
 	
-
-//	H1_REG_WR(hh1->vi2c, 0x309d, 0x3);
-
-//	H1_REG_WR(hh1->vi2c, 0x30c0, 0x1);
-//	H1_REG_WR(hh1->vi2c, 0x30c1, 0x0);
-//		H1_REG_WR(hh1->vi2c, 0x30c2, 0x3);
-//	H1_REG_WR(hh1->vi2c, 0x30c3, 0x0);
-//	H1_REG_WR(hh1->vi2c, 0x30c4, 0x1);
-//	H1_REG_WR(hh1->vi2c, 0x30bb, 0x10);
-//30bb let S8 become E8 to make sure xiaoping IC can ourput S8, check YCrCb process.
-//		H1_REG_WR(hh1->vi2c, 0x3080, 0x81);
-	
-//	H1_REG_RD(hh1->vi2c, H1_OUT_CNTL, &reg_val);
-//	printf("H1_OUT_CNTL(0x0300) = 0x%x\r\n",reg_val);
-//	H1_REG_RD(hh1->vi2c, H1_INT_EN, &reg_val);
-//	printf("H1_INT_EN(0x0101) = 0x%x\r\n",reg_val);
-//	H1_REG_RD(hh1->vi2c, H1_INT_CNTL, &reg_val);
-//	printf("H1_INT_CNTL(0x0103) = 0x%x\r\n",reg_val);
-//	H1_REG_RD(hh1->vi2c, H1_HDMI_FLAG, &reg_val);
-//	printf("H1_HDMI_FLAG(0x0104) = 0x%x\r\n",reg_val);
-//	H1_REG_RD(hh1->vi2c, H1_OUT_FMT, &reg_val);
-//	printf("H1_OUT_FMT(0x0201) = 0x%x\r\n",reg_val);
-//	H1_REG_RD(hh1->vi2c, H1_AOUT_CFG, &reg_val);
-//	printf("H1_AOUT_CFG(0x0301) = 0x%x\r\n",reg_val);
-//	H1_REG_RD(hh1->vi2c, H1_VOUT_CFG, &reg_val);
-//	printf("H1_VOUT_CFG(0x0202) = 0x%x\r\n",reg_val);
-//	H1_REG_RD(hh1->vi2c, H1_AIN_STATUS, &reg_val);
-//	printf("H1_AIN_STATUS(0x0302) = 0x%x\r\n",reg_val);
+	if(hh1->output_mode == h1_output_scale_1440i){
+		H1_REG_WR(hh1->vi2c, 0x30b4, 0x1c);//vactive 0-7
+		H1_REG_WR(hh1->vi2c, 0x30b5, 0x2);//vactive 8-9
+		H1_REG_WR(hh1->vi2c, 0x30b6, 0x33);//vtotal 0-7
+		H1_REG_WR(hh1->vi2c, 0x30b7, 0x2);//vtotal 8-9
+		H1_REG_WR(hh1->vi2c, 0x30aa, 0x5);//v pulse
+		H1_REG_WR(hh1->vi2c, 0x30ab, 0xf);//v de
+	}
+	if(hh1->output_mode == h1_output_scale_1440p){
+		H1_REG_WR(hh1->vi2c, 0x30b4, 0x38);//vactive 0-7
+		H1_REG_WR(hh1->vi2c, 0x30b5, 0x4);//vactive 8-9
+		H1_REG_WR(hh1->vi2c, 0x30b6, 0x65);//vtotal 0-7
+		H1_REG_WR(hh1->vi2c, 0x30b7, 0x4);//vtotal 8-9
+		H1_REG_WR(hh1->vi2c, 0x30aa, 0x5);//vpw
+		H1_REG_WR(hh1->vi2c, 0x30ab, 0x24);//vbp
+	}
+	H1_REG_WR(hh1->vi2c, 0x309d, 0xa);//YUV422 modify
+		
 	
 	
 	return result;

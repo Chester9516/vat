@@ -101,7 +101,9 @@
 	#define RESOLUTION_720P				0x00000004
 	#define RESOLUTION_1080I			0x00000005
 	#define RESOLUTION_1080P			0x00000006
-	#define RESOLUTION_UHD				0x00000007
+//	#define RESOLUTION_UHD				0x00000007
+	#define RESOLUTION_1440I			0x00000007 //test for Japan
+	#define RESOLUTION_1440P			0x00000008 //test for Japan
 	
 #define HALREG_SCALER_RESOLUTION			0x64A				/* defined in hal_common_define.h */
 	#define RESOLUTION_480I				0x00000000

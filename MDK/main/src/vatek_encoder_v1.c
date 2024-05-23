@@ -418,6 +418,9 @@ static vatek_result encoder_ve_setparm_v1(Phms_handle handle, video_encode_v1_pa
 
     if (vparm.progressive_2_i)
         value |= ENC_EN_PROGRESSIVE_2_I;
+		
+		if(vparm.en_drop_frame)
+				value |= ENC_EN_DROP_FRAME;
     
 //    if (vparm.fixed_rc_threshold)
 //        value |= ENC_EN_FIXED_RC_THR;

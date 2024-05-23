@@ -28,6 +28,11 @@ static vatek_result get_pixel( Phdmi_video_timing ptiming)
         ptiming->pixel_per_line  = 720;
         ptiming->pixel_per_frame = 480;
         
+    }else if(is_1440(ptiming->resolution))
+    {
+        ptiming->pixel_per_line  = 1440;
+        ptiming->pixel_per_frame = 1080;
+        
     }else return vatek_result_unsupport;
     
     if( is_interlaced(ptiming->resolution))

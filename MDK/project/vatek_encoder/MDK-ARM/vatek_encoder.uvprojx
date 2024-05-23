@@ -659,6 +659,11 @@
               <FilePath>..\..\..\main\src\vatek_modulator.c</FilePath>
             </File>
             <File>
+              <FileName>vatek_psispec_default.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\..\main\src\vatek_psispec_default.c</FilePath>
+            </File>
+            <File>
               <FileName>vatek_psitable.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\..\..\main\src\vatek_psitable.c</FilePath>
@@ -692,11 +697,6 @@
               <FileName>vatek_psispec_rule.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\..\..\main\src\vatek_psispec_rule.c</FilePath>
-            </File>
-            <File>
-              <FileName>vatek_psispec_default.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\..\..\main\src\vatek_psispec_default.c</FilePath>
             </File>
           </Files>
         </Group>
@@ -772,6 +772,31 @@
               <FileName>vatek_sample_modulator.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\..\..\sample\src\vatek_sample_modulator.c</FilePath>
+            </File>
+            <File>
+              <FileName>uart_cmdline.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\..\tool\src\uart_cmdline.c</FilePath>
+            </File>
+          </Files>
+        </Group>
+        <Group>
+          <GroupName>KeypadAddLCD</GroupName>
+          <Files>
+            <File>
+              <FileName>KeypadAddLCD.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\..\tool\src\KeypadAddLCD.c</FilePath>
+            </File>
+            <File>
+              <FileName>vatek_sample_keypad_stm32f401.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\..\tool\src\vatek_sample_keypad_stm32f401.c</FilePath>
+            </File>
+            <File>
+              <FileName>vatek_sample_lcd1602.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\..\tool\src\vatek_sample_lcd1602.c</FilePath>
             </File>
           </Files>
         </Group>

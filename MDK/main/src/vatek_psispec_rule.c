@@ -71,7 +71,7 @@ vatek_result vatek_psispec_rule_init(Ppsispec_rule rule)
     uint32_t len = 0;
 
     if (rule == NULL || rule->len_rule_block == 0 || rule->len_program_block == 0 || 
-        rule->program_block == NULL || rule->rule_block == NULL)
+        rule->program_block == NULL || rule->vatek_rule_block == NULL)
         return vatek_result_invalidparm;
 
     vatek_psispec_rule_deinit(); //reset
@@ -82,7 +82,7 @@ vatek_result vatek_psispec_rule_init(Ppsispec_rule rule)
         g_rule_block = malloc(sizeof(uint8_t)*len);
         if (g_rule_block == NULL)
             return vatek_result_memfail;
-        memcpy(g_rule_block, rule->rule_block, len);
+        memcpy(g_rule_block, rule->vatek_rule_block, len);
     }
 
     len = rule->len_program_block;

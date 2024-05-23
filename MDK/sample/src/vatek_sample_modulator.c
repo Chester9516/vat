@@ -446,8 +446,8 @@ vatek_result a_modulator_select(Phtransform tf_handle, modulator_type m_type,uin
 				m_base_p.ifmode = m_ifmode_disable;
 				m_base_p.type = m_type_isdb_t;
 				modulator_isdbt_parm isdbt_parm = {0};
-				isdbt_parm.coderate = isdbt_coderate_3_4;
-				isdbt_parm.fft = isdbt_fft_2k;
+				isdbt_parm.coderate = isdbt_coderate_5_6;
+				isdbt_parm.fft = isdbt_fft_8k;
 				isdbt_parm.guardinterval = isdbt_guardinterval_1_16;
 				isdbt_parm.ti = isdbt_time_interleaved_mode1;
 				isdbt_parm.constellation = isdbt_constellation_qam64;

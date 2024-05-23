@@ -171,11 +171,36 @@ static vatek_result encoder_vi_setparm(Phms_handle handle, video_input_parm vpar
             framerate = FRAMERATE_29_97;
             clk = 13500;
             break;
+				
+				case vi_resolution_1440p60: //test for Japan
+            resolution = RESOLUTION_1440P;
+            framerate = FRAMERATE_60;
+            clk = 148500;
+            break;
+				
+				case vi_resolution_1440i60: //test for Japan
+            resolution = RESOLUTION_1440I;
+            framerate = FRAMERATE_60;
+            clk = 74250;
+            break;
+				
+				case vi_resolution_1440p59_94: //test for Japan
+            resolution = RESOLUTION_1440P;
+            framerate = FRAMERATE_59_94;
+            clk = 148352;
+            break;
+				
+				case vi_resolution_1440i59_94: //test for Japan
+            resolution = RESOLUTION_1440I;
+            framerate = FRAMERATE_59_94;
+            clk = 74125;
+            break;
 
         case vi_resolution_unknown:
             resolution = RESOLUTION_1080P;
             framerate = FRAMERATE_60;
             clk = 148500;
+				
         default:
             break;
     }
@@ -723,7 +748,7 @@ static vatek_result encoder_quality_setparm(Phms_handle handle, encoder_quality_
 
         case q_rcmode_unknown:
         default:
-            value = QUALITY_RC_VBR;
+            value = QUALITY_FIXED_Q;
             break;
     } 
     

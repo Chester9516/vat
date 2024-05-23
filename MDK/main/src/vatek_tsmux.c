@@ -154,7 +154,7 @@ static vatek_result tsmux_rule_setparm(Phms_handle handle, Ptsmux_rule_parm parm
     if ((result = vatek_hms_write_hal(handle, HALREG_MUX_PADDING_PID, parm->padding_pid)) != vatek_result_success)
         return result;
     
-    if ((result = vatek_hms_write_hal(handle, HALREG_MUXPSI_MODE, MUX_PURE)) != vatek_result_success)
+    if ((result = vatek_hms_write_hal(handle, HALREG_MUXPSI_MODE, MUX_SPEC)) != vatek_result_success)
         return result;
     
     if ((result = vatek_hms_read_hal(handle, HALREG_MUX_FLAGS, &en_function)) == vatek_result_success)

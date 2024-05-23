@@ -98,6 +98,16 @@ void Error_Handler(void);
 #define H1_RST_GPIO_Port GPIOE
 /* USER CODE END Private defines */
 
+/*STM32 board switch control*/
+#define SWITCHD0_Pin	GPIO_PIN_0
+#define SWITCHD0_GPIO_Port	GPIOD
+#define SWITCHD1_Pin	GPIO_PIN_1
+#define SWITCHD1_GPIO_Port	GPIOD
+#define SWITCHE0_Pin	GPIO_PIN_0
+#define SWITCHE0_GPIO_Port	GPIOE
+#define SWITCHE1_Pin	GPIO_PIN_1
+#define SWITCHE1_GPIO_Port	GPIOE
+
 #ifdef __cplusplus
 }
 #endif

@@ -228,15 +228,19 @@ static vatek_result broadcast_getinfo(Phbroadcast handle, broadcast_infotype typ
         break;
 				
 				case v1_internal_hdmi_set:
-						
+						result = vatek_hms_write_reg_v1(handle, 0x32f0, 0x30009803);
+						result = vatek_hms_write_reg_v1(handle, 0x32f0, 0x30000001);
+						result = vatek_hms_read_reg_v1(handle, 0x32f0, value);
+//						result = vatek_hms_write_reg_v1(handle, 0x32f0, 0x30c40103);
 				break;
 				
 				case v1_internal_h1_enable:
-						
+						result = vatek_hms_write_reg_v1(handle, 0x32f0, 0x30808103);
 				break;
 				
 				case v1_internal_900_11:
-						
+						result = vatek_hms_write_hal_v1(handle, 0x900, 0x11);
+//						result = vatek_hms_write_hal_v1(handle, 0x10, 0x0);
 				break;
 
         default :

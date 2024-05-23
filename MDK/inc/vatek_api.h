@@ -1600,6 +1600,9 @@
 		vatek_result vatek_encoder_psitable_register(Phbroadcast handle, Ppsitablelist_parm parm);
 		vatek_result vatek_encoder_v1_down_scale(Phbroadcast handle, video_input_parm v_parm, video_scale_resolution vi_res);
 		vatek_result vatek_encoder_v1_hdmichange(Pboard_handle handle);
+		vatek_result vatek_encoder_psispec_default_init(Phbroadcast handle, psispec_default_type type, psispec_country_code country);
+		vatek_result vatek_encoder_psispec_default_config( Ppsispec_default_channel chan, Ppsispec_default_program prog);
+		vatek_result vatek_encoder_psispec_default_start(void);
 /*V1 API end*/
     
 #ifdef __cplusplus

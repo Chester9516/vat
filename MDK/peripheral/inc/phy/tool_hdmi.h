@@ -61,8 +61,13 @@
     #define is_480i(res)                (res==vi_resolution_480i60 || res==vi_resolution_480i59_94)
     #define is_480p(res)                (res==vi_resolution_480p60 || res==vi_resolution_480p59_94 || res==vi_resolution_480p30 || res==vi_resolution_480p29_97)
     #define is_480(res)                 (is_480i(res) || is_480p(res))
-    #define is_interlaced(res)          (res==vi_resolution_1080i60 || res==vi_resolution_1080i50 || res==vi_resolution_1080i59_94 || \
-                                         res==vi_resolution_576i50  || res==vi_resolution_480i59_94)
+    
+		#define is_1440i(res)								(res == vi_resolution_1440i60)
+		#define is_1440p(res)								(res == vi_resolution_1440p60)
+		#define is_1440(res)								(is_1440i(res) || is_1440p(res))
+		#define is_interlaced(res)          (res==vi_resolution_1080i60 || res==vi_resolution_1080i50 || res==vi_resolution_1080i59_94 || \
+                                         res==vi_resolution_576i50  || res==vi_resolution_480i59_94 || res==vi_resolution_1440i60) // || res==vi_resolution_1440i30
+		
 
     #define VID_480P_59_4_3     0x02
     #define VID_480P_59_16_9    0x03   
@@ -76,6 +81,7 @@
     #define VID_576I_50_16_9    0x16
 
     #define VID_720P_60         0x04
+		#define VID_720P_59_94      0x04
     #define VID_1080I_60        0x05
     #define VID_1080I_59_94     0x05
     #define VID_720P_50         0x13
@@ -87,6 +93,11 @@
     #define VID_1080P_30        0x22
 		#define VID_1080P_29_97			0x22
     #define VID_1080P_24        0x20
+		
+		#define VID_1440P_60				0x46
+		#define VID_1440I_60				0x45
+		#define VID_1440P_59_94			0x46
+		#define VID_1440I_59_94			0x45
     
     typedef struct _hdmi_video_id
     {
@@ -116,6 +127,7 @@
         {VID_1080I_59_94    ,PIXEL_REPETITION_0  ,vi_resolution_1080i59_94,vi_aspectrate_16_9,74125,88,44,148,2,15,5,},
 				{VID_1080I_50       ,PIXEL_REPETITION_0  ,vi_resolution_1080i50   ,vi_aspectrate_16_9,74250,528,44,148,2,15,5,},
 				{VID_720P_60        ,PIXEL_REPETITION_0  ,vi_resolution_720p60    ,vi_aspectrate_16_9,74250,110,40,220,5,20,5,},
+				{VID_720P_59_94     ,PIXEL_REPETITION_0  ,vi_resolution_720p59_94 ,vi_aspectrate_16_9,74250,110,40,220,5,20,5,},
         {VID_720P_50        ,PIXEL_REPETITION_0  ,vi_resolution_720p50    ,vi_aspectrate_16_9,74250,440,40,220,5,20,5,},
 				{VID_576P_50_4_3    ,PIXEL_REPETITION_0  ,vi_resolution_576p50    ,vi_aspectrate_4_3 ,27000,12,64,68,5,39,5,},
         {VID_576P_50_16_9   ,PIXEL_REPETITION_0  ,vi_resolution_576p50    ,vi_aspectrate_16_9,27000,12,64,68,5,39,5,},
@@ -125,6 +137,10 @@
         {VID_480P_59_16_9   ,PIXEL_REPETITION_0  ,vi_resolution_480p59_94 ,vi_aspectrate_16_9,27000,16,62,60,9,20,6,},
         {VID_480I_59_4_3    ,PIXEL_REPETITION_2  ,vi_resolution_480i59_94 ,vi_aspectrate_4_3 ,27000,38,124,114,4,15,3,},
         {VID_480I_59_16_9   ,PIXEL_REPETITION_2  ,vi_resolution_480i59_94 ,vi_aspectrate_16_9,27000,38,124,114,4,15,3,},
+				{VID_1440I_60   		,PIXEL_REPETITION_0  ,vi_resolution_1440i60   ,vi_aspectrate_16_9,74250,248,204,308,2,15,5,},
+				{VID_1440P_60   		,PIXEL_REPETITION_0  ,vi_resolution_1440p60   ,vi_aspectrate_16_9,148500,248,204,308,4,36,5,},
+				{VID_1440I_59_94   	,PIXEL_REPETITION_0  ,vi_resolution_1440i59_94   ,vi_aspectrate_16_9,74125,248,204,308,2,15,5,},
+				{VID_1440P_59_94   	,PIXEL_REPETITION_0  ,vi_resolution_1440p59_94   ,vi_aspectrate_16_9,148351,248,204,308,4,36,5,},
         
         
         

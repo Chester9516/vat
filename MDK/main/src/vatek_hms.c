@@ -29,7 +29,7 @@ static vatek_result hms_i2c_write(Pvatek_i2c vi2c, uint8_t* pbuf, uint32_t len)
 
     if (vi2c == NULL || pbuf == NULL || len == 0)
         return vatek_result_invalidparm;
-
+//		vatek_system_delay(1);
     if ((result = vi2c->start(vi2c->hboard, I2CCHIP_WRADDR, 0)) != vatek_result_success)
         return vatek_result_i2cfail;
 
@@ -48,7 +48,7 @@ static vatek_result hms_i2c_read(Pvatek_i2c vi2c, uint8_t* pbuf, uint32_t len)
     
     if (vi2c == NULL || pbuf == NULL || len == 0)
         return vatek_result_invalidparm;
-
+//		vatek_system_delay(1);
     if ((result = vi2c->start(vi2c->hboard, I2CCHIP_RDADDR, 0)) != vatek_result_success)
         return vatek_result_i2cfail;
 

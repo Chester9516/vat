@@ -339,7 +339,7 @@
               <MiscControls></MiscControls>
               <Define>USE_HAL_DRIVER,STM32F401xC,VATEK_B3,PHY_H1,RF_R2_VIA_VATEK,SERVICE_BROADCAST,PHY_EP9555E,DEBUG</Define>
               <Undefine></Undefine>
-              <IncludePath>../Inc;../Drivers/STM32F4xx_HAL_Driver/Inc;../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy;../Middlewares/ST/STM32_USB_Device_Library/Core/Inc;../Middlewares/ST/STM32_USB_Device_Library/Class/CustomHID/Inc;../Drivers/CMSIS/Device/ST/STM32F4xx/Include;../Drivers/CMSIS/Include;..\..\..\inc;..\..\..\main\inc;..\..\..\peripheral\inc;..\..\..\sample\inc;..\..\..\system\inc;..\..\..\tool\inc</IncludePath>
+              <IncludePath>../Inc;../Drivers/STM32F4xx_HAL_Driver/Inc;../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy;../Middlewares/ST/STM32_USB_Device_Library/Core/Inc;../Middlewares/ST/STM32_USB_Device_Library/Class/CustomHID/Inc;../Drivers/CMSIS/Device/ST/STM32F4xx/Include;../Drivers/CMSIS/Include;..\..\..\inc;..\..\..\main\inc;..\..\..\peripheral\inc;..\..\..\sample\inc;..\..\..\system\inc;..\..\..\tool\inc;..\..\..\epg\inc</IncludePath>
             </VariousControls>
           </Cads>
           <Aads>
@@ -432,11 +432,6 @@
               <FileName>vatek_userdata.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\..\..\main\src\vatek_userdata.c</FilePath>
-            </File>
-            <File>
-              <FileName>uart_cmdline.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\..\..\..\mdk0826\tool\src\uart_cmdline.c</FilePath>
             </File>
           </Files>
         </Group>
@@ -613,6 +608,11 @@
               <FileType>1</FileType>
               <FilePath>../Src/stm32f4xx_hal_msp.c</FilePath>
             </File>
+            <File>
+              <FileName>pin_switch_detect.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Src\pin_switch_detect.c</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>
@@ -772,6 +772,26 @@
               <FileName>usbd_customhid.c</FileName>
               <FileType>1</FileType>
               <FilePath>../Middlewares/ST/STM32_USB_Device_Library/Class/CustomHID/Src/usbd_customhid.c</FilePath>
+            </File>
+          </Files>
+        </Group>
+        <Group>
+          <GroupName>vatek_EPG</GroupName>
+          <Files>
+            <File>
+              <FileName>vatek_lic_arib_japan.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\..\main\src\vatek_lic_arib_japan.c</FilePath>
+            </File>
+            <File>
+              <FileName>vatek_epg.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\..\main\src\vatek_epg.c</FilePath>
+            </File>
+            <File>
+              <FileName>vatek_rtcimpl.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\..\EPG\src\vatek_rtcimpl.c</FilePath>
             </File>
           </Files>
         </Group>
