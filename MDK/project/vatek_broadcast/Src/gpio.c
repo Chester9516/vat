@@ -99,10 +99,40 @@ void MX_GPIO_Init(void)
   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
   HAL_GPIO_Init(GPIOE, &GPIO_InitStruct);
 
+//	GPIO_InitStruct.Pin = SWITCHE1_Pin;
+//	GPIO_InitStruct.Mode = GPIO_MODE_IT_RISING;//GPIO_MODE_IT_RISING_FALLING, GPIO_MODE_IT_RISING
+//	GPIO_InitStruct.Pull = GPIO_NOPULL;
+//	HAL_GPIO_Init(SWITCHE1_GPIO_Port, &GPIO_InitStruct);
+
+//	HAL_NVIC_SetPriority(EXTI1_IRQn, 0, 0);
+//	HAL_NVIC_EnableIRQ(EXTI1_IRQn);
+
 }
 
 /* USER CODE BEGIN 2 */
+//extern int vatek_all_rd_hal();
 
+//void EXTI1_IRQHandler(void)
+//{
+//    HAL_GPIO_EXTI_IRQHandler(SWITCHE1_Pin);
+//}
+
+//void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin)
+//{
+//	if (GPIO_Pin == SWITCHE1_Pin)
+//	{
+//		GPIO_PinState pinState = HAL_GPIO_ReadPin(GPIOD, SWITCHE1_Pin);
+//			
+//		if (pinState == GPIO_PIN_RESET)
+//		{
+//			vatek_all_rd_hal();
+//		}
+//		else
+//		{
+//			
+//		}
+//	}
+//}
 /* USER CODE END 2 */
 
 /************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE****/

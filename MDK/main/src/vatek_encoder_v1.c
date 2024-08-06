@@ -419,8 +419,8 @@ static vatek_result encoder_ve_setparm_v1(Phms_handle handle, video_encode_v1_pa
     if (vparm.progressive_2_i)
         value |= ENC_EN_PROGRESSIVE_2_I;
 		
-		if(vparm.en_drop_frame)
-				value |= ENC_EN_DROP_FRAME;
+//		if(vparm.en_drop_frame)
+//				value |= ENC_EN_DROP_FRAME;
     
 //    if (vparm.fixed_rc_threshold)
 //        value |= ENC_EN_FIXED_RC_THR;
@@ -560,6 +560,14 @@ static vatek_result encoder_quality_setparm_v1(Phms_handle handle, encoder_quali
             value = QUALITY_RC_VBR;
             break;
 
+				case q_rcmode_fixed_q:
+            value = QUALITY_FIXED_Q;
+            break;
+				
+				case q_rcmode_auto:
+            value = QUALITY_AUTO;
+            break;
+				
         case q_rcmode_unknown:
         default:
             value = QUALITY_RC_VBR;
@@ -582,6 +590,28 @@ static vatek_result encoder_quality_setparm_v1(Phms_handle handle, encoder_quali
             return result;
     
     if ((result = vatek_hms_write_hal_v1(handle, HALREG_QUALITY_LATENCY, parm.latency)) != vatek_result_success)
+            return result;
+		
+		switch (parm.q_flag)
+    {
+        case q_flag_user:
+            value = QUALITY_EN_USER;
+            break;
+
+				case q_flag_en_hf:
+            value = QUALITY_EN_HF;
+            break;
+				
+				case q_flag_en_hq:
+            value = QUALITY_EN_HQ;
+            break;
+				
+        case q_flag_unknown:
+        default:
+            value = QUALITY_EN_USER;
+            break;
+    } 
+		if ((result = vatek_hms_write_hal_v1(handle, HALREG_QUALITY_FLAGS, value)) != vatek_result_success)
             return result;
 
     return result;

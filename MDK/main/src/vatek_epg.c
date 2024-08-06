@@ -267,7 +267,7 @@ int32_t hal_licensed_get_epg_desc_nums(Plicensed_epg pepg)
 vatek_result hal_licensed_add_epg_section(Phms_handle pi2c,Plicensed_epg_section psection)
 {
 	uint32_t reg_val = 0;
-   	vatek_result result = wrhal(psection->duration);
+   	vatek_result result = wrhal(8);//psection->duration
 	rdhal(reg_val);
 	printf("section->duration = 0x%x\r\n",reg_val);
     if(is_success(result))result = wrhal(psection->type);
@@ -423,7 +423,7 @@ extern vatek_result xapp_set_epg_param(Plicensed_epg_section pepg,uint8_t durati
 void init_UTF2JIS()
 {
 	uint8_t i;
-	for (i=0;i<65;i++){EEP.Byte.Event_Name[i]=0;}
+	for (i=0;i<65;i++){EEP.Byte.Event_Name[i]=0;} //EPG title
 	EEP.Byte.Event_Name[0]=0x3C+0x80;
 	EEP.Byte.Event_Name[1]=0x2B+0x80;
 	EEP.Byte.Event_Name[2]=0x3C+0x80;
@@ -437,7 +437,7 @@ void init_UTF2JIS()
 	EEP.Byte.Event_Name[10]=0;
 
 
-	for (i=0;i<65;i++){EEP.Byte.Event_Content[i]=0;}
+	for (i=0;i<65;i++){EEP.Byte.Event_Content[i]=0;} //EPG content
 	EEP.Byte.Event_Content[0]=0x3C+0x80;
 	EEP.Byte.Event_Content[1]=0x2B+0x80;
 	EEP.Byte.Event_Content[2]=0x3C+0x80;
@@ -458,7 +458,7 @@ void init_UTF2JIS()
 
 	EEP.Byte.EPG_Time_divide2=1; //program time long
 
-	for (i=0;i<65;i++){EEP.Byte.Event_Name2[i]=0;}
+	for (i=0;i<65;i++){EEP.Byte.Event_Name2[i]=0;}//EPG title
 	EEP.Byte.Event_Name2[0]=0xbc;
 	EEP.Byte.Event_Name2[1]=0xab;
 	EEP.Byte.Event_Name2[2]=0xbc;
@@ -472,7 +472,7 @@ void init_UTF2JIS()
 	EEP.Byte.Event_Name2[10]=0;
 
 
-	for (i=0;i<65;i++){EEP.Byte.Event_Content2[i]=0;}
+	for (i=0;i<65;i++){EEP.Byte.Event_Content2[i]=0;} //EPG content
 	EEP.Byte.Event_Content2[0]=0xbc;
 	EEP.Byte.Event_Content2[1]=0xab;
 	EEP.Byte.Event_Content2[2]=0xbc;
@@ -551,7 +551,7 @@ Plicensed_epg xapp_create_epg_param(licensed_epg_mode mode)
 		pnewepg->days = 8;
 		pnewepg->epg_flags = 0;
 		pnewepg->event_id = 0x2000;
-		pnewepg->loop_ms = 30000;
+		pnewepg->loop_ms = 10000;
 		pnewepg->mode = mode;
         return pnewepg;
 	}
@@ -606,20 +606,21 @@ vatek_result vatek_epg_set_schedule()
 	if(is_success(nres))nres = vatek_board_set_rule_string("service_name",(uint8_t*)&EEP.Byte.ServiceName[0],strlen(&EEP.Byte.ServiceName[0]));
 	if(is_success(nres))nres = vatek_board_set_rule_string("ts_name",(uint8_t*)&EEP.Byte.Provider[0],strlen(&EEP.Byte.Provider[0]));
 
-	for(i=0;i<=1728;i++){
-		if(i%10 == 0){
-			printf("%d ",i);
-		}
-		printf("0x%02x ",rule_block[i]);
-		if(i >= 9){
-			if(i%10 == 9){
-				printf("\r\n");
-			}
-		}
-	}
+//	for(i=0;i<=1728;i++){
+//		if(i%10 == 0){
+//			printf("%d ",i);
+//		}
+//		printf("0x%02x ",rule_block[i]);
+//		if(i >= 9){
+//			if(i%10 == 9){
+//				printf("\r\n");
+//			}
+//		}
+//	}
 	printf("\r\n");
 }
-
+#define _AC(ch)	(ch+0x80)
+#define _AC_ASCII(ch)	(ch - 0x80)
 static const char EIT_EVENT_JIS_TITLE[] = {0x3C,0x2B,0x3C,0x67,0x4A,0x7C,0x41,0x77,0x23,0x31,0,};
 static const char EIT_EVENT_JIS_CONTENT[] = {0x3C,0x2B,0x3C,0x67,0x4A,0x7C,0x41,0x77,0x46,0x62,0x4d,0x46,0x23,0x31,0,};
     
@@ -629,7 +630,7 @@ Plicensed_epg_section malloc_epg_section(uint8_t* pbuf, int32_t* pos)
 	Plicensed_epg_section psection = (Plicensed_epg_section)&pbuf[ptr];
 	ptr += sizeof(licensed_epg_section);
 
-	psection->duration = 1;
+	psection->duration = 4;
 	psection->parental_rating = 1;
 	psection->type = 1;
 	psection->title_len = sizeof(EIT_EVENT_JIS_TITLE);

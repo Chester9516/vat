@@ -44,7 +44,7 @@ vatek_result vatek_porting_system_mainreset(Pboard_handle hboard)
     vatek_result result = vatek_result_success;
     
 #if defined(STM32F407xx) || defined(STM32F401xC)
-    #if defined(VATEK_B3) || defined(VATEK_B2) || defined(VATEK_A3)
+    #if defined(VATEK_B3) || defined(VATEK_B2) || defined(VATEK_A3) || defined(VATEK_V1)
     HAL_GPIO_WritePin(VATEK_RST_GPIO_Port, VATEK_RST_Pin, GPIO_PIN_SET);
     HAL_Delay(50);
     HAL_GPIO_WritePin(VATEK_RST_GPIO_Port, VATEK_RST_Pin, GPIO_PIN_RESET);

@@ -1,3 +1,5 @@
+#if defined(VATEK_B3) || defined(VATEK_B2) || defined(VATEK_A3) ||defined(VATEK_B3_PLUS)
+
 #include "stdio.h"
 #include "vatek_define.h"
 #include "vatek_sample_modulator.h"
@@ -496,4 +498,6 @@ vatek_result a_modulator_select(Phtransform tf_handle, modulator_type m_type,uin
 		return result;
 	
 }
+#endif
+
 #endif

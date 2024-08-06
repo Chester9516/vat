@@ -884,6 +884,8 @@
     vatek_result vatek_rf_setcalibrate(Phrf handle, Prf_calibrate parm);
 		
 		vatek_result vatek_rf_savecalibrate(Phrf handle, Prf_calibrate parm);
+		
+		vatek_result vatek_device_r2_apply(Phrf handle, int r2_power);
     /** @} */
 #endif
 /*V1 API temperate save place*/

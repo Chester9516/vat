@@ -35,6 +35,7 @@
 
 extern vatek_result vatek_phy_dump_reg(Phphy phy_handle);
 extern vatek_result vatek_h1_change_clk(Phphy phy_handle);
+
 extern int get_action_value();
 /*EPG test*/
 extern vatek_result xapp_polling_check_running(Phms_handle pi2c);
@@ -143,7 +144,8 @@ uint8_t NULL_PACKET[188] =
 static vatek_result _sample_setmodulator_parm(void)
 {
     vatek_result result = vatek_result_unknown;
-    int mod_val = get_action_value();
+//    int mod_val = get_action_value();
+//		printf("mod val = %d\r\n",mod_val);
     /* set MODULATOR parameter */
     #if (MOD_TYPE == ATSC) // ATSC
     modulator_base_parm mod_base_parm = {0};
@@ -630,6 +632,9 @@ vatek_result sample_bc_broadcast_from_phy(void)
 		vi_parm.ext_half_fps = 0;
 		vi_parm.clk_inverse = 0;
 		vi_parm.vsync_inverse = 0;
+		vi_parm.offset_y = 0;
+		vi_parm.field_inverse = 1;//if input = interlaced from H1, need to enable.
+		
     ai_parm.samplerate = phy_ai.samplerate;
     result = vatek_broadcast_encoder_setinputparm_phy(bc_handle, vi_parm, ai_parm);
     if (!is_success(result))
@@ -641,9 +646,9 @@ vatek_result sample_bc_broadcast_from_phy(void)
     /* set ENCODER encode parameter */
     video_encode_parm ve_parm = {0};
     audio_encode_parm ae_parm = {0};
-    ve_parm.type = ve_type_h264;//ve_type_mpeg2, ve_type_h264
+    ve_parm.type = ve_type_mpeg2;//ve_type_mpeg2, ve_type_h264
 		ve_parm.mux_bitrate = 0;//19000000;
-		ve_parm.en_qcost = 0;
+		ve_parm.en_qcost = 1;
 		ve_parm.en_drop_frame = 0;
 		ve_parm.en_interlaced = 0;
 		ve_parm.progressive_2_i = 0;
@@ -670,10 +675,10 @@ vatek_result sample_bc_broadcast_from_phy(void)
     /* set ENCODER quality parameter */
     encoder_quality_parm q_parm = {0};
     q_parm.rcmode = q_rcmode_vbr;//q_rcmode_vbr, q_rcmode_unknown
-    q_parm.minq = 3;
-    q_parm.maxq = 10;
+    q_parm.minq = 5;
+    q_parm.maxq = 15;
     q_parm.gop = 16;
-    q_parm.latency = 1000;
+    q_parm.latency = 500;
     q_parm.bitrate = 19000000;
     result = vatek_broadcast_encoder_setqualityparm(bc_handle, q_parm);
     if (!is_success(result))
@@ -877,8 +882,8 @@ vatek_result sample_bc_broadcast_from_phy(void)
 		ch.transport_stream_id = 1;
 		ch.short_name = &short_name;
 
-		pr.channel_major = 31;
-		pr.channel_minor = 1;
+		pr.channel_major = 8;
+		pr.channel_minor = 0;
 		pr.long_name = &long_name;
 		pr.program_number = 0x01;
 		pr.source_id = 2;
@@ -959,18 +964,14 @@ vatek_result sample_bc_broadcast_from_phy(void)
         SAMPLE_ERR("vatek_broadcast_start fail: %d", result);
         return result;
     }
-
-    
-    
     SAMPLE_LOG("broadcast VI");
 		
-
     /* copy phy infomation to global variable when success broadcast */
     memcpy(&g_phy_vi, &phy_vi, sizeof(phy_video_info));
     memcpy(&g_phy_ai, &phy_ai, sizeof(phy_audio_info));
 		
 		vatek_phy_dump_reg(phy_active_handle);
-		
+
     return result;
 }
 
@@ -1102,6 +1103,9 @@ vatek_result sample_bc_broadcast_signalischange(void)
 				vatek_phy_dump_reg(phy_active_handle);
 				if(tmp_phy_vi.resolution == vi_resolution_1440p60 || tmp_phy_vi.resolution == vi_resolution_1440i60 || tmp_phy_vi.resolution == vi_resolution_1440p59_94 || tmp_phy_vi.resolution == vi_resolution_1440i59_94)
 					vatek_h1_change_clk(phy_active_handle);
+//				uint8_t phy_val = 0;
+//				vatek_phy_read(phy_active_handle, 0x30a0, &phy_val);
+//				vatek_phy_write(phy_active_handle,0x30a0, phy_val | 0x4);
     }
     else
         result = vatek_result_negative;
@@ -1218,7 +1222,7 @@ vatek_result sample_bc_init(Pboard_handle bh_main, Pboard_handle bh_phy, Pboard_
     }
 
     /* init phy */
-    result = vatek_phy_create(bh_phy, phy_type_h1, &hdmi_handle);  //phy_type_h1, phy_type_ep9555e
+    result = vatek_phy_create(bh_phy, phy_type_h1, &hdmi_handle);  //phy_type_h1
     if (!is_success(result))
     {
         SAMPLE_ERR("phy(hdmi) create fail : %d", result);
@@ -1278,7 +1282,7 @@ vatek_result sample_bc_polling(void)
     if ((vatek_system_gettick() - tick) <= 2000)
         return result;
     tick = vatek_system_gettick();
-		
+//		vatek_phy_dump_reg(phy_active_handle);
 #if EPG_EN
 		xapp_polling_check_running(bc_handle);
 #endif
@@ -1335,7 +1339,7 @@ vatek_result sample_bc_polling(void)
     if (result == vatek_result_success) /* signal change */
     {
         SAMPLE_LOG("signal change");
-//				vatek_phy_dump_reg(phy_active_handle);
+
         result = sample_bc_broadcast(0);
         if (!is_success(result))
         {
@@ -1350,7 +1354,7 @@ vatek_result sample_bc_polling(void)
             return result;
         
         SAMPLE_LOG("signal lost");
-//				vatek_phy_dump_reg(phy_active_handle);
+
         result = sample_bc_broadcast(1);
         if (!is_success(result))
         {
@@ -1375,7 +1379,6 @@ vatek_result sample_bc_polling(void)
         {
             /* re-broadcast */
             SAMPLE_LOG("something wrong, re-broadcast");
-//						vatek_phy_dump_reg(phy_active_handle);
             result = sample_bc_broadcast(signal_lost);
             if (!is_success(result))
             {

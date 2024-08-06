@@ -322,12 +322,46 @@ vatek_result r2_viavatek_savecalibrate(Pr2_viavatek_handle hr2)
 
 vatek_result rfmixer_r2_adjust_pagain(Pr2_viavatek_handle hr2, int8_t gain)
 {
-//	uint32_t nvalue = EXT_R2_GAIN_EN_TAG | (EXT_R2_GAIN_MASK & gain);    
-//	uint32_t gainTemp = 0;
+	vatek_result result = vatek_result_unknown;
+	uint32_t nvalue = EXT_R2_GAIN_EN_TAG | (EXT_R2_GAIN_MASK & gain);    
+	uint32_t gainTemp = EXT_R2_GAIN_EN_READ;
+	uint32_t apply_val = CALIBRATION_EN_TAG | CALIBRATION_APPLY;
+	uint32_t val = 0, timeout = 0;
+	rf_status status = rf_status_unknown;
+	
+	if ((result = r2_viavatek_getstatus(hr2, &status)) != vatek_result_success)
+        return result;
+    
+    if (status != rf_status_active)
+        return vatek_result_badstatus;
 
-//	vatek_hms_read_hal(hr2->hms, HALREG_EXT_R2_GAIN, &gainTemp);      
-//	
-//	return vatek_hms_write_hal(hr2->hms, HALREG_EXT_R2_GAIN, nvalue);
+    if ((result = check_calibration(hr2)) != vatek_result_success)
+        return result;
+		
+	vatek_hms_write_hal(hr2->hms, HALREG_EXT_R2_GAIN, 0x45585402);//0x1290 nvalue write gain value
+	
+	if ((result = vatek_hms_write_hal(hr2->hms, HALREG_CALIBRATION_CNTL, apply_val)) == vatek_result_success)
+	{
+			while (timeout < 100) //10 sec
+			{
+					vatek_system_delay(100);
+					if ((result = vatek_hms_read_hal(hr2->hms, HALREG_CALIBRATION_CNTL, &val)) != vatek_result_success)
+							return result;
+					if (val == CALIBRATION_EN_TAG)
+							break;
+					timeout++;
+			}
+
+			if (timeout >= 100)
+					return vatek_result_timeout;
+	}
+	vatek_hms_write_hal(hr2->hms, HALREG_EXT_R2_GAIN, EXT_R2_GAIN_EN_READ);//read preprocess
+	while(gainTemp == EXT_R2_GAIN_EN_READ){
+		vatek_hms_read_hal(hr2->hms, HALREG_EXT_R2_GAIN, &gainTemp);//read
+	}
+	printf("gain = %d\r\n",gainTemp);
+
+	return vatek_result_success;
 }
 
 

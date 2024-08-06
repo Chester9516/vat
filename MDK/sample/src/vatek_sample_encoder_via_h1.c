@@ -6,47 +6,12 @@
 #include "vatek_sample_modulator.h"
 #include "KeypadAddLCD.h"
 #include "gpio.h"
+#include "vatek_hms.h"
 
-#define REGISTER_PSI 0
 #define ISO_PSI 1
-#define DEFAULT_PSI 0
 
 #define V1_USE 1
-#define A3_USE 1//if user don't use A3 board, set value to 0
-
-#if REGISTER_PSI
-const uint8_t PAT[188] = 
-{
-	0x47, 0x40, 0x00, 0x12, 0x00, 0x00, 0xB0, 0x11, 0x00, 0x64, 0xC5, 0x00, 0x00, 0x00, 0x00, 0xE0,
-	0x10, 0x00, 0x01, 0xE0, 0x20, 0x20, 0xE5, 0xF9, 0x22, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF,
-	0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF,
-	0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF,
-	0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF,
-	0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF,
-	0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF,
-	0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF,
-	0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF,
-	0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF,
-	0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF,
-	0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF          
-};
-
-const uint8_t PMT[188] = 
-{
-	0x47, 0x40, 0x20, 0x12, 0x00, 0x02, 0xB0, 0x3C, 0x00, 0x01, 0xC5, 0x00, 0x00, 0xE0, 0x32, 0xF0,
-	0x06, 0x05, 0x04, 0x47, 0x41, 0x39, 0x34, 0x02, 0xE0, 0x30, 0xF0, 0x09, 0x86, 0x07, 0xE1, 0x65,
-	0x6E, 0x67, 0xC1, 0x3F, 0xFF, 0x81, 0xE0, 0x31, 0xF0, 0x16, 0x05, 0x04, 0x41, 0x43, 0x2D, 0x33,
-	0x81, 0x08, 0x08, 0xB8, 0x05, 0xFF, 0x1F, 0x00, 0x00, 0x00, 0x0A, 0x04, 0x65, 0x6E, 0x67, 0x00,
-	0x88, 0x75, 0x5F, 0xE2, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF,
-	0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF,
-	0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF,
-	0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF,
-	0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF,
-	0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF,
-	0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF,
-	0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF  
-};
-#endif
+#define A3_USE 0//if user don't use A3 board, set value to 0
 
 #if defined(DEBUG)
 extern vatek_result vatek_phy_write(Phphy handle, uint32_t addr, uint8_t val);
@@ -81,90 +46,87 @@ static phy_video_info phy_v_info;
 vatek_result vatek_encoder_v1_polling()
 {
 	vatek_result result = vatek_result_unknown;
-	
-	
-#if 1
-	phy_status h1_status = phy_status_unknown;
-	broadcast_status encoder_status = bc_status_unknown;
 	chip_status v1_status = chip_status_unknown;
+	broadcast_status encoder_status = bc_status_unknown;
+	phy_status ext_h1_status = phy_status_unknown;
+	static phy_status ext_h1_temp_status = phy_status_unknown;
 	static uint32_t tick = 0;
-	internal_hdmi_status in_hdmi_status = internal_hdmi_unknown;
-//	vatek_phy_write(phy_handle, 3030, 0xff);
-//	vatek_phy_write(phy_handle, 3031, 0xff);
-//	vatek_phy_write(phy_handle, 3032, 0xff);
-//	vatek_phy_write(phy_handle, 3033, 0xff);
-//	vatek_phy_write(phy_handle, 3034, 0xff);
-//	vatek_phy_write(phy_handle, 3035, 0xff);
-//	uint8_t phy_val = 0, phy_val1= 0;
-//	while(1){
-//		vatek_phy_read(phy_handle, 0x3036, &phy_val);
-//		vatek_phy_read(phy_handle, 0x3037, &phy_val1);
-//		log("0x3036 = 0x%x, 0x3037 = 0x%x", phy_val, phy_val1);
-//	}
-	/*polling every 3 second*/
-	if(vatek_system_gettick() - tick < 3000)
+	
+	//polling per 2 second, check IC status, HDMI status
+	if(vatek_system_gettick() - tick < 2000)
 		return vatek_result_success;
 	tick = vatek_system_gettick();
-	if(enc_input_mode == input_mode_internal){
-		if((result = vatek_encoder_v1_hdmichange(enc_handle)) != vatek_result_success){
+	
+	if((result = vatek_encoder_v1_bcstatus(enc_handle, &encoder_status)) != vatek_result_success){
+		errlog("v1 encoder status get fail, %d",result);
+		return result;
+	}
+	
+	if((result = vatek_encoder_v1_chipstatus(enc_handle, &v1_status)) != vatek_result_success){
+		errlog("v1 IC get status fail, %d",result);
+		return result;
+	}
+	
+	if(encoder_status != bc_status_broadcast || v1_status != chip_status_running){
+		errlog("v1 status not work, reset and restart");
+		if((result = vatek_encoder_v1_reset(enc_handle)) != vatek_result_success){
+			errlog("v1 reset fail, please use hardware reset, %d",result);
+			return result;
+		}
+		if((result = v1_set_logo()) != vatek_result_success){
+			errlog("v1 set PHY fail, %d",result);
+			return result;
+		}
+		if((result = v1_process()) != vatek_result_success){
+			log("v1 process fail, %d",result);
 			return result;
 		}
 	}
-
-	/*get chip and encoder status*/
-	if((result = vatek_encoder_v1_bcstatus(enc_handle, &encoder_status)) != vatek_result_success){
-		errlog("get Encoder status fail, %d",result);
-		return result;
-	}
-	if((result = vatek_encoder_v1_chipstatus(enc_handle, &v1_status)) != vatek_result_success){
-		errlog("get V1 status fail, %d",result);
-		return result;
-	}
-	if(encoder_status != bc_status_broadcast || v1_status != chip_status_running){
-		result = vatek_encoder_v1_reset(enc_handle);
-		result = v1_set_phy();
-		result = v1_process();
-	}
-#endif
 	
-#if 0 //wait for color bar
-	/*check phy status and hdmi input information*/
-	if((result = vatek_phy_status(phy_handle, &h1_status)) != vatek_result_success){
-		errlog("get H1 status fail, %d",result);
-		return result;
-	}
-	/*check chip status and do different thing by status*/
-	if(encoder_status != bc_status_broadcast || v1_status != chip_status_running){
-		if(h1_status != phy_status_active){
-			if(encoder_status != bc_status_idle)
-				result = vatek_encoder_v1_reset(enc_handle);
-//			result = v1_set_logo();
-//			result = v1_process();
+	if(enc_input_mode == input_mode_internal){
+		if((result = vatek_encoder_v1_hdmichange(enc_handle)) == vatek_result_idle){
+			return vatek_result_success;
 		}
-		else{
-			result = vatek_phy_getaudioinfo(phy_handle, &phy_a);
-			result = vatek_phy_getvideoinfo(phy_handle, &phy_v);
-			if((memcmp(&phy_a_info, &phy_a, sizeof(phy_audio_info)) != 0) || (memcmp(&phy_v, &phy_v_info, sizeof(phy_video_info)) != 0)){
-				log("hdmi input source change, reset chip");
-				result = vatek_encoder_v1_reset(enc_handle);
-				result = v1_set_phy();
-				result = v1_process();
+		else if(result == vatek_result_samesource){
+			return vatek_result_success;
+		}
+		else if(result == vatek_result_success){
+			if((result = vatek_encoder_v1_reset(enc_handle)) != vatek_result_success){
+				errlog("v1 reset fail, please use hardware reset, %d",result);
+				return result;
 			}
-			else{
-				log("source not change");
+			if((result = v1_set_phy()) != vatek_result_success){
+				errlog("v1 set phy parameter fail, %d",result);
+				return result;
 			}
-			if(encoder_status == bc_status_idle){
-				result = v1_set_phy();
-				result = v1_process();
+			if((result = v1_process()) != vatek_result_success){
+				errlog("v1 set process parameter fail, %d",result);
+				return result;
 			}
 		}
 	}
-	else{ //broadcasting
-		
+	else if(enc_input_mode == input_mode_external){
+		if((result = vatek_phy_status(phy_handle, &ext_h1_status)) != vatek_result_success){
+			return result;
+		}
+		if((ext_h1_status == phy_status_active) && (ext_h1_temp_status != ext_h1_status)){
+			ext_h1_temp_status = ext_h1_status;
+			if((result = vatek_encoder_v1_reset(enc_handle)) != vatek_result_success){
+				errlog("v1 reset fail, please use hardware reset, %d",result);
+				return result;
+			}
+			if((result = v1_set_phy()) != vatek_result_success){
+				errlog("v1 set phy parameter fail, %d",result);
+				return result;
+			}
+			if((result = v1_process()) != vatek_result_success){
+				errlog("v1 set process parameter fail, %d",result);
+				return result;
+			}
+		}
+		else
+			ext_h1_temp_status = ext_h1_status;
 	}
-#endif
-	
-	
 	return result;
 }
 
@@ -183,7 +145,7 @@ vatek_result vatek_sample_encoder_start(Pboard_handle handle)
 #endif
 
 #if V1_USE
-	result = v1_set_phy();//v1_set_logo, v1_set_phy
+	result = v1_set_logo();//v1_set_logo, v1_set_phy
 	if(result != vatek_result_success){
 		log("v1 set PHY fail, %d",result);
 		return result;
@@ -223,10 +185,7 @@ static vatek_result init_process(Pboard_handle handle){
 			return result;
 		}
 	}
-	if(HAL_GPIO_ReadPin(IN_EX_SWITCH_GPIO_Port, IN_EX_SWITCH_Pin) == SET)
-		enc_input_mode = input_mode_external;
-	else if(HAL_GPIO_ReadPin(IN_EX_SWITCH_GPIO_Port, IN_EX_SWITCH_Pin) == RESET)
-		enc_input_mode = input_mode_internal;
+
 #endif
 
 	if(enc_input_mode == input_mode_external){
@@ -261,7 +220,7 @@ static vatek_result init_process(Pboard_handle handle){
 	
 }
 
-/*not yet*/
+
 static vatek_result v1_set_logo()
 {
 	vatek_result result = vatek_result_unknown;
@@ -334,15 +293,12 @@ static vatek_result v1_set_phy()
 		ai_parm.samplerate = phy_ai.samplerate;
 	}
 	else if(enc_input_mode == input_mode_internal){
-		vi_parm.buswidth_16 = 1;
-		vi_parm.separated_sync = 1;
 		vi_parm.input_mode = enc_input_mode;
 		vi_parm.down_scale = 0;
 		vi_parm.vsync_inverse = 1; //for separate
 		
-		result = vatek_encoder_hal_write_v1(enc_handle, 0x10, 0); //set separate/enbbeded and 8/16 bits
-		
-//		vatek_encoder_v1_down_scale(enc_handle, vi_parm, scale_resolution_480p);
+		if(vi_parm.down_scale == 1)
+			vatek_encoder_v1_down_scale(enc_handle, vi_parm, scale_resolution_480p);
 	}
 	
 	if((result = vatek_encoder_v1_setinputparm_phy(enc_handle, vi_parm, ai_parm)) != vatek_result_success){
@@ -364,7 +320,7 @@ static vatek_result v1_process()
 	
 	ve_parm.type = ve_type_mpeg2;//ve_type_mpeg2, ve_type_h264
 	ve_parm.output_bitrate = 9000000; //set pure encoder output (important value)
-	ve_parm.en_interlaced = 1;
+	ve_parm.en_interlaced = 0;
 	
 	ae_parm.type = ae_type_mp1_l2;//ae_type_mp1_l2, ae_type_ac_3, ae_type_aac_lc_adts, ae_type_aac_lc_latm
 	ae_parm.channel = ae_channel_stereo;//ae_channel_stereo, ae_channel_mono_l, ae_channel_mono_r, ae_channel_stereo_mono_l, ae_channel_stereo_mono_r
@@ -379,8 +335,9 @@ static vatek_result v1_process()
 	eq_parm.gop = 16;
 	eq_parm.latency = 500;
 	eq_parm.minq = 5;
-	eq_parm.maxq = 12;
+	eq_parm.maxq = 15;
 	eq_parm.rcmode = q_rcmode_vbr;
+	eq_parm.q_flag = q_flag_en_hq;
 	if((result = vatek_encoder_v1_setqualityparm(enc_handle, eq_parm)) != vatek_result_success){
 		log("set quality parameter fail, %d",result);
 		return result;
@@ -393,135 +350,6 @@ static vatek_result v1_process()
 		return result;
 	}
 
-#if REGISTER_PSI
-	psitablelist_parm psi_p = {0};
-		psi_p.table_num = 3;
-		psi_p.table[0].interval_ms = 90;
-		psi_p.table[0].tspackets = &PAT[0];
-		psi_p.table[0].tspacket_num = 1;
-		psi_p.table[1].interval_ms = 90;
-		psi_p.table[1].tspackets = &PMT[0];
-		psi_p.table[1].tspacket_num = 1;
-
-		result = vatek_encoder_psitable_register(enc_handle,&psi_p);
-		
-    /* set TSMUX parameter */
-    tsmux_default_parm default_parm = {0};
-    default_parm.pcr_pid    = 50;
-    default_parm.pmt_pid    = 32;
-    default_parm.padding_pid = 0x1FFF;
-    result = vatek_encoder_v1_tsmux_setparm(enc_handle, tsmux_type_default, &default_parm);
-    if (result != vatek_result_success)
-    {
-        errlog("vatek_broadcast_tsmux_setparm fail: %d", result);
-        return result;
-    }
-#endif		
-
-#if DEFAULT_PSI
-		/* set TSMUX parameter */
-    tsmux_default_parm default_parm = {0};
-    default_parm.pcr_pid    = 50;
-    default_parm.pmt_pid    = 32;
-    default_parm.padding_pid = 0x1FFF;
-    result = vatek_encoder_v1_tsmux_setparm(enc_handle, tsmux_type_default, &default_parm);
-    if (result != vatek_result_success)
-    {
-        errlog("vatek_broadcast_tsmux_setparm fail: %d", result);
-        return result;
-    }
-#if 0
-		static const uint8_t _psip_short_name[] = {0x00,'V',0x00,'A',0x00,'T',0x00,'E',0x00,'K',0x00,0x00,};
-		static const uint8_t _psip_long_name[] = {0x01,'e','n','g',0x01,0x00,0x00,0x04,'V','A','T','V',0x00,0x00,0x00,0x00};
-		vatek_string short_name = {
-			.len = sizeof(_psip_short_name),
-			.text = (uint8_t *)&_psip_short_name,
-		};
-		vatek_string long_name = {
-			.len = sizeof(_psip_long_name),
-			.text = (uint8_t *)&_psip_long_name,
-		};
-		
-		result = vatek_encoder_psispec_default_init(enc_handle,psispec_default_psip,atsc_usa);
-		if(result != vatek_result_success){
-			printf("psip default init fail %d\r\n",result);
-			return result;
-		}
-		psispec_default_psip_channel ch = {0};
-		psispec_default_psip_program pr = {0};
-		ch.cc_mode = cc_mode_608;
-		ch.daylight_saving = 0;
-		ch.gps_utc_offset = 0;
-		ch.psip_flags = 0;
-		ch.transport_stream_id = 1;
-		ch.short_name = &short_name;
-
-		pr.channel_major = 31;
-		pr.channel_minor = 1;
-		pr.long_name = &long_name;
-		pr.program_number = 0x01;
-		pr.source_id = 2;
-		result = vatek_encoder_psispec_default_config(&ch,&pr);
-		if(result != vatek_result_success){
-			printf("psip default config fail %d\r\n",result);
-			return result;
-		}
-		result = vatek_encoder_psispec_default_start();
-		if(result != vatek_result_success){
-			printf("psip default start fail %d\r\n",result);
-			return result;
-		}
-#endif
-#define _AC(ch) (ch+0x80)
-		static const uint8_t _arib_network_name[] = {0x1b,0x7e,_AC('V'),_AC('A'),_AC('T'),_AC('E'),_AC('K')};
-		static const uint8_t _arib_service_name[] = {0x1b,0x7e,_AC('v'),_AC('a'),_AC('t'),_AC('e'),_AC('k')};
-		static const uint8_t _arib_ts_name[] = {0x1b,0x7e,_AC('J'),_AC('A'),_AC('P'),_AC('A'),_AC('N')};
-		
-		vatek_string network_name = {
-			.len = sizeof(_arib_network_name),
-			.text = (uint8_t *)_arib_network_name,
-		};
-		vatek_string service_name = {
-			.len = sizeof(_arib_service_name),
-			.text = (uint8_t *)_arib_service_name,
-		};
-		vatek_string ts_name = {
-			.len = sizeof(_arib_ts_name),
-			.text = (uint8_t *)_arib_ts_name,
-		};
-		psispec_default_arib_channel arib_ch = {
-			.region_id = 1,
-			.network_name = &network_name,
-			.broadcaster_id = 1,
-			.remote_control_key_id = 2,
-		};
-		psispec_default_arib_program arib_pr = {	
-			.service_no = 7,
-			.copy_flag = arib_abnt_free,
-			.ts_name = &ts_name,
-			.service_name = &service_name,
-			.main_lang.raw = { 'j','p','n','\0'},
-			.sub_lang.raw = {'e','n','g','\0'},
-		};
-		result = vatek_encoder_psispec_default_init(enc_handle,psispec_default_arib,arib_japan);
-		if(result != vatek_result_success){
-			printf("abnt default init fail %d\r\n",result);
-			return result;
-		}
-		
-		result = vatek_encoder_psispec_default_config(&arib_ch,&arib_pr);
-		if(result != vatek_result_success){
-			printf("abnt default config fail %d\r\n",result);
-			return result;
-		}
-		
-		result = vatek_encoder_psispec_default_start();
-		if(result != vatek_result_success){
-			printf("abnt default start fail %d\r\n",result);
-			return result;
-		}
-#endif
-		
 #if ISO_PSI
 	tsmux_iso13818_parm iso_p = {0};
 	iso_p.padding_pid = 0x1FF0;
@@ -546,12 +374,7 @@ static vatek_result v1_process()
 	}
 	
 	if(enc_input_mode == input_mode_external){
-//		uint32_t v1_info_600 = 0;
-//		broadcast_infotype h1_info = v1_internal_hdmi_set;
-//		result = vatek_encoder_v1_getinfo(enc_handle, v1_internal_hdmi_set, &v1_info_600);
-//		log("0x600 = 0x%x", v1_info_600);
-//		if(result == vatek_result_success)
-//			log("use external H1 success");
+
 	}
 	
 	while(enc_s != bc_status_broadcast){//bc_status_broadcast
@@ -560,18 +383,6 @@ static vatek_result v1_process()
 			return result;
 		}
 	}
-	uint32_t hal_val = 0;
-	vatek_encoder_reg_read_v1(enc_handle, 0x607, &hal_val);
-	log("reg 0x607 = 0x%x", hal_val);
-	vatek_encoder_reg_read_v1(enc_handle, 0x608, &hal_val);
-	log("reg 0x608 = 0x%x", hal_val);
-	vatek_encoder_reg_read_v1(enc_handle, 0x609, &hal_val);
-	log("reg 0x609 = 0x%x", hal_val);
-	vatek_encoder_reg_read_v1(enc_handle, 0x60a, &hal_val);
-	log("reg 0x60a = 0x%x", hal_val);
-	
-	vatek_encoder_hal_read_v1(enc_handle, 0x1060, &hal_val);
-	log("hal reg 0x1060 = 0x%x", hal_val);
 
 	if(enc_input_mode == input_mode_internal){
 		video_info_parm v_info_p = {0};
@@ -583,8 +394,28 @@ static vatek_result v1_process()
 		log("input aspectrate = %d",v_info_p.aspectrate);
 		
 	}
-	
-	
+	uint32_t hal_reg_val = 0;
+	uint32_t hal_32f0 = 1;
+//	while(1){
+//		for(uint32_t h_val = 0x10;h_val <= 0x13; h_val++){
+//			vatek_hms_read_hal_v1(enc_handle, h_val, &hal_reg_val);
+//			printf("0x%x = 0x%x\r\n",h_val,hal_reg_val);
+//		}
+//			vatek_hms_write_reg_v1(enc_handle,0x32f0,0x30800003);
+//			while(hal_32f0 != 0){
+//				vatek_hms_read_reg_v1(enc_handle,0x32f0, &hal_32f0);
+//				if(!(hal_32f0 & 1))
+//					break;
+//			}
+//			vatek_hms_write_reg_v1(enc_handle, 0x32f0, 0x30808103);
+//		
+//		for(uint32_t h_val = 0x10;h_val <= 0x13; h_val++){
+//			vatek_hms_read_hal_v1(enc_handle, h_val, &hal_reg_val);
+//			printf("0x%x = 0x%x\r\n",h_val,hal_reg_val);
+//		}
+//		while(1){}
+
+//	}
 	
 	return result;
 }
@@ -595,11 +426,6 @@ static vatek_result a3_process(){
 	broadcast_status a3_bcstatus = bc_status_unknown;
 	phy_status ep_status = phy_status_unknown;
 	log("Start A3 process");
-
-//	result = vatek_transform_chipstatus(tf_handle,&a3_status);
-//		if(result == vatek_result_success)
-//			if(a3_status == chip_status_running)//chip_status_running, chip_status_idle
-//				return vatek_result_success;
 	
 	ts_input_parm a3_input = {0};	
 	a3_input.tsin_mode = tsin_remux;//tsin_smooth, tsin_remux
@@ -637,74 +463,4 @@ static vatek_result a3_process(){
 
 	log("A3 process run success");
 	return result;
-}
-
-vatek_result vatek_param_control(Pparam_val p_val)
-{
-	vatek_result result = vatek_result_unknown;
-	broadcast_status enc_status = bc_status_unknown;
-	
-	if(p_val == NULL){
-//		p_val->separate_val = phy_v_info.separated_sync;
-//		p_val->buswidth_val = phy_v_info.buswidth_16;
-		p_val->de_interlaced_val = 0;
-		p_val->video_enc_type = ve_type_mpeg2;
-		p_val->audio_enc_type = ae_type_mp1_l2;
-		p_val->bitrate_val = 19000000;
-		p_val->minq_val = 5;
-		p_val->maxq_val = 12;
-		p_val->gop_val = 16;
-		p_val->latency_val = 500;
-	}
-	if((result = vatek_encoder_v1_stop(enc_handle)) != vatek_result_success)
-		return result;
-	while(enc_status != bc_status_idle){
-		if((result = vatek_encoder_v1_bcstatus(enc_handle, &enc_status)) != vatek_result_success)
-			return result;
-	}
-	
-	video_input_parm vi_p = {0};
-	audio_input_parm ai_p = {0};
-	vi_p.input_mode = input_mode_internal;
-	
-	if((result = vatek_encoder_v1_setinputparm_phy(enc_handle, vi_p, ai_p)) != vatek_result_success)
-		return result;
-	
-	video_encode_v1_parm ve_p = {0};
-	audio_encode_parm ae_p = {0};
-	ve_p.type = p_val->video_enc_type;
-	ve_p.en_interlaced = p_val->de_interlaced_val;
-	ve_p.output_bitrate = p_val->bitrate_val;
-	ae_p.type = p_val->audio_enc_type;
-	ae_p.channel = ae_channel_stereo;
-	if((result = vatek_encoder_v1_setencodeparm(enc_handle, ve_p, ae_p)) != vatek_result_success)
-		return result;
-	
-	encoder_quality_parm eq_p = {0};
-	eq_p.bitrate = p_val->bitrate_val;
-	eq_p.rcmode = q_rcmode_vbr;
-	eq_p.gop = p_val->gop_val;
-	eq_p.latency = p_val->latency_val;
-	eq_p.minq = p_val->minq_val;
-	eq_p.maxq = p_val->maxq_val;
-	if((result = vatek_encoder_v1_setqualityparm(enc_handle, eq_p)) != vatek_result_success)
-		return result;
-	
-	encoder_mux_parm em_p = {0};
-	em_p.audio_pid = 0x1003;
-	em_p.video_pid = 0x1002;
-	if((result = vatek_encoder_v1_setmuxparm(enc_handle, em_p)) != vatek_result_success)
-		return result;
-	
-	tsmux_iso13818_parm iso_p = {0};
-	iso_p.padding_pid = 0x1FFF;
-	iso_p.pcr_pid = 0x100;
-	iso_p.pmtpid = 0x1001;
-	iso_p.program_num = 0x10;
-	iso_p.tsid = 0x1;
-	if((result = vatek_encoder_v1_tsmux_setparm(enc_handle, tsmux_type_iso13818, &iso_p)) != vatek_result_success)
-		return result;
-	
-	if((result = vatek_encoder_v1_start(enc_handle)) != vatek_result_success)
-		return result;
 }

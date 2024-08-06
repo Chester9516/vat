@@ -61,6 +61,7 @@ static vatek_result hms_i2c_read(Pvatek_i2c vi2c, uint8_t* pbuf, uint32_t len)
     return result;
 }
 
+static Phms_handle returnhms = NULL;
 vatek_result vatek_hms_create(Pboard_handle hboard, Phms_handle *handle)
 {
     vatek_result result = vatek_result_unknown;
@@ -79,6 +80,7 @@ vatek_result vatek_hms_create(Pboard_handle hboard, Phms_handle *handle)
         return result;
     }
     *handle = newhms;
+		returnhms = newhms;
 
     result = vatek_result_success;
 
@@ -534,3 +536,8 @@ vatek_result vatek_hms_issystemrun_v1(Phms_handle handle)
     return result;
 }
 #endif
+
+Phms_handle vatek_get_main_i2c(void)
+{
+	return returnhms;
+}

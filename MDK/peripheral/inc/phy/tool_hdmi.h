@@ -122,9 +122,9 @@
         {VID_1080P_24       ,PIXEL_REPETITION_0  ,vi_resolution_1080p24   ,vi_aspectrate_16_9,74250,638,44,148,4,36,5,},
         {VID_1080P_25       ,PIXEL_REPETITION_0  ,vi_resolution_1080p25   ,vi_aspectrate_16_9,74250,528,44,148,4,36,5,},
         {VID_1080P_30       ,PIXEL_REPETITION_0  ,vi_resolution_1080p30   ,vi_aspectrate_16_9,74250,88,44,148,4,36,5,},
-				{VID_1080P_29_97    ,PIXEL_REPETITION_0  ,vi_resolution_1080p29_97,vi_aspectrate_16_9,74125,88,44,148,4,36,5,},
+				{VID_1080P_29_97    ,PIXEL_REPETITION_0  ,vi_resolution_1080p29_97,vi_aspectrate_16_9,74175,88,44,148,4,36,5,},
 				{VID_1080I_60       ,PIXEL_REPETITION_0  ,vi_resolution_1080i60   ,vi_aspectrate_16_9,74250,88,44,148,2,15,5,},
-        {VID_1080I_59_94    ,PIXEL_REPETITION_0  ,vi_resolution_1080i59_94,vi_aspectrate_16_9,74125,88,44,148,2,15,5,},
+        {VID_1080I_59_94    ,PIXEL_REPETITION_0  ,vi_resolution_1080i59_94,vi_aspectrate_16_9,74176,88,44,148,2,15,5,},
 				{VID_1080I_50       ,PIXEL_REPETITION_0  ,vi_resolution_1080i50   ,vi_aspectrate_16_9,74250,528,44,148,2,15,5,},
 				{VID_720P_60        ,PIXEL_REPETITION_0  ,vi_resolution_720p60    ,vi_aspectrate_16_9,74250,110,40,220,5,20,5,},
 				{VID_720P_59_94     ,PIXEL_REPETITION_0  ,vi_resolution_720p59_94 ,vi_aspectrate_16_9,74250,110,40,220,5,20,5,},
@@ -139,7 +139,7 @@
         {VID_480I_59_16_9   ,PIXEL_REPETITION_2  ,vi_resolution_480i59_94 ,vi_aspectrate_16_9,27000,38,124,114,4,15,3,},
 				{VID_1440I_60   		,PIXEL_REPETITION_0  ,vi_resolution_1440i60   ,vi_aspectrate_16_9,74250,248,204,308,2,15,5,},
 				{VID_1440P_60   		,PIXEL_REPETITION_0  ,vi_resolution_1440p60   ,vi_aspectrate_16_9,148500,248,204,308,4,36,5,},
-				{VID_1440I_59_94   	,PIXEL_REPETITION_0  ,vi_resolution_1440i59_94   ,vi_aspectrate_16_9,74125,248,204,308,2,15,5,},
+				{VID_1440I_59_94   	,PIXEL_REPETITION_0  ,vi_resolution_1440i59_94   ,vi_aspectrate_16_9,74175,248,204,308,2,15,5,},
 				{VID_1440P_59_94   	,PIXEL_REPETITION_0  ,vi_resolution_1440p59_94   ,vi_aspectrate_16_9,148351,248,204,308,4,36,5,},
         
         

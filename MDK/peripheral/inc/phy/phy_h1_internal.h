@@ -176,7 +176,7 @@
         { H1_HDMI_FLAG  , 0x41},        /**104 Vout Progressive, Scalar, Baseclk_1001 */
         { H1_OUT_FMT    , 0xA0},        /**201 YUV422, BT709*/
         { H1_AOUT_CFG   , 0x13},        /**301 Audio 512 sampling */
-        { H1_VOUT_CFG   , 0x41},        /**202 0x41 Vout Y/Cb/Y/Cr, Field no inverse a0=e8, 20=e16, 80=s8, 00=s16*/
+        { H1_VOUT_CFG   , 0x40},        /**202 0x41 Vout Y/Cb/Y/Cr, Field no inverse a0=e8, 20=e16, 80=s8, 00=s16*/
 
     };
     

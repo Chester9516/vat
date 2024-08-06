@@ -4,8 +4,6 @@
 #include "vatek_sample_keypad_stm32f401.h"
 #include "vatek_sample_lcd1602.h"
 
-extern vatek_result vatek_param_control(Pparam_val p_val);
-
 /*V1 used parameter*/
 uint32_t sequence_val = 0; //select parameter which like to change value
 
@@ -65,7 +63,7 @@ uint8_t vatek_key_press_detect()
 			write_val.minq_val = minq_value;
 			write_val.maxq_val = maxq_value;
 #if defined(VATEK_V1)
-			vatek_param_control(&write_val);
+
 #endif
 			break;
 		case KEY_OFF:

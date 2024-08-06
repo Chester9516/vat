@@ -1,4 +1,5 @@
 
+
 #if defined(PHY_H1)
 
 #include "vatek_system.h"
@@ -781,7 +782,7 @@ vatek_result h1_get_status(Ph1_handle hh1, phy_status * status)
     
     return vatek_result_success;
 }
-
+static Ph1_handle returnh1 = NULL;
 vatek_result h1_create(Pvatek_i2c vi2c, Ph1_handle *hh1)
 {
     vatek_result result = vatek_result_unknown;
@@ -835,8 +836,14 @@ vatek_result h1_create(Pvatek_i2c vi2c, Ph1_handle *hh1)
     newphy->baseclk     = h1_baseclk_1000;
     
     *hh1 = newphy;
-    
+    returnh1 = newphy;
+		
     return result;
+}
+
+Ph1_handle vatek_get_h1_i2c(void)
+{
+	return returnh1;
 }
 
 vatek_result h1_destroy(Ph1_handle hh1)

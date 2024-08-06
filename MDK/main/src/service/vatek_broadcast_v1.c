@@ -412,24 +412,28 @@ static vatek_result vatek_encoder_v1_check_source(Pboard_handle handle, internal
 	if((result = vatek_hms_read_hal_v1(handle, HALREG_HDMI_STATUS, &hdmi_check)) != vatek_result_success){
 		return result;
 	}
+	printf("hdmi status = 0x%x\r\n",hdmi_check);
 	if(hdmi_check & HDMI_CONNECT){
 //		printf("hdmi conncet\r\n");
 		if(hdmi_check & HDMI_HPD_EN){
 //			printf("hdmi hot plug in enable\r\n");
-			if(hdmi_check & HDMI_DE_VLD){
+//			if(hdmi_check & HDMI_DE_VLD){
 //				printf("hdmi data enable valid\r\n");
 				//do something, maybe check status
 				*hdmi_status = internal_hdmi_lock;
 				return result;
-			}
+//			}else{
+//				*hdmi_status = internal_hdmi_node_vld;
+//				printf("hdmi data not enable\r\n");
+//			}
+		}else{
 			*hdmi_status = internal_hdmi_node_vld;
-			printf("hdmi data not enable\r\n");
+			printf("hdmi hot plug in not enable\r\n");
 		}
-		*hdmi_status = internal_hdmi_node_vld;
-		printf("hdmi hot plug in not enable\r\n");
+	}else{
+		*hdmi_status = internal_hdmi_noconnect;
+		printf("hdmi not connect\r\n");
 	}
-	*hdmi_status = internal_hdmi_noconnect;
-	printf("hdmi not connect\r\n");
 	
 	return result;
 }
@@ -439,22 +443,29 @@ vatek_result vatek_encoder_v1_hdmichange(Pboard_handle handle)
 	vatek_result result = vatek_result_unknown;
 	uint32_t video_val = 0, audio_val = 0, resolution = 0,frameraate = 0, samplerate = 0;
 	internal_hdmi_status hdmi_status = internal_hdmi_unknown;
-	
 	uint32_t vic_val = 0;
+	static internal_hdmi_status hdmi_temp_status = internal_hdmi_unknown;
+	
 	if((result = vatek_hms_read_hal_v1(handle, HALREG_HDMI_VIN_VIC, &vic_val)) != vatek_result_success){
 		printf("get vic val error\r\n");
 		return result;
 	}
-	printf("vic = 0x%x\r\n",vic_val);
 	
 	if((result = vatek_encoder_v1_check_source(handle, &hdmi_status)) != vatek_result_success){
 		return result;
 	}
+	printf("internal HDMI status = %d\r\n", hdmi_status);
 	
 	if(hdmi_status != internal_hdmi_lock){
 		printf("no HDMI source\r\n");
-		return result;
+		hdmi_temp_status = hdmi_status;
+		return vatek_result_idle; //no HDMI source, so return idle status.
 	}
+	
+	if(hdmi_temp_status == internal_hdmi_lock)
+		return vatek_result_samesource;
+	
+	hdmi_temp_status = hdmi_status;
 	
 	if((result = vatek_hms_read_hal_v1(handle, HALREG_HDMI_VIDEO_STS, &video_val)) != vatek_result_success){
 		return result;
@@ -471,7 +482,7 @@ vatek_result vatek_encoder_v1_hdmichange(Pboard_handle handle)
 	if(video_val == 1){
 		printf("VIC change, means resolution change, %d, %d, %d\r\n",video_val, resolution, frameraate);
 	}else{
-		printf("VIC not change, means resolution not change, %d, %d, %d\r\n",video_val, resolution, frameraate);
+//		printf("VIC not change, means resolution not change, %d, %d, %d\r\n",video_val, resolution, frameraate);
 	}
 	if(audio_val == 1){
 		if((result = vatek_hms_read_hal_v1(handle, HALREG_HDMI_AUD_SAMPLERATE, &samplerate)) != vatek_result_success){
@@ -479,6 +490,7 @@ vatek_result vatek_encoder_v1_hdmichange(Pboard_handle handle)
 		}
 		printf("sample rate change 0x%x, please reset\r\n",samplerate);
 	}
+
 	return result;
 	
 }
@@ -609,156 +621,6 @@ vatek_result vatek_encoder_v1_getvideoinfoparm(Phbroadcast handle, Pvideo_info_p
     
     return result;
 }
-
-vatek_result vatek_encoder_psitable_register(Phbroadcast handle, Ppsitablelist_parm parm)
-{
-    vatek_result result = vatek_result_unknown;
-
-    if (handle == NULL || parm == NULL)
-        return vatek_result_invalidparm;
-
-    result =  vatek_psitable_register_v1((Phms_handle)handle, parm);
-    
-    return result;
-}
-#if 0
-vatek_result vatek_encoder_psitable_insert( Phbroadcast handle, uint16_t tspacket_num, uint8_t *tspackets)
-{
-    vatek_result result = vatek_result_unknown;
-
-    if (handle == NULL || tspackets == NULL)
-        return vatek_result_invalidparm;
-
-    result = vatek_psitable_insert((Phms_handle)handle, tspacket_num, tspackets);
-    
-    return result;
-}
-
-vatek_result vatek_encoder_userdata_insert_raw(Phbroadcast handle, uint16_t data_num, uint8_t *data)
-{
-    vatek_result result = vatek_result_unknown;
-
-    if (handle == NULL || data == NULL || data_num == 0)
-        return vatek_result_invalidparm;
-
-    result = vatek_userdata_raw_insert((Phms_handle)handle, data_num, data);
-    
-    return result;
-}
-
-vatek_result vatek_encoder_userdata_insert_cc(Phbroadcast handle, uint16_t cc_num, Puserdata_cc_parm cc_parm)
-{
-    vatek_result result = vatek_result_unknown;
-
-    if (handle == NULL || cc_parm == NULL || cc_num == 0)
-        return vatek_result_invalidparm;
-
-    result = vatek_userdata_cc_insert((Phms_handle)handle, cc_num, cc_parm);
-    
-    return result;
-}
-
-vatek_result vatek_encoder_psispec_rule_init(Phbroadcast handle, Ppsispec_rule rule)
-{
-    vatek_result result = vatek_result_unknown;
-
-    if (handle == NULL || rule == NULL)
-        return vatek_result_invalidparm;
-
-    if ((result = vatek_psispec_rule_init(rule)) != vatek_result_success)
-    {
-        return result;
-    }
-    
-    return result;
-}
-
-vatek_result vatek_encoder_psispec_rule_settablerule(Phbroadcast handle, const char *name, uint32_t version, uint32_t interval)
-{
-    vatek_result result = vatek_result_unknown;
-
-    if (handle == NULL || name == NULL)
-        return vatek_result_invalidparm;
-
-    if ((result = vatek_psispec_rule_setruletable(name, version, interval)) != vatek_result_success)
-    {
-        return result;
-    }
-
-    return result;
-}
-
-vatek_result vatek_encoder_psispec_rule_setchannelrule(Phbroadcast handle, const char *name, void *buf, uint32_t len)
-{
-    vatek_result result = vatek_result_unknown;
-
-    if (handle == NULL || name == NULL)
-        return vatek_result_invalidparm;
-
-    if ((result = vatek_psispec_rule_setchannelprop(name, buf, len)) != vatek_result_success)
-    {
-        return result;
-    }
-
-    return result;
-}
-
-vatek_result vatek_encoder_psispec_rule_start(Phbroadcast handle)
-{
-    vatek_result result = vatek_result_unknown;
-
-    if (handle == NULL)
-        return vatek_result_invalidparm;
-
-    if ((result = vatek_psispec_rule_start(handle)) != vatek_result_success)
-    {
-        return result;
-    }
-
-    if ((result = vatek_psispec_rule_end(handle)) != vatek_result_success)
-    {
-        return result;
-    }
-    
-    return result; 
-}
-#endif
-vatek_result vatek_encoder_psispec_default_init(Phbroadcast handle, psispec_default_type type, psispec_country_code country)
-{
-    vatek_result result = vatek_result_unknown;
-    
-    result = vatek_psispec_default_init_v1((Phms_handle)handle, type, country);
-    if(result != vatek_result_success)
-        return result;
-    
-    return result;
-}
-
-vatek_result vatek_encoder_psispec_default_config( Ppsispec_default_channel chan, Ppsispec_default_program prog)
-{
-    vatek_result result = vatek_result_unknown;
-    
-    if( chan==NULL || prog==NULL)
-        return vatek_result_invalidparm;
-    
-    result = vatek_psispec_default_config_v1( chan, prog);
-    if( result != vatek_result_success)
-        return result;
-    
-    return result;
-}
-
-vatek_result vatek_encoder_psispec_default_start(void)
-{
-    vatek_result result = vatek_result_unknown;
-    
-    result = vatek_psispec_default_start_v1();
-    if( result != vatek_result_success)
-        return result;
-    
-    return result;
-}
-
 
 #if defined (DEBUG)
 vatek_result vatek_encoder_hal_write_v1(Phbroadcast handle, uint32_t addr, uint32_t val)

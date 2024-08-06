@@ -11,7 +11,9 @@
 //#define DVBT        2
 //#define ISDBT       3
 //#define J83A        4
-//#define MOD_TYPE    DVBT
+//#define MOD_TYPE    ISDBT
+
+//#define _AC(ch) (ch+0x80)
 
 //static Phbroadcast bc_handle = NULL;
 //static Phphy hdmi_handle = NULL;
@@ -78,8 +80,8 @@
 //    modulator_base_parm mod_base_parm = {0};
 //    modulator_isdbt_parm mod_isdbt_parm = {0};
 //    mod_base_parm.type = m_type_isdb_t;
-//    mod_base_parm.ifmode = m_ifmode_disable;
-//    mod_base_parm.iffreq = 0;
+//    mod_base_parm.ifmode = m_ifmode_iq_offset;
+//    mod_base_parm.iffreq = 143;
 //    mod_base_parm.dacgain = 0;
 //    mod_base_parm.bw_sb = 6;
 //    mod_isdbt_parm.constellation = isdbt_constellation_qam64;
@@ -183,68 +185,53 @@
 //    }
 //    
 //    /* select PSI table(Pure Mode) type */
-//    tsmux_pure_parm pure_parm = {0};
-//    pure_parm.pcr_pid = 0x100;
-//    pure_parm.padding_pid = 0x1FFF;
-//    result = vatek_broadcast_tsmux_setparm(bc_handle, tsmux_type_pure, &pure_parm);  /** select tsmux_type_pure */
-//    if (result != vatek_result_success)
-//    {
-//        SAMPLE_ERR("vatek_broadcast_tsmux_setparm fail: %d", result);
-//        return result;
-//    }
-
-//    /* set PSITABLE parameter */	
-//    uint8_t PAT[] = 
-//    {
-//        0x47, 0x40, 0x00, 0x11, 		/* PID : 0x0 */
-//        0x00, 0x00, 0xB0, 0x0D,
-//        0x00, 0x02, 								/* tsid : 0x0002 */
-//        0xC3, 0x00, 0x00,
-//        0x00, 0x10, 								/* program number */
-//        0xF0, 0x01, 								/* pmt_PID: 0x1001 */
-//        0x40, 0x6E, 0xC8, 0x8E, 		/* CRC */
-//    };
-
-//    uint8_t PMT[] = 
-//    { 
-//        0x47, 0x50, 0x01, 0x1C,     /* PID : 0x1001 */
-//        0x00, 0x02, 0xB0, 0x17,     
-//        0x00, 0x10,                 /* program number*/ 
-//        0xC3, 0x00, 0x00, 
-//        0xE1, 0x00,                 /* PCR_PID: 0x100 */ 
-//        0xF0, 0x00, 
-//        0x02, 0xF0, 0x02,           /* stream type : 0x2 (video mpeg2), PID : 0x1002 */
-//        0xF0, 0x00, 
-//        0x03, 0xF0, 0x03,           /* stream type : 0x3 (audio mpeg1-l2), PID : 0x1003 */ 
-//        0xF0, 0x00, 
-//        0x1D, 0x30, 0xDB, 0x47,     /* CRC */
-//    };
-
-//    //PAT 188 Bytes
-//    uint8_t *pat_buf = (uint8_t*)malloc(PSI_TSPACKET_LEN);
-//    memset(pat_buf, 0xFF, PSI_TSPACKET_LEN);
-//    memcpy(&pat_buf[0], PAT, sizeof(PAT)/sizeof(uint8_t));
-
-//    //PMT 188 Bytes
-//    uint8_t *pmt_buf = (uint8_t*)malloc(PSI_TSPACKET_LEN);
-//    memset(pmt_buf, 0xFF, PSI_TSPACKET_LEN);
-//    memcpy(&pmt_buf[0], PMT, sizeof(PMT)/sizeof(uint8_t));
-//        
-//    /** register psi table to broadcast serivce */
-//    psitablelist_parm psi_parm = {0};
-//    psi_parm.table_num = 2;
-//    psi_parm.table[0].interval_ms = 500;
-//    psi_parm.table[0].tspacket_num = 1;
-//    psi_parm.table[0].tspackets = pat_buf;
-//    psi_parm.table[1].interval_ms = 500;
-//    psi_parm.table[1].tspacket_num = 1;
-//    psi_parm.table[1].tspackets = pmt_buf;
-//    result = vatek_broadcast_psitable_register(bc_handle, &psi_parm);
-//    if (result != vatek_result_success)
-//    {
-//        SAMPLE_ERR("vatek_broadcast_psitable_register fail: %d", result);
-//        return result;
-//    }
+//    static const uint8_t _arib_network_name[] = {0x1b,0x7e,_AC('V'),_AC('A'),_AC('T'),_AC('E'),_AC('K')};
+//		static const uint8_t _arib_service_name[] = {0x1b,0x7e,_AC('v'),_AC('a'),_AC('t'),_AC('e'),_AC('k')};
+//		static const uint8_t _arib_ts_name[] = {0x1b,0x7e,_AC('J'),_AC('A'),_AC('P'),_AC('A'),_AC('N')};
+//		
+//		vatek_string network_name = {
+//			.len = sizeof(_arib_network_name),
+//			.text = (uint8_t *)_arib_network_name,
+//		};
+//		vatek_string service_name = {
+//			.len = sizeof(_arib_service_name),
+//			.text = (uint8_t *)_arib_service_name,
+//		};
+//		vatek_string ts_name = {
+//			.len = sizeof(_arib_ts_name),
+//			.text = (uint8_t *)_arib_ts_name,
+//		};
+//		psispec_default_arib_channel arib_ch = {
+//			.region_id = 1,
+//			.network_name = &network_name,
+//			.broadcaster_id = 1,
+//			.remote_control_key_id = 2,
+//		};
+//		psispec_default_arib_program arib_pr = {	
+//			.service_no = 7,
+//			.copy_flag = arib_abnt_free,
+//			.ts_name = &ts_name,
+//			.service_name = &service_name,
+//			.main_lang.raw = { 'j','p','n','\0'},
+//			.sub_lang.raw = {'e','n','g','\0'},
+//		};
+//		result = vatek_broadcast_psispec_default_init(bc_handle,psispec_default_arib,arib_japan);
+//		if(result != vatek_result_success){
+//			printf("abnt default init fail %d\r\n",result);
+//			return result;
+//		}
+//		
+//		result = vatek_broadcast_psispec_default_config(&arib_ch,&arib_pr);
+//		if(result != vatek_result_success){
+//			printf("abnt default config fail %d\r\n",result);
+//			return result;
+//		}
+//		
+//		result = vatek_broadcast_psispec_default_start();
+//		if(result != vatek_result_success){
+//			printf("abnt default start fail %d\r\n",result);
+//			return result;
+//		}
 
 //    /* set MODULATOR parameter */
 //    result = _sample_setmodulator_parm();
@@ -320,9 +307,9 @@
 //    /* set ENCODER encode parameter */
 //    video_encode_parm ve_parm = {0};
 //    audio_encode_parm ae_parm = {0};
-//    ve_parm.type = ve_type_mpeg2;
-//    ae_parm.type = ae_type_aac_lc_adts;
-//    ae_parm.channel = ae_channel_mono_l;
+//    ve_parm.type = ve_type_h264;//ve_type_mpeg2
+//    ae_parm.type = ae_type_mp1_l2;//ae_type_aac_lc_adts
+//    ae_parm.channel = ae_channel_stereo;
 //    result = vatek_broadcast_encoder_setencodeparm(bc_handle, ve_parm, ae_parm);
 //    if (!is_success(result))
 //    {
@@ -357,34 +344,53 @@
 //    }
 
 //    /* select PSI table(Default Mode) type */
-//    tsmux_default_parm default_parm = {0};
-//    default_parm.pmt_pid = 0x1000;
-//    default_parm.pcr_pid = 0x100;
-//    default_parm.padding_pid = 0x1FFF;
-//    result = vatek_broadcast_tsmux_setparm(bc_handle, tsmux_type_default, &default_parm);
-//    if (!is_success(result))
-//    {
-//        SAMPLE_ERR("vatek_broadcast_tsmux_setparm fail: %d", result);
-//        return result;
-//    }
-//    
-//    /* set PSITABLE parameter */	
-//    psispec_default_iso13818_channel channel = 
-//    {
-//        .transport_stream_id = 1,
-//    };
-//    psispec_default_iso13818_program program = 
-//    {
-//        .program_number = 0x10,
-//    };
-//    result = vatek_broadcast_psispec_default_init( bc_handle, psispec_default_iso, psispec_country_undefined);
-//    if(is_success(result)) result = vatek_broadcast_psispec_default_config( &channel, &program);
-//    if(is_success(result)) result = vatek_broadcast_psispec_default_start();
-//    if(!is_success(result))
-//    {
-//        SAMPLE_ERR("vatek_broadcast_psispec_default_start fail: %d", result);
-//        return result;
-//    };
+//    static const uint8_t _arib_network_name[] = {0x1b,0x7e,_AC('V'),_AC('A'),_AC('T'),_AC('E'),_AC('K')};
+//		static const uint8_t _arib_service_name[] = {0x1b,0x7e,_AC('v'),_AC('a'),_AC('t'),_AC('e'),_AC('k')};
+//		static const uint8_t _arib_ts_name[] = {0x1b,0x7e,_AC('J'),_AC('A'),_AC('P'),_AC('A'),_AC('N')};
+//		
+//		vatek_string network_name = {
+//			.len = sizeof(_arib_network_name),
+//			.text = (uint8_t *)_arib_network_name,
+//		};
+//		vatek_string service_name = {
+//			.len = sizeof(_arib_service_name),
+//			.text = (uint8_t *)_arib_service_name,
+//		};
+//		vatek_string ts_name = {
+//			.len = sizeof(_arib_ts_name),
+//			.text = (uint8_t *)_arib_ts_name,
+//		};
+//		psispec_default_arib_channel arib_ch = {
+//			.region_id = 1,
+//			.network_name = &network_name,
+//			.broadcaster_id = 1,
+//			.remote_control_key_id = 2,
+//		};
+//		psispec_default_arib_program arib_pr = {	
+//			.service_no = 7,
+//			.copy_flag = arib_abnt_free,
+//			.ts_name = &ts_name,
+//			.service_name = &service_name,
+//			.main_lang.raw = { 'j','p','n','\0'},
+//			.sub_lang.raw = {'e','n','g','\0'},
+//		};
+//		result = vatek_broadcast_psispec_default_init(bc_handle,psispec_default_arib,arib_japan);
+//		if(result != vatek_result_success){
+//			printf("abnt default init fail %d\r\n",result);
+//			return result;
+//		}
+//		
+//		result = vatek_broadcast_psispec_default_config(&arib_ch,&arib_pr);
+//		if(result != vatek_result_success){
+//			printf("abnt default config fail %d\r\n",result);
+//			return result;
+//		}
+//		
+//		result = vatek_broadcast_psispec_default_start();
+//		if(result != vatek_result_success){
+//			printf("abnt default start fail %d\r\n",result);
+//			return result;
+//		}
 //		
 //    /* set MODULATOR parameter */
 //    result = _sample_setmodulator_parm();

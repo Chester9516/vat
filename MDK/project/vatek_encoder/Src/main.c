@@ -112,7 +112,6 @@ int main(void)
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
-//		vatek_key_press_detect();
 		vatek_encoder_v1_polling();
   }
   /* USER CODE END 3 */

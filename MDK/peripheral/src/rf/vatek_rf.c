@@ -257,7 +257,7 @@ vatek_result vatek_device_r2_apply(Phrf handle, int r2_power)
     {
         #if defined(RF_R2_VIA_VATEK)
         case rf_type_r2_via_vatek:
-            //result = rfmixer_r2_adjust_pagain((Pr2_viavatek_handle)handle->hdriver, r2_power);
+            result = rfmixer_r2_adjust_pagain((Pr2_viavatek_handle)handle->hdriver, r2_power);
             break;
         #endif
         

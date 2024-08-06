@@ -99,6 +99,7 @@
         vatek_result_i2cfail            = 14,
         vatek_result_gpiofail           = 15,
         vatek_result_uartfail           = 16,
+				vatek_result_samesource					= 17,
     }vatek_result;
 
 
@@ -286,9 +287,7 @@
         video_encode_type type;                  ///< video encoder type.
         uint8_t progressive_2_i;                 ///< video progressive change to interlace.
 				uint8_t en_interlaced;  
-				uint8_t en_drop_frame;
 				uint32_t output_bitrate;
-
     }video_encode_v1_parm, *Pvideo_encode_v1_parm;
 
     /**
@@ -346,11 +345,26 @@
     typedef enum _quality_rcmode
     {
         q_rcmode_unknown                = 0,     ///< unknown type.
-        q_rcmode_vbr                    = 1,     ///< rate control can exceed the threshold in a short time in vbr mode.     
+        q_rcmode_vbr                    = 1,     ///< rate control can exceed the threshold in a short time in vbr mode.    
+				q_rcmode_fixed_q								= 2,
+				q_rcmode_auto										= 3,
         q_rcmode_min                    = q_rcmode_unknown,
-        q_rcmode_max                    = q_rcmode_vbr,
+        q_rcmode_max                    = q_rcmode_auto,
     }quality_rcmode;
 
+		/**
+    * @brief rate control type of encoder.
+    */
+    typedef enum _quality_flag
+    {
+        q_flag_unknown                = 0,     ///< unknown type.
+        q_flag_user                   = 1,     ///< rate control can exceed the threshold in a short time in vbr mode.     
+        q_flag_en_hf                  = 2,
+        q_flag_en_hq								  = 3,
+				q_flag_min										= q_flag_unknown,
+				q_flag_max										= q_flag_en_hq,
+    }quality_flag;
+		
     /**
     * @brief quality parameter of encoder.
     */
@@ -362,6 +376,7 @@
         uint32_t gop;                            ///< group of picture value.
         uint32_t latency;                        ///< latency value. the latency unit is ms.
         uint32_t bitrate;                        ///< bitrate that is used to quantify the quality of the video.
+				quality_flag q_flag;
     }encoder_quality_parm, *Pencoder_quality_parm;
 
 

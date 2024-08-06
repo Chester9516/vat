@@ -159,11 +159,18 @@
 	#define QUALITY_AUTO				0x00000003
 	#define QUALITY_LB_RTVBR		0x00000004
 
+/*when enable QUALITY_EN_USER, user need to set 0x651~0x655 5 HALREG value below*/
+/*if not enable QUALITY_EN_USER, user need to set 0x651, 0x654, 0x655 HALREG*/
 #define HALREG_QUALITY_GOP				0x651
 #define HALREG_QUALITY_MINQ				0x652
 #define HALREG_QUALITY_MAXQ				0x653
 #define HALREG_QUALITY_BITRATE			0x654
 #define HALREG_QUALITY_LATENCY			0x655
+
+#define HALREG_QUALITY_FLAGS		0x656
+#define QUALITY_EN_USER						0x01 	/*used for RC_TEST mode*/
+#define QUALITY_EN_HF							0x10	/*FPS smoothly first*/
+#define QUALITY_EN_HQ							0x20	/*Picture quality first*/
 
 /* vi_parm */
 

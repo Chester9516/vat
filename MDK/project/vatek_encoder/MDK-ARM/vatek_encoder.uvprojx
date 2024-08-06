@@ -773,31 +773,6 @@
               <FileType>1</FileType>
               <FilePath>..\..\..\sample\src\vatek_sample_modulator.c</FilePath>
             </File>
-            <File>
-              <FileName>uart_cmdline.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\..\..\tool\src\uart_cmdline.c</FilePath>
-            </File>
-          </Files>
-        </Group>
-        <Group>
-          <GroupName>KeypadAddLCD</GroupName>
-          <Files>
-            <File>
-              <FileName>KeypadAddLCD.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\..\..\tool\src\KeypadAddLCD.c</FilePath>
-            </File>
-            <File>
-              <FileName>vatek_sample_keypad_stm32f401.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\..\..\tool\src\vatek_sample_keypad_stm32f401.c</FilePath>
-            </File>
-            <File>
-              <FileName>vatek_sample_lcd1602.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\..\..\tool\src\vatek_sample_lcd1602.c</FilePath>
-            </File>
           </Files>
         </Group>
         <Group>

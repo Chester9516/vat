@@ -57,6 +57,7 @@
 		vatek_result vatek_hms_read_reg_v1(Phms_handle handle, uint32_t addr, uint32_t *val);
     vatek_result vatek_hms_write_reg_v1(Phms_handle handle, uint32_t addr, uint32_t val);
 #endif		
+		Phms_handle vatek_get_main_i2c(void);
 
 #ifdef __cplusplus
     }
